@@ -1,0 +1,3 @@
+Module1.bas:2:3: numeric-literals The VBE keeps fewer digits than 3.141592653589793 has and stores 3.14159265358979, a different value.
+--- stderr ---
+Found 1 violation; fixed 1 file.

@@ -1,0 +1,11 @@
+title = "check: every violation, by rule"
+description = """
+`check` reports each violation with its line, column, rule and message. `[*]`
+marks the ones formatting fixes.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["check", "{file}"]
+exit = 1
+stderr = true

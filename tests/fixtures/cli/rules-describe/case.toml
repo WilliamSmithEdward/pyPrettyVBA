@@ -1,0 +1,9 @@
+title = "rules NAME: one rule in full"
+description = """
+A rule's description and options.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["rules", "trailing-comments"]
+exit = 0

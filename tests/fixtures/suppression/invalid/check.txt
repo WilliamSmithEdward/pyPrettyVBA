@@ -1,0 +1,9 @@
+2:6 spacing Use one space between 'x' and '='. [*]
+2:7 spacing Use one space between '=' and '1'. [*]
+2:9 suppression-directive Unknown rule 'spacng' in suppression directive.
+3:6 spacing Use one space between 'y' and '='. [*]
+3:7 spacing Use one space between '=' and '2'. [*]
+3:9 suppression-directive Unknown suppression directive '@prettyvba-ignore-sometimes'.
+4:5 suppression-directive '@prettyvba-ignore-end has no matching -start.
+5:5 suppression-directive '@prettyvba-ignore-file must come before the first line of code.
+6:5 suppression-directive '@prettyvba-ignore-start is never closed with -end.

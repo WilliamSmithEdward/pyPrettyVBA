@@ -1,0 +1,12 @@
+title = "Do not report precision loss"
+description = """
+With `report-precision-loss = false`, a literal the VBE would round is left
+alone without a report.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+numeric-literals = { report-precision-loss = false }

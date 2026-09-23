@@ -1,0 +1,9 @@
+title = "check --output-format json"
+description = """
+Machine-readable output, one object per violation.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["check", "--output-format", "json", "{file}"]
+exit = 1

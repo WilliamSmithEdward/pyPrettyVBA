@@ -1,0 +1,10 @@
+title = "format --check: which files would change"
+description = """
+`--check` writes nothing and exits 1 when a file would change.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "--check", "{file}"]
+exit = 1
+stderr = true

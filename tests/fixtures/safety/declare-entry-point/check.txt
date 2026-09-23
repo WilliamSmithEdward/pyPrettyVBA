@@ -1,0 +1,1 @@
+4:17 identifier-case Spell 'gettickcount' as declared: 'GetTickCount'. [*]

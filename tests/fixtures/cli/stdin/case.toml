@@ -1,0 +1,12 @@
+title = "Format standard input"
+description = """
+A path of `-` reads the module from standard input and writes the result to
+standard output, for editors. `--stdin-filename` names it, for configuration
+and the module kind.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "-", "--stdin-filename", "Module1.bas"]
+exit = 0
+stdin = "sub a()\r\nx=1\r\nend sub\r\n"

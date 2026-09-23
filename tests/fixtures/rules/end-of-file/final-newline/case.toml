@@ -1,0 +1,12 @@
+title = "A line break after the last line"
+description = """
+A module whose last line has no line break gets one, written with the
+module's own line ending.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+end-of-file = true

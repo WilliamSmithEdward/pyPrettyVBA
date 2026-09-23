@@ -1,0 +1,2 @@
+2:10 trailing-comments Put one space before the comment. [*]
+3:12 trailing-comments Put one space before the comment. [*]

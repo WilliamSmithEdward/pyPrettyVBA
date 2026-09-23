@@ -1,0 +1,4 @@
+2:9 identifier-case Spell 'rowCount' as declared: 'RowCount'. [*]
+3:5 identifier-case Spell 'ROWCOUNT' as declared: 'RowCount'. [*]
+7:17 identifier-case Spell 'ROWCOUNT' as declared: 'RowCount'. [*]
+12:5 identifier-case Spell 'rowcount' as declared: 'RowCount'. [*]

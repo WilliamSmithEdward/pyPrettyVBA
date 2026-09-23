@@ -1,0 +1,7 @@
+title = "Suppress the next line"
+description = """
+`'@prettyvba-ignore-next-line` applies to the next non-blank line, including
+its continuation lines. Directives for different rules can be stacked above
+one line.
+"""
+file = "Module1.bas"

@@ -1,0 +1,11 @@
+title = "One blank line at most, two between procedures"
+description = """
+`max-consecutive = 1` and `between-procedures = 2`.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+blank-lines = { max-consecutive = 1, between-procedures = 2 }

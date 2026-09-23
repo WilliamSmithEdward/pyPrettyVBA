@@ -1,0 +1,7 @@
+title = "Names from other modules of the project"
+description = """
+Files formatted together are one project: a Public name one module declares
+is spelled its way in the others, and a class module's name its way wherever
+it is used as a type.
+"""
+file = "Module1.bas"

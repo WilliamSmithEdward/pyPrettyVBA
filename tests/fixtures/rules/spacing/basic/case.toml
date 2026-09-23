@@ -1,0 +1,15 @@
+title = "Spaces the way the VBE writes them"
+description = """
+One space around binary operators and after commas, none inside parentheses
+or after a unary sign. A statement that calls a procedure without `Call`
+gets a space before a parenthesized first argument (`Report (x), s`), and
+an omitted first argument keeps its space (`Report , s`), while a call
+inside an expression stays glued (`Compute(x)`). `=>` is written `>=`.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+spacing = true

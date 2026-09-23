@@ -1,0 +1,10 @@
+title = "format: rewrite the file"
+description = """
+Without `--check` or `--diff`, `format` rewrites the file in place.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "{file}"]
+exit = 0
+stderr = true

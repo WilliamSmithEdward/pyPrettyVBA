@@ -1,0 +1,7 @@
+title = "Whitespace that decides meaning is left alone"
+description = """
+`s&t` (a typed name and a syntax error) stays glued, `rs!Field` stays glued,
+and `Report .Name` keeps the space that makes `.Name` a With member passed as
+an argument.
+"""
+file = "Module1.bas"

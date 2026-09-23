@@ -1,0 +1,16 @@
+title = "One spelling per name for the whole module"
+description = """
+With `scope = "module"` a name takes the spelling of its last declaration
+everywhere in the module, even outside the procedures that declare it. That
+is what the VBE does when it reads a module in: it keeps one spelling per
+name for the whole project, and each declaration it reads replaces the
+spelling before it. The default, `procedure`, keeps a local's spelling
+inside its own procedure.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+identifier-case = { scope = "module" }

@@ -1,0 +1,3 @@
+extend = "base.toml"
+[rules]
+comment-space = true

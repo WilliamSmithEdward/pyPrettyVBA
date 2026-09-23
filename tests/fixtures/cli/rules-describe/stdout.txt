@@ -1,0 +1,21 @@
+trailing-comments: Place end-of-line comments consistently.
+(enabled by default, fixable, does what the VBE does; category: spacing)
+
+Place end-of-line comments: in their column, one space after the code, or aligned.
+
+The VBE keeps an end-of-line comment in its column when the gap before
+it is wider than one space, and otherwise writes exactly one space:
+`x = 1'note` becomes `x = 1 'note`, while `x = 1      ' note` keeps its
+alignment (measured). The default, `keep-column`, does the same,
+measuring the column in the source as written, so a comment stays put
+when indentation moves the code in front of it. A comment one space after
+its code stays one space after it.
+
+Options:
+  position = "keep-column" (keep-column | one-space | align)
+      `keep-column` keeps a comment in the column it was written at when it
+      was set apart by more than one space, as the VBE does; `one-space` puts
+      every comment one space after its code; `align` lines up the comments of
+      consecutive lines.
+  min-gap = 1
+      Fewest spaces between code and its comment.

@@ -1,0 +1,6 @@
+1:1 keyword-case Spell 'sub' as 'Sub'. [*]
+2:1 indent Indent to column 5 (found column 1). [*]
+2:2 spacing Use one space between 'x' and '='. [*]
+2:3 spacing Use one space between '=' and '1'. [*]
+3:1 keyword-case Spell 'end' as 'End'. [*]
+3:5 keyword-case Spell 'sub' as 'Sub'. [*]

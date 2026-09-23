@@ -1,0 +1,23 @@
+# Changelog
+
+## 0.1.0 (unreleased)
+
+The first version.
+
+- Twenty rules: keyword and identifier casing, spacing, numeric and date
+  literals, statement forms, statement splitting, indentation, continuation
+  lines, declaration alignment, end-of-line comments, comment style, blank
+  lines, trailing whitespace, end of file, line endings, line length, and
+  directive checking. Each can be enabled, disabled and configured.
+- Presets: `default`, `vbe` (only what the VBE does), `xlide` (XLIDE's
+  Format Document), `strict`, `minimal` and `none`.
+- Suppression with `'@prettyvba-ignore` comments, for a line, the next line,
+  a region or a module, per rule.
+- Configuration in `pyprettyvba.toml` or `pyproject.toml`, with per-file
+  overrides and `extend`.
+- A command line (`format`, `check`, `rules`, `config`, `init`) with text,
+  grouped, JSON and GitHub output, and a Python API.
+- Projects formatted together share their modules' spellings.
+- A safety check that refuses output which runs differently from the input.
+- Rule behavior measured against Excel's VBE and replayed by the tests.
+- No dependencies: Python 3.11 or later and its standard library.

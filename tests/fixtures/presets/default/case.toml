@@ -1,0 +1,8 @@
+title = "The default preset"
+description = """
+The defaults: what the VBE does to each line, plus indentation, blank lines and line endings.
+"""
+file = "Invoices.bas"
+
+[config]
+preset = "default"

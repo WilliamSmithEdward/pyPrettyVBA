@@ -1,0 +1,6 @@
+title = "Broken block structure is not guessed at"
+description = """
+An `End If` with no `If` makes the intended indentation unknowable, so the
+procedure keeps its indentation and the problem is reported.
+"""
+file = "Module1.bas"

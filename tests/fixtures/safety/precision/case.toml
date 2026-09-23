@@ -1,0 +1,7 @@
+title = "A literal the VBE would round is reported, not rewritten"
+description = """
+The VBE keeps 15 significant digits of a Double, so it stores
+`3.141592653589793` as `3.14159265358979`, a different value. pyPrettyVBA
+never makes that change; it reports it.
+"""
+file = "Module1.bas"

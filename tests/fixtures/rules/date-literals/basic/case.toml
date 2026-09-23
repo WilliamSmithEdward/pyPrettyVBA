@@ -1,0 +1,13 @@
+title = "Dates the way the VBE writes them"
+description = """
+The VBE writes a date literal as `#M/D/YYYY#`, a time as `#h:mm:ss AM#`, and
+drops a midnight time from a date. A literal with a two-digit year is left
+alone: the year it means depends on the machine's settings.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+date-literals = true

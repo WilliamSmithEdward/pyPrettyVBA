@@ -1,0 +1,15 @@
+title = "End-of-line comments keep their column"
+description = """
+A comment set apart from its code by more than one space keeps the column it
+was written at, even when indentation moves the code in front of it, so a
+column of comments stays aligned. A comment one space after its code stays
+one space after it, and a glued comment gets its space.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = true
+trailing-comments = true

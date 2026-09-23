@@ -1,0 +1,8 @@
+title = "The strict preset"
+description = """
+The defaults plus every style rule: one statement per line, apostrophe comments with a space, no Let, aligned declarations, one blank line at most, long lines reported.
+"""
+file = "Invoices.bas"
+
+[config]
+preset = "strict"

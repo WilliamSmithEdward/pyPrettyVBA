@@ -1,0 +1,9 @@
+title = "check --statistics"
+description = """
+A count per rule.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["check", "--statistics", "{file}"]
+exit = 1

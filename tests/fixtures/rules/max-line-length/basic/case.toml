@@ -1,0 +1,12 @@
+title = "Report long lines"
+description = """
+Lines longer than `max` columns are reported. Nothing is fixed: breaking a
+line takes a line continuation, and where to put one is your call.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+max-line-length = { max = 80 }

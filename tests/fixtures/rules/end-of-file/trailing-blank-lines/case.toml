@@ -1,0 +1,11 @@
+title = "No blank lines at the end"
+description = """
+The module ends with its last line and one line break.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+end-of-file = true

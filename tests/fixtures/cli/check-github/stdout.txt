@@ -1,0 +1,19 @@
+::warning file=Module1.bas,line=1,col=1,endLine=1,endColumn=4,title=pyprettyvba (keyword-case)::Spell 'sub' as 'Sub'.
+::warning file=Module1.bas,line=1,col=11,endLine=1,endColumn=16,title=pyprettyvba (keyword-case)::Spell 'byval' as 'ByVal'.
+::warning file=Module1.bas,line=1,col=21,endLine=1,endColumn=23,title=pyprettyvba (keyword-case)::Spell 'as' as 'As'.
+::warning file=Module1.bas,line=1,col=24,endLine=1,endColumn=30,title=pyprettyvba (keyword-case)::Spell 'string' as 'String'.
+::warning file=Module1.bas,line=2,col=1,endLine=2,endColumn=1,title=pyprettyvba (indent)::Indent to column 5 (found column 1).
+::warning file=Module1.bas,line=2,col=1,endLine=2,endColumn=3,title=pyprettyvba (keyword-case)::Spell 'if' as 'If'.
+::warning file=Module1.bas,line=2,col=4,endLine=2,endColumn=7,title=pyprettyvba (keyword-case)::Spell 'len' as 'Len'.
+::warning file=Module1.bas,line=2,col=12,endLine=2,endColumn=12,title=pyprettyvba (spacing)::Use one space between ')' and '>'.
+::warning file=Module1.bas,line=2,col=13,endLine=2,endColumn=13,title=pyprettyvba (spacing)::Use one space between '>' and '0'.
+::warning file=Module1.bas,line=2,col=15,endLine=2,endColumn=19,title=pyprettyvba (keyword-case)::Spell 'then' as 'Then'.
+::warning file=Module1.bas,line=3,col=1,endLine=3,endColumn=1,title=pyprettyvba (indent)::Indent to column 9 (found column 1).
+::warning file=Module1.bas,line=3,col=1,endLine=3,endColumn=7,title=pyprettyvba (identifier-case)::Spell 'msgbox' as its library does: 'MsgBox'.
+::warning file=Module1.bas,line=3,col=17,endLine=3,endColumn=17,title=pyprettyvba (spacing)::Use one space between '"Hello, "' and '&'.
+::warning file=Module1.bas,line=3,col=18,endLine=3,endColumn=18,title=pyprettyvba (spacing)::Use one space between '&' and 'who'.
+::warning file=Module1.bas,line=4,col=1,endLine=4,endColumn=1,title=pyprettyvba (indent)::Indent to column 5 (found column 1).
+::warning file=Module1.bas,line=4,col=1,endLine=4,endColumn=4,title=pyprettyvba (keyword-case)::Spell 'end' as 'End'.
+::warning file=Module1.bas,line=4,col=5,endLine=4,endColumn=7,title=pyprettyvba (keyword-case)::Spell 'if' as 'If'.
+::warning file=Module1.bas,line=5,col=1,endLine=5,endColumn=4,title=pyprettyvba (keyword-case)::Spell 'end' as 'End'.
+::warning file=Module1.bas,line=5,col=5,endLine=5,endColumn=8,title=pyprettyvba (keyword-case)::Spell 'sub' as 'Sub'.

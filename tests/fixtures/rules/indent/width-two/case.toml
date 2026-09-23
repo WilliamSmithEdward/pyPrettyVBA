@@ -1,0 +1,12 @@
+title = "Two columns per level"
+description = """
+The global `indent-width` setting sets the columns per level.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+indent-width = 2
+
+[config.rules]
+indent = true

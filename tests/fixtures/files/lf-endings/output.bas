@@ -1,0 +1,3 @@
+Sub a()
+    x = 1
+End Sub

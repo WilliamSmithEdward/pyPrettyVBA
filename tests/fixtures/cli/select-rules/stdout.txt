@@ -1,0 +1,13 @@
+--- a/Module1.bas
++++ b/Module1.bas
+@@ -1,5 +1,5 @@
+-sub greet(byval who as string)
+-if len(who)>0 then
+-msgbox "Hello, "&who
+-end if
+-end sub
++Sub greet(ByVal who As String)
++If Len(who) > 0 Then
++msgbox "Hello, " & who
++End If
++End Sub

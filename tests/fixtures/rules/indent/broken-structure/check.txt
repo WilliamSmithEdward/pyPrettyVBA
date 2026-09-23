@@ -1,0 +1,2 @@
+3:3 indent This End If has nothing to close. Indentation here is left as written.
+8:1 indent Indent to column 5 (found column 1). [*]

@@ -1,0 +1,5 @@
+title = "A UTF-8 file with a byte order mark"
+description = """
+A file that starts with a UTF-8 byte order mark keeps it.
+"""
+file = "Greet.bas"

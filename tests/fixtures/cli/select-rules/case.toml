@@ -1,0 +1,10 @@
+title = "Enable, disable and configure rules from the command line"
+description = """
+`--enable`, `--disable` and `--set RULE.OPTION=VALUE` layer on top of the
+configuration.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "--diff", "--disable", "indent", "--enable", "comment-space", "--set", "identifier-case.builtins=false", "{file}"]
+exit = 1

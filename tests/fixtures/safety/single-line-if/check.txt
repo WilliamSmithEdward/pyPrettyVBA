@@ -1,0 +1,8 @@
+2:10 split-statements Put each statement on a line of its own. [*]
+3:8 identifier-case Spell 'ready' as its library does: 'Ready'. [*]
+3:19 identifier-case Spell 'total' as its library does: 'Total'. [*]
+3:27 identifier-case Spell 'total' as its library does: 'Total'. [*]
+3:38 identifier-case Spell 'count' as its library does: 'Count'. [*]
+3:53 identifier-case Spell 'count' as its library does: 'Count'. [*]
+3:61 identifier-case Spell 'count' as its library does: 'Count'. [*]
+3:72 identifier-case Spell 'total' as its library does: 'Total'. [*]

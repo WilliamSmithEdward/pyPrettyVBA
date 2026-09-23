@@ -1,0 +1,8 @@
+title = "The xlide preset"
+description = """
+XLIDE's Format Document: indentation, keyword and identifier casing, and the spaces the VBE inserts, never removing a space or a line.
+"""
+file = "Invoices.bas"
+
+[config]
+preset = "xlide"

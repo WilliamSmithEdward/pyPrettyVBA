@@ -1,0 +1,12 @@
+title = "Call Foo() and Else x, as the VBE writes them"
+description = """
+The VBE drops the empty parentheses of `Call Foo()` and puts a colon after a
+block `Else` that has a statement on its line.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+statement-form = true

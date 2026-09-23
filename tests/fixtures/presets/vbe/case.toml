@@ -1,0 +1,8 @@
+title = "The vbe preset"
+description = """
+Only what the VBE itself does to code it reads in: casing, spacing, literal spelling, labels in column 1. Indentation and blank lines are kept.
+"""
+file = "Invoices.bas"
+
+[config]
+preset = "vbe"

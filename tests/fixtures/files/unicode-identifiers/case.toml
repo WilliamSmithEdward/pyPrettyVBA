@@ -1,0 +1,8 @@
+title = "Names in other scripts"
+description = """
+VBA accepts letters from other scripts in names (in the code page of the
+machine), and they lex as names. MS-VBAL makes names equal regardless of the
+case of Latin letters only, so a Latin name is spelled as declared while a
+name in another script is left exactly as written.
+"""
+file = "Unicode.bas"

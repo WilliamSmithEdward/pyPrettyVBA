@@ -1,0 +1,1 @@
+2:1 max-line-length Line is 103 columns long; the limit is 80.

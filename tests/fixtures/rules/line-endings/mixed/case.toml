@@ -1,0 +1,12 @@
+title = "One line ending throughout"
+description = """
+With the default `line-ending = "auto"`, a module that mixes line endings is
+given the one it mostly uses. The change is reported once.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+line-endings = true

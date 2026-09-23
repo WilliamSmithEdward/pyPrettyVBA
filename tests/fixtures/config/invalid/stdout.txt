@@ -1,0 +1,2 @@
+--- stderr ---
+pyprettyvba: configuration error: pyprettyvba.toml: rule indent has no option 'comment'. Did you mean 'comments'?

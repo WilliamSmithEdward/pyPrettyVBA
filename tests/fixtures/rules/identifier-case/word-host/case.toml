@@ -1,0 +1,13 @@
+title = "Names from another Office host"
+description = """
+`hosts = ["word"]` makes identifier-case spell Word's names (`Document`,
+`ActiveDocument`, `wdLine`) the way Word's library does.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+hosts = ["word"]
+
+[config.rules]
+identifier-case = true

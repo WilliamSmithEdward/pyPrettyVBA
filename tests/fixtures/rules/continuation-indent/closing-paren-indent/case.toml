@@ -1,0 +1,12 @@
+title = "Indent a closing parenthesis too"
+description = """
+With `closing-paren = "indent"` a continuation line that starts with `)`
+is indented like any other, as XLIDE does.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+continuation-indent = { closing-paren = "indent" }

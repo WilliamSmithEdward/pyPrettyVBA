@@ -1,0 +1,6 @@
+title = "Suppress every rule on one line"
+description = """
+`'@prettyvba-ignore` at the end of a line leaves that line exactly as
+written.
+"""
+file = "Module1.bas"

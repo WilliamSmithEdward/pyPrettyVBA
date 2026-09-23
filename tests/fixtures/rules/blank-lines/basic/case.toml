@@ -1,0 +1,14 @@
+title = "Blank lines, limited and consistent"
+description = """
+At most two blank lines in a row (`max-consecutive`), exactly one before each
+procedure and its comment block (`between-procedures`), none right after a
+procedure header or right before its End (`trim-procedures`), and none at
+the start of the module (`leading`).
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+blank-lines = true

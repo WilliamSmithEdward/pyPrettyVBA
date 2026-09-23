@@ -1,0 +1,14 @@
+title = "Undeclared names: the last spelling wins"
+description = """
+A name nothing declares is left as written by default. With
+`undeclared = "last"` every use takes the spelling of the last one, which is
+what the VBE does. A name a library defines is not undeclared: `total` is
+written `Total`, after Excel's own `Total`, in both modes, as the VBE does.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+identifier-case = { undeclared = "last" }

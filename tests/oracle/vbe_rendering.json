@@ -1,0 +1,3874 @@
+{
+ "recorded": "2026-09-23",
+ "excel_version": "16.0",
+ "excel_build": "20326",
+ "method": "Rendering: CodeModule.AddFromString into a new module, then VBComponent.Export, read as cp1252. Compile: VBE Debug > Compile through pyVBAharness compile_project.",
+ "rendering": [
+  {
+   "id": "m-option-compare",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "option compare text"
+   ],
+   "output": [
+    "Option Compare Text"
+   ]
+  },
+  {
+   "id": "m-option-base",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "option base 1"
+   ],
+   "output": [
+    "Option Base 1"
+   ]
+  },
+  {
+   "id": "m-option-private",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "option private module"
+   ],
+   "output": [
+    "Option Private Module"
+   ]
+  },
+  {
+   "id": "m-declare-alias",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private declare ptrsafe function zqgettick lib \"kernel32\" alias \"GetTickCount\" () as long"
+   ],
+   "output": [
+    "Private Declare PtrSafe Function zqgettick Lib \"kernel32\" Alias \"GetTickCount\" () As Long"
+   ]
+  },
+  {
+   "id": "m-declare-noalias",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private declare ptrsafe function GetTickCount lib \"kernel32\" () as long"
+   ],
+   "output": [
+    "Private Declare PtrSafe Function GetTickCount Lib \"kernel32\" () As Long"
+   ]
+  },
+  {
+   "id": "m-declare-sub",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private declare ptrsafe sub zqsleep lib \"kernel32\" alias \"Sleep\" (byval ms as long)"
+   ],
+   "output": [
+    "Private Declare PtrSafe Sub zqsleep Lib \"kernel32\" Alias \"Sleep\" (ByVal ms As Long)"
+   ]
+  },
+  {
+   "id": "m-type-block",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private type zqtpoint",
+    "x as long",
+    "    y    as long",
+    "end type"
+   ],
+   "output": [
+    "Private Type zqtpoint",
+    "x As Long",
+    "    y    As Long",
+    "End Type"
+   ]
+  },
+  {
+   "id": "m-enum-block",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "public enum zqecolor",
+    "zqred=1",
+    "zqgreen   =   2",
+    "zqblue",
+    "end enum"
+   ],
+   "output": [
+    "Public Enum zqecolor",
+    "zqred = 1",
+    "zqgreen = 2",
+    "zqblue",
+    "End Enum"
+   ]
+  },
+  {
+   "id": "m-dim-list",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private zqmvalue as long,zqmother as string"
+   ],
+   "output": [
+    "Private zqmvalue As Long, zqmother As String"
+   ]
+  },
+  {
+   "id": "m-dim-aligned",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "dim zqa1     as long",
+    "dim zqlongername as string"
+   ],
+   "output": [
+    "Dim zqa1     As Long",
+    "Dim zqlongername As String"
+   ]
+  },
+  {
+   "id": "m-const",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "const zqkmax as long=10"
+   ],
+   "output": [
+    "Const zqkmax As Long = 10"
+   ]
+  },
+  {
+   "id": "m-const-typed",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "public const zqkname$=\"abc\""
+   ],
+   "output": [
+    "Public Const zqkname$ = \"abc\""
+   ]
+  },
+  {
+   "id": "m-public-array",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "public zqpub(1 to 3) as long"
+   ],
+   "output": [
+    "Public zqpub(1 To 3) As Long"
+   ]
+  },
+  {
+   "id": "m-global",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "global zqglob as long"
+   ],
+   "output": [
+    "Global zqglob As Long"
+   ]
+  },
+  {
+   "id": "m-deftype",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "defint i-j"
+   ],
+   "output": [
+    "DefInt I-J"
+   ]
+  },
+  {
+   "id": "m-directives",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "#const zqdebug=1",
+    "#if zqdebug then",
+    "private const zqk1 as long = 1",
+    "#elseif vba7 then",
+    "private const zqk1 as long = 2",
+    "#else",
+    "private const zqk1 as long = 3",
+    "#end if",
+    "    #if win64 then",
+    "    #endif"
+   ],
+   "output": [
+    "#Const zqdebug = 1",
+    "#If zqdebug Then",
+    "Private Const zqk1 As Long = 1",
+    "#ElseIf VBA7 Then",
+    "Private Const zqk1 As Long = 2",
+    "#Else",
+    "Private Const zqk1 As Long = 3",
+    "#End If",
+    "    #If Win64 Then",
+    "    #End If"
+   ]
+  },
+  {
+   "id": "m-comment",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "'module comment",
+    "   ' indented module comment"
+   ],
+   "output": [
+    "'module comment",
+    "   ' indented module comment"
+   ]
+  },
+  {
+   "id": "m-blank-lines",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "dim zqb1 as long",
+    "",
+    "",
+    "",
+    "dim zqb2 as long"
+   ],
+   "output": [
+    "Dim zqb1 As Long",
+    "",
+    "",
+    "",
+    "Dim zqb2 As Long"
+   ]
+  },
+  {
+   "id": "p-assign-nospace",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx=1+2"
+   ],
+   "output": [
+    "zqx = 1 + 2"
+   ]
+  },
+  {
+   "id": "p-assign-multispace",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx    =    3"
+   ],
+   "output": [
+    "zqx = 3"
+   ]
+  },
+  {
+   "id": "p-arith",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx=zqx*2-zqx/2"
+   ],
+   "output": [
+    "zqx = zqx * 2 - zqx / 2"
+   ]
+  },
+  {
+   "id": "p-intdiv",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqx\\2"
+   ],
+   "output": [
+    "zqx = zqx \\ 2"
+   ]
+  },
+  {
+   "id": "p-mod",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqx mod 2"
+   ],
+   "output": [
+    "zqx = zqx Mod 2"
+   ]
+  },
+  {
+   "id": "p-pow",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqx^2"
+   ],
+   "output": [
+    "zqx = zqx^2"
+   ]
+  },
+  {
+   "id": "p-neg",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx=-zqx"
+   ],
+   "output": [
+    "zqx = -zqx"
+   ]
+  },
+  {
+   "id": "p-neg-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = - zqx"
+   ],
+   "output": [
+    "zqx = -zqx"
+   ]
+  },
+  {
+   "id": "p-negneg",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx=zqx- -1"
+   ],
+   "output": [
+    "zqx = zqx - -1"
+   ]
+  },
+  {
+   "id": "p-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx=(zqx+1)*2"
+   ],
+   "output": [
+    "zqx = (zqx + 1) * 2"
+   ]
+  },
+  {
+   "id": "p-paren-inner-space",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = ( zqx + 1 ) * 2"
+   ],
+   "output": [
+    "zqx = (zqx + 1) * 2"
+   ]
+  },
+  {
+   "id": "p-concat",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs=\"a\"&\"b\""
+   ],
+   "output": [
+    "zqs = \"a\" & \"b\""
+   ]
+  },
+  {
+   "id": "p-concat-glued-vars",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs=zqs&zqt"
+   ],
+   "output": [
+    "zqs=zqs&zqt"
+   ]
+  },
+  {
+   "id": "p-concat-glued-string",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs=zqs&\"x\""
+   ],
+   "output": [
+    "zqs=zqs&\"x\""
+   ]
+  },
+  {
+   "id": "p-concat-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = zqs & zqt"
+   ],
+   "output": [
+    "zqs = zqs & zqt"
+   ]
+  },
+  {
+   "id": "p-typed-assign",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqn&=5"
+   ],
+   "output": [
+    "zqn& = 5"
+   ]
+  },
+  {
+   "id": "p-typed-concat",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = zqt$&\"x\""
+   ],
+   "output": [
+    "zqs = zqt$ & \"x\""
+   ]
+  },
+  {
+   "id": "p-array-call",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqv=array(1,2,3)"
+   ],
+   "output": [
+    "zqv = Array(1, 2, 3)"
+   ]
+  },
+  {
+   "id": "p-array-spaces",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqv = Array( 1 , 2 , 3 )"
+   ],
+   "output": [
+    "zqv = Array(1, 2, 3)"
+   ]
+  },
+  {
+   "id": "p-cmp",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx<>1 then zqx=2"
+   ],
+   "output": [
+    "If zqx <> 1 Then zqx = 2"
+   ]
+  },
+  {
+   "id": "p-cmp-logic",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx<=1 and zqx>=0 or not zqx=5 then zqx=3"
+   ],
+   "output": [
+    "If zqx <= 1 And zqx >= 0 Or Not zqx = 5 Then zqx = 3"
+   ]
+  },
+  {
+   "id": "p-if-else-single",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx = 1 then zqx = 2 else zqx = 3"
+   ],
+   "output": [
+    "If zqx = 1 Then zqx = 2 Else zqx = 3"
+   ]
+  },
+  {
+   "id": "p-if-colon-single",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx=1 then zqx=2:zqy=3 else zqx=4"
+   ],
+   "output": [
+    "If zqx = 1 Then zqx = 2: zqy = 3 Else zqx = 4"
+   ]
+  },
+  {
+   "id": "p-print-list",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "debug.print zqx;zqy,zqs"
+   ],
+   "output": [
+    "Debug.Print zqx; zqy, zqs"
+   ]
+  },
+  {
+   "id": "p-print-list-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "debug.print zqx ; zqy , zqs"
+   ],
+   "output": [
+    "Debug.Print zqx; zqy, zqs"
+   ]
+  },
+  {
+   "id": "p-print-neg",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "debug.print -1"
+   ],
+   "output": [
+    "Debug.Print -1"
+   ]
+  },
+  {
+   "id": "p-print-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "debug.print(zqx)"
+   ],
+   "output": [
+    "Debug.Print (zqx)"
+   ]
+  },
+  {
+   "id": "p-call-kw",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "call zqfoo(zqx,zqy)"
+   ],
+   "output": [
+    "Call zqfoo(zqx, zqy)"
+   ]
+  },
+  {
+   "id": "p-call-kw-spaces",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "call zqfoo( zqx , zqy )"
+   ],
+   "output": [
+    "Call zqfoo(zqx, zqy)"
+   ]
+  },
+  {
+   "id": "p-call-nokw",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo zqx,zqy"
+   ],
+   "output": [
+    "zqfoo zqx, zqy"
+   ]
+  },
+  {
+   "id": "p-call-nokw-spaces",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo  zqx,  zqy"
+   ],
+   "output": [
+    "zqfoo zqx, zqy"
+   ]
+  },
+  {
+   "id": "p-call-neg-arg",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo -1, 2"
+   ],
+   "output": [
+    "zqfoo -1, 2"
+   ]
+  },
+  {
+   "id": "p-call-minus-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo - 1"
+   ],
+   "output": [
+    "zqfoo -1"
+   ]
+  },
+  {
+   "id": "p-call-paren-arg",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo (zqx), zqy"
+   ],
+   "output": [
+    "zqfoo (zqx), zqy"
+   ]
+  },
+  {
+   "id": "p-call-paren-single",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqbar(zqx)"
+   ],
+   "output": [
+    "zqbar (zqx)"
+   ]
+  },
+  {
+   "id": "p-func-call",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqfunc(zqx,zqy)"
+   ],
+   "output": [
+    "zqx = zqfunc(zqx, zqy)"
+   ]
+  },
+  {
+   "id": "p-func-call-space",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqfunc (zqx, zqy)"
+   ],
+   "output": [
+    "zqx = zqfunc(zqx, zqy)"
+   ]
+  },
+  {
+   "id": "p-index-space",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqarr (1)"
+   ],
+   "output": [
+    "zqx = zqarr(1)"
+   ]
+  },
+  {
+   "id": "p-named-args",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "msgbox prompt:=\"hi\",buttons:=vbokonly"
+   ],
+   "output": [
+    "MsgBox prompt:=\"hi\", Buttons:=vbOKOnly"
+   ]
+  },
+  {
+   "id": "p-named-args-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "msgbox prompt := \"hi\""
+   ],
+   "output": [
+    "MsgBox prompt:=\"hi\""
+   ]
+  },
+  {
+   "id": "p-msgbox",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "msgbox \"hi\",vbokonly,\"t\""
+   ],
+   "output": [
+    "MsgBox \"hi\", vbOKOnly, \"t\""
+   ]
+  },
+  {
+   "id": "p-set-nothing",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "set zqo=nothing"
+   ],
+   "output": [
+    "Set zqo = Nothing"
+   ]
+  },
+  {
+   "id": "p-set-new",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "set zqo = new collection"
+   ],
+   "output": [
+    "Set zqo = New Collection"
+   ]
+  },
+  {
+   "id": "p-member-call",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqo.add 1,\"k\""
+   ],
+   "output": [
+    "zqo.Add 1, \"k\""
+   ]
+  },
+  {
+   "id": "p-member-chain",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqo.item(1)"
+   ],
+   "output": [
+    "zqx = zqo.item(1)"
+   ]
+  },
+  {
+   "id": "p-member-space-before-dot",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqo .item(1)"
+   ],
+   "output": [
+    "zqx = zqo .item(1)"
+   ]
+  },
+  {
+   "id": "p-bang",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqo!zqkey"
+   ],
+   "output": [
+    "zqx = zqo!zqkey"
+   ]
+  },
+  {
+   "id": "p-bang-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqo ! zqkey"
+   ],
+   "output": [
+    "zqx = zqo ! zqkey"
+   ]
+  },
+  {
+   "id": "p-redim",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "redim preserve zqarr(1 to 20)"
+   ],
+   "output": [
+    "ReDim Preserve zqarr(1 To 20)"
+   ]
+  },
+  {
+   "id": "p-erase",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "erase zqarr"
+   ],
+   "output": [
+    "Erase zqarr"
+   ]
+  },
+  {
+   "id": "p-for-step",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "for zqi=1 to 10 step -1",
+    "next zqi"
+   ],
+   "output": [
+    "For zqi = 1 To 10 Step -1",
+    "Next zqi"
+   ]
+  },
+  {
+   "id": "p-for-step-glued",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "for zqi = 10 to 1 step-1",
+    "next"
+   ],
+   "output": [
+    "For zqi = 10 To 1 Step -1",
+    "Next"
+   ]
+  },
+  {
+   "id": "p-for-each",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "for each zqv in zqo",
+    "next zqv"
+   ],
+   "output": [
+    "For Each zqv In zqo",
+    "Next zqv"
+   ]
+  },
+  {
+   "id": "p-next-multi",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "for zqi = 1 to 2",
+    "for zqj = 1 to 2",
+    "next zqj,zqi"
+   ],
+   "output": [
+    "For zqi = 1 To 2",
+    "For zqj = 1 To 2",
+    "Next zqj, zqi"
+   ]
+  },
+  {
+   "id": "p-do-while",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "do while zqx<5",
+    "zqx=zqx+1",
+    "loop"
+   ],
+   "output": [
+    "Do While zqx < 5",
+    "zqx = zqx + 1",
+    "Loop"
+   ]
+  },
+  {
+   "id": "p-do-until",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "do",
+    "loop until zqx>5"
+   ],
+   "output": [
+    "Do",
+    "Loop Until zqx > 5"
+   ]
+  },
+  {
+   "id": "p-while-wend",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "while zqx<10",
+    "wend"
+   ],
+   "output": [
+    "While zqx < 10",
+    "Wend"
+   ]
+  },
+  {
+   "id": "p-select",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "select case zqx",
+    "case 1,2",
+    "case 3 to 5",
+    "case is>10",
+    "case else",
+    "end select"
+   ],
+   "output": [
+    "Select Case zqx",
+    "Case 1, 2",
+    "Case 3 To 5",
+    "Case Is > 10",
+    "Case Else",
+    "End Select"
+   ]
+  },
+  {
+   "id": "p-select-colon",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "select case zqx",
+    "case 1: zqy = 1",
+    "end select"
+   ],
+   "output": [
+    "Select Case zqx",
+    "Case 1: zqy = 1",
+    "End Select"
+   ]
+  },
+  {
+   "id": "p-with",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "with zqo",
+    ".add 1",
+    "zqfoo .count",
+    "end with"
+   ],
+   "output": [
+    "With zqo",
+    ".Add 1",
+    "zqfoo .count",
+    "End With"
+   ]
+  },
+  {
+   "id": "p-on-error",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "on error goto zqerr",
+    "on error resume next",
+    "on error goto 0"
+   ],
+   "output": [
+    "On Error GoTo zqerr",
+    "On Error Resume Next",
+    "On Error GoTo 0"
+   ]
+  },
+  {
+   "id": "p-label-indented",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1",
+    "    zqlbl:",
+    "zqx = 2"
+   ],
+   "output": [
+    "zqx = 1",
+    "zqlbl:",
+    "zqx = 2"
+   ]
+  },
+  {
+   "id": "p-label-stmt",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqlbl2: zqx = 1"
+   ],
+   "output": [
+    "zqlbl2: zqx = 1"
+   ]
+  },
+  {
+   "id": "p-line-number",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "   10 zqx = 1",
+    "20: zqx = 2",
+    "30    zqx = 3"
+   ],
+   "output": [
+    "10    zqx = 1",
+    "20: zqx = 2",
+    "30    zqx = 3"
+   ]
+  },
+  {
+   "id": "p-goto",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "goto zqlbl3",
+    "zqlbl3:"
+   ],
+   "output": [
+    "GoTo zqlbl3",
+    "zqlbl3:"
+   ]
+  },
+  {
+   "id": "p-gosub",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "gosub zqlbl4",
+    "exit sub",
+    "zqlbl4:",
+    "return"
+   ],
+   "output": [
+    "GoSub zqlbl4",
+    "Exit Sub",
+    "zqlbl4:",
+    "Return"
+   ]
+  },
+  {
+   "id": "p-stop-end",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "stop",
+    "end"
+   ],
+   "output": [
+    "Stop",
+    "End"
+   ]
+  },
+  {
+   "id": "p-typeof",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if typeof zqo is collection then zqx = 1"
+   ],
+   "output": [
+    "If TypeOf zqo Is Collection Then zqx = 1"
+   ]
+  },
+  {
+   "id": "p-is-nothing",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if not zqo is nothing then zqx = 1"
+   ],
+   "output": [
+    "If Not zqo Is Nothing Then zqx = 1"
+   ]
+  },
+  {
+   "id": "p-addressof",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo addressof zqfoo"
+   ],
+   "output": [
+    "zqfoo AddressOf zqfoo"
+   ]
+  },
+  {
+   "id": "p-iif",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = iif(zqx>1,1,2)"
+   ],
+   "output": [
+    "zqx = IIf(zqx > 1, 1, 2)"
+   ]
+  },
+  {
+   "id": "p-not-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqb = not(zqb)"
+   ],
+   "output": [
+    "zqb = Not (zqb)"
+   ]
+  },
+  {
+   "id": "p-string-fns",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = ucase$(left$(zqs,2))"
+   ],
+   "output": [
+    "zqs = UCase$(Left$(zqs, 2))"
+   ]
+  },
+  {
+   "id": "p-mid-stmt",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "mid$(zqs,1,1)=\"x\""
+   ],
+   "output": [
+    "Mid$(zqs, 1, 1) = \"x\""
+   ]
+  },
+  {
+   "id": "p-lset",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "lset zqs = \"a\""
+   ],
+   "output": [
+    "LSet zqs = \"a\""
+   ]
+  },
+  {
+   "id": "p-file-open",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "open \"c:\\x.txt\" for input as #1"
+   ],
+   "output": [
+    "Open \"c:\\x.txt\" For Input As #1"
+   ]
+  },
+  {
+   "id": "p-file-open-access",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "open \"c:\\x.txt\" for binary access read write lock read as #2"
+   ],
+   "output": [
+    "Open \"c:\\x.txt\" For Binary Access Read Write Lock Read As #2"
+   ]
+  },
+  {
+   "id": "p-file-open-random",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "open \"c:\\x.txt\" for random as 3 len=10"
+   ],
+   "output": [
+    "Open \"c:\\x.txt\" For Random As 3 Len = 10"
+   ]
+  },
+  {
+   "id": "p-file-line-input",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "line input #1,zqs"
+   ],
+   "output": [
+    "Line Input #1, zqs"
+   ]
+  },
+  {
+   "id": "p-file-print",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "print #1,\"a\";\"b\""
+   ],
+   "output": [
+    "Print #1, \"a\"; \"b\""
+   ]
+  },
+  {
+   "id": "p-file-write",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "write #1,1,2"
+   ],
+   "output": [
+    "Write #1, 1, 2"
+   ]
+  },
+  {
+   "id": "p-file-get",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "get #1,,zqs"
+   ],
+   "output": [
+    "Get #1, , zqs"
+   ]
+  },
+  {
+   "id": "p-file-put",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "put #1,1,zqs"
+   ],
+   "output": [
+    "Put #1, 1, zqs"
+   ]
+  },
+  {
+   "id": "p-file-close",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "close #1,#2"
+   ],
+   "output": [
+    "Close #1, #2"
+   ]
+  },
+  {
+   "id": "p-file-close-all",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "close"
+   ],
+   "output": [
+    "Close"
+   ]
+  },
+  {
+   "id": "p-file-seek",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "seek #1,1"
+   ],
+   "output": [
+    "Seek #1, 1"
+   ]
+  },
+  {
+   "id": "p-file-input",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "input #1,zqx,zqy"
+   ],
+   "output": [
+    "Input #1, zqx, zqy"
+   ]
+  },
+  {
+   "id": "p-file-lock",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "lock #1",
+    "unlock #1"
+   ],
+   "output": [
+    "Lock #1",
+    "Unlock #1"
+   ]
+  },
+  {
+   "id": "p-error-fn",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = error(5)",
+    "zqs = error$(5)"
+   ],
+   "output": [
+    "zqs = Error(5)",
+    "zqs = Error$(5)"
+   ]
+  },
+  {
+   "id": "p-err-raise",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "err.raise 5,\"src\",\"desc\""
+   ],
+   "output": [
+    "Err.Raise 5, \"src\", \"desc\""
+   ]
+  },
+  {
+   "id": "p-let",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "let zqx = 1"
+   ],
+   "output": [
+    "Let zqx = 1"
+   ]
+  },
+  {
+   "id": "p-rem",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "rem remark here"
+   ],
+   "output": [
+    "Rem remark here"
+   ]
+  },
+  {
+   "id": "p-rem-after-colon",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1: rem after"
+   ],
+   "output": [
+    "zqx = 1: Rem after"
+   ]
+  },
+  {
+   "id": "p-comment-nospace",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1'no space"
+   ],
+   "output": [
+    "zqx = 1 'no space"
+   ]
+  },
+  {
+   "id": "p-comment-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1      ' spaced"
+   ],
+   "output": [
+    "zqx = 1      ' spaced"
+   ]
+  },
+  {
+   "id": "p-comment-tab",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1\t' tab before"
+   ],
+   "output": [
+    "zqx = 1 ' tab before"
+   ]
+  },
+  {
+   "id": "p-trailing-spaces",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1   "
+   ],
+   "output": [
+    "zqx = 1"
+   ]
+  },
+  {
+   "id": "p-leading-tab",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "\tzqx = 1"
+   ],
+   "output": [
+    "    zqx = 1"
+   ]
+  },
+  {
+   "id": "p-internal-tab",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx\t=\t1"
+   ],
+   "output": [
+    "zqx = 1"
+   ]
+  },
+  {
+   "id": "p-continuation",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1 + _",
+    "    2"
+   ],
+   "output": [
+    "zqx = 1 + _",
+    "    2"
+   ]
+  },
+  {
+   "id": "p-continuation-flush",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1 + _",
+    "2"
+   ],
+   "output": [
+    "zqx = 1 + _",
+    "2"
+   ]
+  },
+  {
+   "id": "p-continuation-multi",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = \"a\" & _",
+    "      \"b\" & _",
+    "      \"c\""
+   ],
+   "output": [
+    "zqs = \"a\" & _",
+    "      \"b\" & _",
+    "      \"c\""
+   ]
+  },
+  {
+   "id": "p-continuation-2spaces",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1 +  _",
+    "2"
+   ],
+   "output": [
+    "zqx = 1 + _",
+    "2"
+   ]
+  },
+  {
+   "id": "p-continuation-glued",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo zqx, _",
+    "zqy"
+   ],
+   "output": [
+    "zqfoo zqx, _",
+    "zqy"
+   ]
+  },
+  {
+   "id": "n-float-point-zero",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1.0"
+   ],
+   "output": [
+    "zqd = 1#"
+   ]
+  },
+  {
+   "id": "n-float-trailing-zero",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1.50"
+   ],
+   "output": [
+    "zqd = 1.5"
+   ]
+  },
+  {
+   "id": "n-float-leading-dot",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = .5"
+   ],
+   "output": [
+    "zqd = 0.5"
+   ]
+  },
+  {
+   "id": "n-float-exp",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1e3"
+   ],
+   "output": [
+    "zqd = 1000#"
+   ]
+  },
+  {
+   "id": "n-float-exp-sign",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1.5e+3"
+   ],
+   "output": [
+    "zqd = 1500#"
+   ]
+  },
+  {
+   "id": "n-float-exp-neg",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1.5E-3"
+   ],
+   "output": [
+    "zqd = 0.0015"
+   ]
+  },
+  {
+   "id": "n-float-d-exp",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1d2"
+   ],
+   "output": [
+    "zqd = 100#"
+   ]
+  },
+  {
+   "id": "n-float-d-exp-sign",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1D+2"
+   ],
+   "output": [
+    "zqd = 100#"
+   ]
+  },
+  {
+   "id": "n-float-big",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 100000000000000000000"
+   ],
+   "output": [
+    "zqd = 1E+20"
+   ]
+  },
+  {
+   "id": "n-float-big2",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 123456789012345678"
+   ],
+   "output": [
+    "zqd = 1.23456789012346E+17"
+   ]
+  },
+  {
+   "id": "n-float-15",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 123456789012345"
+   ],
+   "output": [
+    "zqd = 123456789012345#"
+   ]
+  },
+  {
+   "id": "n-float-16",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1234567890123456"
+   ],
+   "output": [
+    "zqd = 1.23456789012346E+15"
+   ]
+  },
+  {
+   "id": "n-float-e15",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1E15"
+   ],
+   "output": [
+    "zqd = 1E+15"
+   ]
+  },
+  {
+   "id": "n-float-e16",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1E16"
+   ],
+   "output": [
+    "zqd = 1E+16"
+   ]
+  },
+  {
+   "id": "n-float-pi15",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 3.14159265358979"
+   ],
+   "output": [
+    "zqd = 3.14159265358979"
+   ]
+  },
+  {
+   "id": "n-float-pi17",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 3.141592653589793"
+   ],
+   "output": [
+    "zqd = 3.14159265358979"
+   ]
+  },
+  {
+   "id": "n-float-point-one",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 0.1"
+   ],
+   "output": [
+    "zqd = 0.1"
+   ]
+  },
+  {
+   "id": "n-float-hundred",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 100.0"
+   ],
+   "output": [
+    "zqd = 100#"
+   ]
+  },
+  {
+   "id": "n-float-zero",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 0.0"
+   ],
+   "output": [
+    "zqd = 0#"
+   ]
+  },
+  {
+   "id": "n-float-tiny",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 0.000001"
+   ],
+   "output": [
+    "zqd = 0.000001"
+   ]
+  },
+  {
+   "id": "n-float-tinier",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 0.0000001"
+   ],
+   "output": [
+    "zqd = 0.0000001"
+   ]
+  },
+  {
+   "id": "n-float-e-20",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1E-20"
+   ],
+   "output": [
+    "zqd = 1E-20"
+   ]
+  },
+  {
+   "id": "n-float-e300",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1.23456789012345E+300"
+   ],
+   "output": [
+    "zqd = 1.23456789012345E+300"
+   ]
+  },
+  {
+   "id": "n-float-dot-only",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1."
+   ],
+   "output": [
+    "zqd = 1#"
+   ]
+  },
+  {
+   "id": "n-float-exp-zero",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 5E+0"
+   ],
+   "output": [
+    "zqd = 5#"
+   ]
+  },
+  {
+   "id": "n-suffix-double",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 0.1#",
+    "zqd = 1#",
+    "zqd = 12345678901234567890#"
+   ],
+   "output": [
+    "zqd = 0.1",
+    "zqd = 1#",
+    "zqd = 1.23456789012346E+19"
+   ]
+  },
+  {
+   "id": "n-suffix-single",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 5!",
+    "zqd = 1.0!",
+    "zqd = 1.5!",
+    "zqd = 1.5E3!",
+    "zqd = 16777217!"
+   ],
+   "output": [
+    "zqd = 5!",
+    "zqd = 1!",
+    "zqd = 1.5!",
+    "zqd = 1500!",
+    "zqd = 1.677722E+07!"
+   ]
+  },
+  {
+   "id": "n-suffix-currency",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 2.5@",
+    "zqd = 0.5@",
+    "zqd = 922337203685477.5807@"
+   ],
+   "output": [
+    "zqd = 2.5@",
+    "zqd = 0.5@",
+    "zqd = 922337203685477.5807@"
+   ]
+  },
+  {
+   "id": "n-hex",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = &hff",
+    "zqd = &HFF&",
+    "zqd = &h00ff",
+    "zqd = &h0",
+    "zqd = &hFFFF",
+    "zqd = &hFFFFFFFF",
+    "zqd = &h7FFFFFFF",
+    "zqd = &H8000",
+    "zqd = &H8000&"
+   ],
+   "output": [
+    "zqd = &HFF",
+    "zqd = &HFF&",
+    "zqd = &HFF",
+    "zqd = &H0",
+    "zqd = &HFFFF",
+    "zqd = &HFFFFFFFF",
+    "zqd = &H7FFFFFFF",
+    "zqd = &H8000",
+    "zqd = &H8000&"
+   ]
+  },
+  {
+   "id": "n-octal",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = &o17",
+    "zqd = &O17&",
+    "zqd = &O100000",
+    "zqd = &17"
+   ],
+   "output": [
+    "zqd = &O17",
+    "zqd = &O17&",
+    "zqd = &O100000",
+    "zqd = &O17"
+   ]
+  },
+  {
+   "id": "n-integer",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 32768",
+    "zqd = 2147483648",
+    "zqd = 10&",
+    "zqd = 10%",
+    "zqd = 00012",
+    "zqd = 32767%"
+   ],
+   "output": [
+    "zqd = 32768",
+    "zqd = 2147483648#",
+    "zqd = 10&",
+    "zqd = 10",
+    "zqd = 12",
+    "zqd = 32767"
+   ]
+  },
+  {
+   "id": "n-negative",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = -1",
+    "zqd = - 1",
+    "zqd = -1.0",
+    "zqd = -0.0"
+   ],
+   "output": [
+    "zqd = -1",
+    "zqd = -1",
+    "zqd = -1#",
+    "zqd = -0#"
+   ]
+  },
+  {
+   "id": "d-iso",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #2020-01-15#"
+   ],
+   "output": [
+    "zqdt = #1/15/2020#"
+   ]
+  },
+  {
+   "id": "d-us",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/15/2020#"
+   ],
+   "output": [
+    "zqdt = #1/15/2020#"
+   ]
+  },
+  {
+   "id": "d-swapped",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #15/1/2020#"
+   ],
+   "output": [
+    "zqdt = #1/15/2020#"
+   ]
+  },
+  {
+   "id": "d-datetime",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/1/2000 10:30#"
+   ],
+   "output": [
+    "zqdt = #1/1/2000 10:30:00 AM#"
+   ]
+  },
+  {
+   "id": "d-time",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #10:30:00#"
+   ],
+   "output": [
+    "zqdt = #10:30:00 AM#"
+   ]
+  },
+  {
+   "id": "d-time-pm",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #10:30 PM#"
+   ],
+   "output": [
+    "zqdt = #10:30:00 PM#"
+   ]
+  },
+  {
+   "id": "d-month-name",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #January 15, 2020#"
+   ],
+   "output": [
+    "zqdt = #1/15/2020#"
+   ]
+  },
+  {
+   "id": "d-slash-ymd",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #2020/1/15#"
+   ],
+   "output": [
+    "zqdt = #1/15/2020#"
+   ]
+  },
+  {
+   "id": "d-midnight",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #12:00:00 AM#"
+   ],
+   "output": [
+    "zqdt = #12:00:00 AM#"
+   ]
+  },
+  {
+   "id": "d-abbrev",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1-Jan-2020#"
+   ],
+   "output": [
+    "zqdt = #1/1/2020#"
+   ]
+  },
+  {
+   "id": "d-padded",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #  1/1/2000  #"
+   ],
+   "output": [
+    "zqdt = #1/1/2000#"
+   ]
+  },
+  {
+   "id": "d-two-digit-year",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/1/99#"
+   ],
+   "output": [
+    "zqdt = #1/1/1999#"
+   ]
+  },
+  {
+   "id": "d-zero-time",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #00:00#"
+   ],
+   "output": [
+    "zqdt = #12:00:00 AM#"
+   ]
+  },
+  {
+   "id": "d-full",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/1/2000 00:00:00#",
+    "zqdt = #12/31/2020 23:59:59#"
+   ],
+   "output": [
+    "zqdt = #1/1/2000#",
+    "zqdt = #12/31/2020 11:59:59 PM#"
+   ]
+  },
+  {
+   "id": "k-types",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim zqa as integer, zqb as boolean, zqc as variant, zqdd as currency, zqe as byte",
+    "dim zqf as single, zqg as double, zqh as date, zqii as string, zqj as object",
+    "dim zqk as longptr, zql as longlong"
+   ],
+   "output": [
+    "Dim zqa As Integer, zqb As Boolean, zqc As Variant, zqdd As Currency, zqe As Byte",
+    "Dim zqf As Single, zqg As Double, zqh As Date, zqii As String, zqj As Object",
+    "Dim zqk As LongPtr, zql As LongLong"
+   ]
+  },
+  {
+   "id": "k-static-local",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "static zqst as long"
+   ],
+   "output": [
+    "Static zqst As Long"
+   ]
+  },
+  {
+   "id": "k-const-local",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "const zqlocal as string = \"x\""
+   ],
+   "output": [
+    "Const zqlocal As String = \"x\""
+   ]
+  },
+  {
+   "id": "k-dim-new",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim zqc2 as new collection"
+   ],
+   "output": [
+    "Dim zqc2 As New Collection"
+   ]
+  },
+  {
+   "id": "k-fixed-string",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim zqfs as string * 10"
+   ],
+   "output": [
+    "Dim zqfs As String * 10"
+   ]
+  },
+  {
+   "id": "k-dim-arrays",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim zqarr2() as long, zqarr3(0 to 2, 1 to 3) as string"
+   ],
+   "output": [
+    "Dim zqarr2() As Long, zqarr3(0 To 2, 1 To 3) As String"
+   ]
+  },
+  {
+   "id": "k-literals",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqb = true: zqb = false: zqv = empty: zqv = null: set zqo = nothing"
+   ],
+   "output": [
+    "zqb = True: zqb = False: zqv = Empty: zqv = Null: Set zqo = Nothing"
+   ]
+  },
+  {
+   "id": "k-member-keywords",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = zqo.text",
+    "zqs = zqo.name",
+    "zqs = zqo.value",
+    "zqs = zqo.Print",
+    "zqs = zqo.input"
+   ],
+   "output": [
+    "zqs = zqo.text",
+    "zqs = zqo.Name",
+    "zqs = zqo.value",
+    "zqs = zqo.print",
+    "zqs = zqo.INPUT"
+   ]
+  },
+  {
+   "id": "k-casing-user",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim zqmyvar as long",
+    "ZQMYVAR = 1",
+    "ZqMyVar = 2"
+   ],
+   "output": [
+    "Dim zqmyvar As Long",
+    "zqmyvar = 1",
+    "zqmyvar = 2"
+   ]
+  },
+  {
+   "id": "k-casing-builtin",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "msgbox \"x\"",
+    "MSGBOX \"y\"",
+    "zqs = ucase$(zqs)",
+    "zqs = vbcrlf",
+    "zqs = vbCRLF",
+    "zqs = VBA.left$(zqs, 1)",
+    "debug.print now"
+   ],
+   "output": [
+    "MsgBox \"x\"",
+    "MsgBox \"y\"",
+    "zqs = UCase$(zqs)",
+    "zqs = vbCrLf",
+    "zqs = vbCrLf",
+    "zqs = VBA.Left$(zqs, 1)",
+    "Debug.Print Now"
+   ]
+  },
+  {
+   "id": "k-endif",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx then",
+    "zqx = 1",
+    "endif"
+   ],
+   "output": [
+    "If zqx Then",
+    "zqx = 1",
+    "End If"
+   ]
+  },
+  {
+   "id": "k-end-if-spaces",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx then",
+    "zqx = 1",
+    "end   if"
+   ],
+   "output": [
+    "If zqx Then",
+    "zqx = 1",
+    "End If"
+   ]
+  },
+  {
+   "id": "k-elseif-inline",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx then",
+    "zqx = 1",
+    "elseif zqy then zqx = 2",
+    "else zqx = 3",
+    "end if"
+   ],
+   "output": [
+    "If zqx Then",
+    "zqx = 1",
+    "ElseIf zqy Then zqx = 2",
+    "Else: zqx = 3",
+    "End If"
+   ]
+  },
+  {
+   "id": "k-if-then-colon",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx then:",
+    "zqx = 1",
+    "end if"
+   ],
+   "output": [
+    "If zqx Then:",
+    "zqx = 1",
+    "End If"
+   ]
+  },
+  {
+   "id": "k-if-then-rem",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx then rem hello"
+   ],
+   "output": [
+    "If zqx Then Rem hello"
+   ]
+  },
+  {
+   "id": "k-comment-continued",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "' comment _",
+    "continued text here"
+   ],
+   "output": [
+    "' comment _",
+    "continued text here"
+   ]
+  },
+  {
+   "id": "k-exit",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "exit for",
+    "exit do"
+   ],
+   "output": [
+    "Exit For",
+    "Exit Do"
+   ]
+  },
+  {
+   "id": "k-debug-assert",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "debug.assert zqx > 0"
+   ],
+   "output": [
+    "Debug.Assert zqx > 0"
+   ]
+  },
+  {
+   "id": "k-doevents",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "doevents",
+    "randomize",
+    "randomize 5"
+   ],
+   "output": [
+    "DoEvents",
+    "Randomize",
+    "Randomize 5"
+   ]
+  },
+  {
+   "id": "k-date-fns",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = date",
+    "zqs = date$",
+    "zqd = now()"
+   ],
+   "output": [
+    "zqd = Date",
+    "zqs = Date$",
+    "zqd = Now()"
+   ]
+  },
+  {
+   "id": "g-pow-literals",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 2 ^ 3",
+    "zqx = (zqx)^2",
+    "zqx = zqx ^ 2",
+    "zqx = zqx ^2"
+   ],
+   "output": [
+    "zqx = 2 ^ 3",
+    "zqx = (zqx) ^ 2",
+    "zqx = zqx ^ 2",
+    "zqx = zqx ^ 2"
+   ]
+  },
+  {
+   "id": "g-as-const",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "const zqc1    as long = 1",
+    "const zqc22     = 5"
+   ],
+   "output": [
+    "Const zqc1    As Long = 1",
+    "Const zqc22 = 5"
+   ]
+  },
+  {
+   "id": "g-as-after-comma",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim zqg1 as long,    zqg2     as long"
+   ],
+   "output": [
+    "Dim zqg1 As Long, zqg2        As Long"
+   ]
+  },
+  {
+   "id": "g-as-static",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "static zqg3     as long"
+   ],
+   "output": [
+    "Static zqg3     As Long"
+   ]
+  },
+  {
+   "id": "g-as-redim",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "redim zqg4(1 to 2)     as long"
+   ],
+   "output": [
+    "ReDim zqg4(1 To 2) As Long"
+   ]
+  },
+  {
+   "id": "g-dim-gap",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim    zqg5 as long"
+   ],
+   "output": [
+    "Dim zqg5 As Long"
+   ]
+  },
+  {
+   "id": "g-colon-gaps",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1   : zqy = 2",
+    "zqx = 1:    zqy = 2"
+   ],
+   "output": [
+    "zqx = 1: zqy = 2",
+    "zqx = 1:    zqy = 2"
+   ]
+  },
+  {
+   "id": "g-label-gap",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "    zqlbl5:   zqx = 1"
+   ],
+   "output": [
+    "zqlbl5:       zqx = 1"
+   ]
+  },
+  {
+   "id": "g-then-gap",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx then     zqy = 1"
+   ],
+   "output": [
+    "If zqx Then zqy = 1"
+   ]
+  },
+  {
+   "id": "g-keyword-gaps",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "end    select",
+    "exit    sub"
+   ],
+   "output": [
+    "End Select",
+    "Exit Sub"
+   ]
+  },
+  {
+   "id": "g-tab-comment",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqlongname = 1\t' after tab",
+    "\t' tab indented comment"
+   ],
+   "output": [
+    "zqlongname = 1  ' after tab",
+    "    ' tab indented comment"
+   ]
+  },
+  {
+   "id": "g-whitespace-only",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1",
+    "      ",
+    "zqx = 2"
+   ],
+   "output": [
+    "zqx = 1",
+    "      ",
+    "zqx = 2"
+   ]
+  },
+  {
+   "id": "g-print-trailing-semicolon",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "debug.print \"a\";",
+    "debug.print spc(5);\"a\";tab(3);\"b\""
+   ],
+   "output": [
+    "Debug.Print \"a\";",
+    "Debug.Print Spc(5); \"a\"; Tab(3); \"b\""
+   ]
+  },
+  {
+   "id": "g-unary-after-op",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = 1 +-2",
+    "zqx = zqa -zqb",
+    "zqx = zqa*-zqb"
+   ],
+   "output": [
+    "zqx = 1 + -2",
+    "zqx = zqa - zqb",
+    "zqx = zqa * -zqb"
+   ]
+  },
+  {
+   "id": "g-call-kw-space-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "call zqfoo (1)"
+   ],
+   "output": [
+    "Call zqfoo(1)"
+   ]
+  },
+  {
+   "id": "g-plus-strings",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = \"a\"+\"b\""
+   ],
+   "output": [
+    "zqs = \"a\" + \"b\""
+   ]
+  },
+  {
+   "id": "g-like-xor",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqs like \"a*\" xor zqb imp zqc eqv zqd then zqx = 1"
+   ],
+   "output": [
+    "If zqs Like \"a*\" Xor zqb Imp zqc Eqv zqd Then zqx = 1"
+   ]
+  },
+  {
+   "id": "g-hex-suffix-expr",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = &hff&+1"
+   ],
+   "output": [
+    "zqx = &HFF& + 1"
+   ]
+  },
+  {
+   "id": "g-date-expr",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/1/2000#+1"
+   ],
+   "output": [
+    "zqdt = #1/1/2000# + 1"
+   ]
+  },
+  {
+   "id": "g-case-is-gap",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "select case zqx",
+    "case is >10",
+    "case is=5",
+    "end select"
+   ],
+   "output": [
+    "Select Case zqx",
+    "Case Is > 10",
+    "Case Is = 5",
+    "End Select"
+   ]
+  },
+  {
+   "id": "g-with-gaps",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "with   zqo",
+    "  .add    1",
+    "end with"
+   ],
+   "output": [
+    "With zqo",
+    "  .Add 1",
+    "End With"
+   ]
+  },
+  {
+   "id": "g-directive-gaps",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "#if    zqdebug    then",
+    "#end if"
+   ],
+   "output": [
+    "#If zqdebug Then",
+    "#End If"
+   ]
+  },
+  {
+   "id": "g-line-number-indented",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "    40 zqx = 4",
+    "50 zqx = 5"
+   ],
+   "output": [
+    "40     zqx = 4",
+    "50 zqx = 5"
+   ]
+  },
+  {
+   "id": "g-negative-literal-arg",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo zqx, -1",
+    "zqfoo(-1)"
+   ],
+   "output": [
+    "zqfoo zqx, -1",
+    "zqfoo (-1)"
+   ]
+  },
+  {
+   "id": "g-nested-parens",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = ((zqa + zqb) * (zqc - zqd))"
+   ],
+   "output": [
+    "zqx = ((zqa + zqb) * (zqc - zqd))"
+   ]
+  },
+  {
+   "id": "g-string-concat-continued",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = \"a\" & _",
+    "\"b\""
+   ],
+   "output": [
+    "zqs = \"a\" & _",
+    "\"b\""
+   ]
+  },
+  {
+   "id": "g-casing-first-use",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "sub zqusefirst()",
+    "ZqLater = 1",
+    "end sub",
+    "sub zqdeclarelater()",
+    "dim zqlater as long",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqusefirst()",
+    "zqlater = 1",
+    "End Sub",
+    "Sub zqdeclarelater()",
+    "Dim zqlater As Long",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "g-casing-module-var",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "sub zqusemodvar()",
+    "ZQMODVAR = 1",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqusemodvar()",
+    "zqmodvar = 1",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "g-param-as",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "sub zqparams(byval zqp1     as long, zqp2 as string)",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqparams(ByVal zqp1 As Long, zqp2 As String)",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "g-function-as",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "function zqret()     as long",
+    "end function"
+   ],
+   "output": [
+    "Function zqret() As Long",
+    "End Function"
+   ]
+  },
+  {
+   "id": "g-declare-param-as",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private declare ptrsafe function zqbeep lib \"kernel32\" alias \"Beep\" (byval f     as long, byval d as long) as long"
+   ],
+   "output": [
+    "Private Declare PtrSafe Function zqbeep Lib \"kernel32\" Alias \"Beep\" (ByVal f As Long, ByVal d As Long) As Long"
+   ]
+  },
+  {
+   "id": "g-module-var-as",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private zqmv1     as long",
+    "public zqmv2      as string"
+   ],
+   "output": [
+    "Private zqmv1     As Long",
+    "Public zqmv2      As String"
+   ]
+  },
+  {
+   "id": "g-type-member-array",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private type zqtarr",
+    "    items(1 to 3)    as long",
+    "end type"
+   ],
+   "output": [
+    "Private Type zqtarr",
+    "    items(1 To 3)    As Long",
+    "End Type"
+   ]
+  },
+  {
+   "id": "g-enum-aligned",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private enum zqealign",
+    "    zqfirst   = 1",
+    "    zqsecondx = 2",
+    "end enum"
+   ],
+   "output": [
+    "Private Enum zqealign",
+    "    zqfirst = 1",
+    "    zqsecondx = 2",
+    "End Enum"
+   ]
+  },
+  {
+   "id": "g-module-casing-decl",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private zqmodvar as long"
+   ],
+   "output": [
+    "Private zqmodvar As Long"
+   ]
+  },
+  {
+   "id": "r-call-omitted-first-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo , 2"
+   ],
+   "output": [
+    "zqfoo , 2"
+   ]
+  },
+  {
+   "id": "r-call-omitted-first-glued",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo, 2"
+   ],
+   "output": [
+    "zqfoo , 2"
+   ]
+  },
+  {
+   "id": "r-float-small",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 1E-8",
+    "zqd = 1E-10",
+    "zqd = 1E-14",
+    "zqd = 1E-15",
+    "zqd = 1E-16",
+    "zqd = 1E-19",
+    "zqd = 1.5E-10",
+    "zqd = 1.23E-5",
+    "zqd = 0.000123456789012345",
+    "zqd = 0.00000001",
+    "zqd = 1.2345E-8"
+   ],
+   "output": [
+    "zqd = 0.00000001",
+    "zqd = 0.0000000001",
+    "zqd = 0.00000000000001",
+    "zqd = 0.000000000000001",
+    "zqd = 1E-16",
+    "zqd = 1E-19",
+    "zqd = 0.00000000015",
+    "zqd = 0.0000123",
+    "zqd = 1.23456789012345E-04",
+    "zqd = 0.00000001",
+    "zqd = 0.000000012345"
+   ]
+  },
+  {
+   "id": "r-float-small-single",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 0.00001!",
+    "zqd = 1E-10!",
+    "zqd = 0.001!",
+    "zqd = 0.0001!"
+   ],
+   "output": [
+    "zqd = 0.00001!",
+    "zqd = 1E-10!",
+    "zqd = 0.001!",
+    "zqd = 0.0001!"
+   ]
+  },
+  {
+   "id": "r-integer-suffixes",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqd = 32768&",
+    "zqd = &HFF%",
+    "zqd = &HFFFF&",
+    "zqd = 70000&",
+    "zqd = 10^",
+    "zqd = 40000^"
+   ],
+   "output": [
+    "zqd = 32768",
+    "zqd = &HFF",
+    "zqd = &HFFFF&",
+    "zqd = 70000",
+    "zqd = 10^",
+    "zqd = 40000^"
+   ]
+  },
+  {
+   "id": "r-comment-after-collapse",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx    =    1 ' c1",
+    "zqx    =    1    ' c2"
+   ],
+   "output": [
+    "zqx = 1       ' c1",
+    "zqx = 1          ' c2"
+   ]
+  },
+  {
+   "id": "r-colon-after-collapse",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx    =    1:    zqy = 2"
+   ],
+   "output": [
+    "zqx = 1:          zqy = 2"
+   ]
+  },
+  {
+   "id": "r-ge-variants",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqa => zqb then zqx = 1",
+    "if zqa =< zqb then zqx = 1",
+    "if zqa >< zqb then zqx = 1"
+   ],
+   "output": [
+    "If zqa >= zqb Then zqx = 1",
+    "If zqa <= zqb Then zqx = 1",
+    "If zqa <> zqb Then zqx = 1"
+   ]
+  },
+  {
+   "id": "r-undeclared-casing",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "sub zqundecl1()",
+    "QqUndecl = 1",
+    "end sub",
+    "sub zqundecl2()",
+    "qqundecl = 2",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqundecl1()",
+    "qqundecl = 1",
+    "End Sub",
+    "Sub zqundecl2()",
+    "qqundecl = 2",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "r-compiler-consts",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "#if vba6 or win16 or win32 or mac or twinbasic then",
+    "#end if"
+   ],
+   "output": [
+    "#If VBA6 Or Win16 Or Win32 Or Mac Or twinbasic Then",
+    "#End If"
+   ]
+  },
+  {
+   "id": "r-single-if-call-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "if zqx then zqfoo(1)"
+   ],
+   "output": [
+    "If zqx Then zqfoo (1)"
+   ]
+  },
+  {
+   "id": "r-label-comment",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqlbl6: ' c",
+    "zqlbl7: rem c"
+   ],
+   "output": [
+    "zqlbl6: ' c",
+    "zqlbl7: Rem c"
+   ]
+  },
+  {
+   "id": "r-print-trailing",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "print #1, zqx; zqy;",
+    "debug.print zqx,"
+   ],
+   "output": [
+    "Print #1, zqx; zqy;",
+    "Debug.Print zqx,"
+   ]
+  },
+  {
+   "id": "r-bang-expr",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqo!zqk + 1"
+   ],
+   "output": [
+    "zqx = zqo!zqk + 1"
+   ]
+  },
+  {
+   "id": "r-named-arg-spaced",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo zqx:=1, zqy:= 2"
+   ],
+   "output": [
+    "zqfoo zqx:=1, zqy:=2"
+   ]
+  },
+  {
+   "id": "r-call-empty-parens",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "call zqfoo()",
+    "zqfoo()"
+   ],
+   "output": [
+    "Call zqfoo",
+    "zqfoo()"
+   ]
+  },
+  {
+   "id": "r-spc-glued",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "debug.print spc(2);\"x\""
+   ],
+   "output": [
+    "Debug.Print Spc(2); \"x\""
+   ]
+  },
+  {
+   "id": "r-literal-comma",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqfoo 1 , 2"
+   ],
+   "output": [
+    "zqfoo 1, 2"
+   ]
+  },
+  {
+   "id": "r-mod-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = zqy mod(2)"
+   ],
+   "output": [
+    "zqx = zqy Mod (2)"
+   ]
+  },
+  {
+   "id": "r-dim-gaps-collapse",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "dim    zqg6    as long",
+    "dim zqg7 as long,zqg8     as long"
+   ],
+   "output": [
+    "Dim zqg6       As Long",
+    "Dim zqg7 As Long, zqg8    As Long"
+   ]
+  },
+  {
+   "id": "r-type-member-array",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "private type zqt3",
+    "zqarr() as byte",
+    "end type"
+   ],
+   "output": [
+    "Private Type zqt3",
+    "zqarr() As Byte",
+    "End Type"
+   ]
+  },
+  {
+   "id": "r-function-returns-array",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "function zqbytes() as byte()",
+    "end function"
+   ],
+   "output": [
+    "Function zqbytes() As Byte()",
+    "End Function"
+   ]
+  },
+  {
+   "id": "r-with-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "with zqo",
+    "zqfoo (.count)",
+    ".item (1) = 2",
+    "end with"
+   ],
+   "output": [
+    "With zqo",
+    "zqfoo (.count)",
+    ".item(1) = 2",
+    "End With"
+   ]
+  },
+  {
+   "id": "r-negative-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqx = -(zqy)",
+    "if not(zqb) then zqx = 1"
+   ],
+   "output": [
+    "zqx = -(zqy)",
+    "If Not (zqb) Then zqx = 1"
+   ]
+  },
+  {
+   "id": "r-glued-names",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = zqa+zqb",
+    "zqx = zqa ^zqb"
+   ],
+   "output": [
+    "zqs = zqa + zqb",
+    "zqx = zqa ^ zqb"
+   ]
+  },
+  {
+   "id": "r-line-number-long",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "12345 zqx = 1"
+   ],
+   "output": [
+    "12345 zqx = 1"
+   ]
+  },
+  {
+   "id": "r-line-input-casing",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "LINE INPUT #1, zqs"
+   ],
+   "output": [
+    "Line Input #1, zqs"
+   ]
+  },
+  {
+   "id": "r-trim-space-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqs = trim$ (zqs)"
+   ],
+   "output": [
+    "zqs = Trim$(zqs)"
+   ]
+  },
+  {
+   "id": "r-member-call-paren",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqo.add (1)",
+    "set zqo = zqfunc (1)"
+   ],
+   "output": [
+    "zqo.Add (1)",
+    "Set zqo = zqfunc(1)"
+   ]
+  },
+  {
+   "id": "r-deftype-multi",
+   "module": "standard",
+   "scope": "module",
+   "input": [
+    "deflng a-c, x-z"
+   ],
+   "output": [
+    "DefLng A-C, X-Z"
+   ]
+  },
+  {
+   "id": "s-static-sub",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "public static sub zqstat()",
+    "end sub"
+   ],
+   "output": [
+    "Public Static Sub zqstat()",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "s-typed-function",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "private function zqfn$(byval s as string)",
+    "zqfn$ = s",
+    "end function"
+   ],
+   "output": [
+    "Private Function zqfn$(ByVal s As String)",
+    "zqfn$ = s",
+    "End Function"
+   ]
+  },
+  {
+   "id": "s-optional-params",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "sub zqopt(optional byval a as long = 5, optional b as variant, paramarray c() as variant)",
+    "end sub"
+   ],
+   "output": [
+    "sub zqopt(optional byval a as long = 5, optional b as variant, paramarray c() as variant)",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "s-one-line",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "sub zqone(): zqx1 = 1: end sub"
+   ],
+   "output": [
+    "Sub zqone(): zqx1 = 1: End Sub"
+   ]
+  },
+  {
+   "id": "s-end-comment",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "sub zqtail()",
+    "end sub ' tail comment"
+   ],
+   "output": [
+    "Sub zqtail()",
+    "End Sub ' tail comment"
+   ]
+  },
+  {
+   "id": "s-friend-in-std",
+   "module": "standard",
+   "scope": "proc",
+   "input": [
+    "private sub zqpriv(byref a as long, byval b as string)",
+    "end sub"
+   ],
+   "output": [
+    "Private Sub zqpriv(ByRef a As Long, ByVal b As String)",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "@export-head-ZqProbe",
+   "module": "standard",
+   "scope": "export",
+   "input": [],
+   "output": [
+    "Attribute VB_Name = \"ZqProbe\"",
+    "'@@case m-option-compare",
+    "Option Compare Text",
+    "'@@case m-option-base",
+    "Option Base 1",
+    "'@@case m-option-private",
+    "Option Private Module",
+    "'@@case m-declare-alias",
+    "Private Declare PtrSafe Function zqgettick Lib \"kernel32\" Alias \"GetTickCount\" () As Long",
+    "'@@case m-declare-noalias",
+    "Private Declare PtrSafe Function GetTickCount Lib \"kernel32\" () As Long",
+    "'@@case m-declare-sub"
+   ]
+  },
+  {
+   "id": "c-event",
+   "module": "class",
+   "scope": "module",
+   "input": [
+    "public event zqchanged(byval x as long)"
+   ],
+   "output": [
+    "Public Event zqchanged(ByVal x As Long)"
+   ]
+  },
+  {
+   "id": "c-member",
+   "module": "class",
+   "scope": "module",
+   "input": [
+    "private mzqval as long"
+   ],
+   "output": [
+    "Private mzqval As Long"
+   ]
+  },
+  {
+   "id": "c-property-get",
+   "module": "class",
+   "scope": "proc",
+   "input": [
+    "public property get zqval() as long",
+    "zqval = mzqval",
+    "end property"
+   ],
+   "output": [
+    "Public Property Get zqval() As Long",
+    "zqval = mzqval",
+    "End Property"
+   ]
+  },
+  {
+   "id": "c-property-let",
+   "module": "class",
+   "scope": "proc",
+   "input": [
+    "public property let zqval(byval v as long)",
+    "mzqval = v",
+    "raiseevent zqchanged(v)",
+    "end property"
+   ],
+   "output": [
+    "Public Property Let zqval(ByVal v As Long)",
+    "mzqval = v",
+    "RaiseEvent zqchanged(v)",
+    "End Property"
+   ]
+  },
+  {
+   "id": "c-friend",
+   "module": "class",
+   "scope": "proc",
+   "input": [
+    "friend sub zqf()",
+    "set me.zqobj = nothing",
+    "end sub"
+   ],
+   "output": [
+    "Friend Sub zqf()",
+    "Set Me.zqobj = Nothing",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "c-initialize",
+   "module": "class",
+   "scope": "proc",
+   "input": [
+    "private sub class_initialize()",
+    "mzqval = 0",
+    "end sub"
+   ],
+   "output": [
+    "Private Sub class_initialize()",
+    "mzqval = 0",
+    "End Sub"
+   ]
+  },
+  {
+   "id": "@export-head-ZqClassProbe",
+   "module": "class",
+   "scope": "export",
+   "input": [],
+   "output": [
+    "VERSION 1.0 CLASS",
+    "BEGIN",
+    "  MultiUse = -1  'True",
+    "END",
+    "Attribute VB_Name = \"ZqClassProbe\"",
+    "Attribute VB_GlobalNameSpace = False",
+    "Attribute VB_Creatable = False",
+    "Attribute VB_PredeclaredId = False",
+    "Attribute VB_Exposed = False",
+    "'@@case c-event",
+    "Public Event zqchanged(ByVal x As Long)",
+    "'@@case c-member"
+   ]
+  }
+ ],
+ "compile": [
+  {
+   "id": "if-then-colon-opens-block",
+   "question": "Does `If x Then:` with nothing after the colon open a block If?",
+   "source": "Sub ZqC()\n    Dim zqx As Boolean\n    If zqx Then:\n        zqx = False\n    End If\nEnd Sub\n",
+   "outcome": "rejected",
+   "message": "Compile error:\n\nEnd If without block If"
+  },
+  {
+   "id": "if-then-colon-statement-single",
+   "question": "Is `If x Then: stmt` a single-line If (no End If needed)?",
+   "source": "Sub ZqC()\n    Dim zqx As Boolean\n    If zqx Then: zqx = False\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "comment-continues",
+   "question": "Does ` _` at the end of a comment continue the comment onto the next line?",
+   "source": "Sub ZqC()\n    ' a comment that continues _\n    this line is not valid code !!!\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "comment-not-continued-control",
+   "question": "Control: the same invalid line without a continued comment is rejected.",
+   "source": "Sub ZqC()\n    ' a comment that ends here\n    this line is not valid code !!!\nEnd Sub\n",
+   "outcome": "rejected",
+   "message": "Compile error:\n\nSyntax error"
+  },
+  {
+   "id": "continuation-trailing-space",
+   "question": "Is ` _` followed by trailing spaces still a line continuation?",
+   "source": "Sub ZqC()\n    Dim zqx As Long\n    zqx = 1 + _   \n        2\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "rem-after-then",
+   "question": "Is `If x Then Rem text` accepted?",
+   "source": "Sub ZqC()\n    Dim zqx As Boolean\n    If zqx Then Rem hello world\nEnd Sub\n",
+   "outcome": "rejected",
+   "message": "Compile error:\n\nSyntax error"
+  },
+  {
+   "id": "elseif-inline-statement",
+   "question": "Is `ElseIf c Then stmt` on one line accepted inside a block If?",
+   "source": "Sub ZqC()\n    Dim zqx As Boolean, zqy As Long\n    If zqx Then\n        zqy = 1\n    ElseIf zqy = 2 Then zqy = 3\n    End If\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "else-inline-statement",
+   "question": "Is `Else stmt` on one line accepted inside a block If?",
+   "source": "Sub ZqC()\n    Dim zqx As Boolean, zqy As Long\n    If zqx Then\n        zqy = 1\n    Else zqy = 3\n    End If\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "one-line-procedure",
+   "question": "Is a whole procedure on one line (colon separated) accepted?",
+   "source": "Sub ZqC(): Dim zqx As Long: zqx = 1: End Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "concat-glued-identifiers",
+   "question": "Is `s = s&t` (no spaces around &) accepted for two String variables?",
+   "source": "Sub ZqC()\n    Dim zqs As String, zqt As String\n    zqs = zqs&zqt\nEnd Sub\n",
+   "outcome": "rejected",
+   "message": "Compile error:\n\nSyntax error"
+  },
+  {
+   "id": "endif-single-word",
+   "question": "Is `EndIf` accepted as `End If`?",
+   "source": "Sub ZqC()\n    Dim zqx As Boolean\n    If zqx Then\n        zqx = False\n    EndIf\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "indented-label",
+   "question": "Is an indented label accepted?",
+   "source": "Sub ZqC()\n    Dim zqx As Long\n    GoTo ZqLbl\n        ZqLbl:\n    zqx = 1\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "line-number-colon",
+   "question": "Is a line number followed by a colon accepted?",
+   "source": "Sub ZqC()\n    Dim zqx As Long\n10: zqx = 1\n20 zqx = 2\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "trailing-static",
+   "question": "Is `Sub Name() Static` accepted?",
+   "source": "Sub ZqC() Static\n    Dim zqx As Long\n    zqx = zqx + 1\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "longlong-suffix",
+   "question": "Is the `^` LongLong type suffix accepted on this Office?",
+   "source": "Sub ZqC()\n    Dim zqll As LongLong\n    zqll = 10^\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "bang-with-spaces",
+   "question": "Is `obj ! key` (spaces around the bang) accepted?",
+   "source": "Sub ZqC()\n    Dim zqo As New Collection, zqv As Variant\n    zqv = zqo ! zqkey\nEnd Sub\n",
+   "outcome": "rejected",
+   "message": "Compile error:\n\nSyntax error"
+  },
+  {
+   "id": "bang-glued-control",
+   "question": "Control: `obj!key` is accepted.",
+   "source": "Sub ZqC()\n    Dim zqo As New Collection, zqv As Variant\n    zqv = zqo!zqkey\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "with-member-argument",
+   "question": "Is `Foo .Member` inside a With block a call with a with-member argument?",
+   "source": "Sub ZqC()\n    Dim zqo As New Collection\n    With zqo\n        ZqTake .Count\n    End With\nEnd Sub\nSub ZqTake(ByVal n As Long)\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "float-trailing-dot",
+   "question": "Is `1.` (no fractional digits) accepted as a literal?",
+   "source": "Sub ZqC()\n    Dim zqd As Double\n    zqd = 1.\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "label-then-statement-same-line",
+   "question": "Is `Label: statement` accepted?",
+   "source": "Sub ZqC()\n    Dim zqx As Long\nZqLbl: zqx = 1\n    GoTo ZqLbl\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "rem-continues",
+   "question": "Does a Rem comment ending in ` _` continue onto the next line?",
+   "source": "Sub ZqC()\n    Rem a remark that continues _\n    this line is not valid code !!!\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "directive-comment-continues",
+   "question": "Does a comment on a #If line continue with ` _`?",
+   "source": "#If True Then ' directive comment _\n    this line is not valid code !!!\n#End If\nSub ZqC()\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "type-member-indented-spaces",
+   "question": "Control: a Type with extra spaces inside member lines is accepted.",
+   "source": "Private Type ZqT\n    a    As Long\nEnd Type\nSub ZqC()\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  },
+  {
+   "id": "call-omitted-first-spaced",
+   "question": "Is `Foo , 2` a call with the first argument omitted (rejected when it is required)?",
+   "source": "Private Sub ZqNeeds(ByVal x As Long, ByVal y As Long)\nEnd Sub\nSub ZqC()\n    ZqNeeds , 2\nEnd Sub\n",
+   "outcome": "rejected",
+   "message": "Compile error:\n\nArgument not optional"
+  },
+  {
+   "id": "call-omitted-first-glued",
+   "question": "Is `Foo, 2` the same call (rejected the same way when the argument is required)?",
+   "source": "Private Sub ZqNeeds(ByVal x As Long, ByVal y As Long)\nEnd Sub\nSub ZqC()\n    ZqNeeds, 2\nEnd Sub\n",
+   "outcome": "rejected",
+   "message": "Compile error:\n\nArgument not optional"
+  },
+  {
+   "id": "greater-equal-reversed",
+   "question": "Is `=>` accepted as a comparison operator?",
+   "source": "Sub ZqC()\n    Dim zqa As Long, zqb As Long\n    If zqa => zqb Then zqa = 1\nEnd Sub\n",
+   "outcome": "accepted",
+   "message": ""
+  }
+ ],
+ "runtime": [
+  {
+   "id": "comment-continuation-hides-statement",
+   "question": "Does a statement on the line after `' comment _` run? (1 = hidden, 2 = ran)",
+   "source": "Public Function ZqR() As Long\n    Dim n As Long\n    n = 1\n    ' comment _\n    n = 2\n    ZqR = n\nEnd Function\n",
+   "outcome": "passed",
+   "value": 1,
+   "error": null
+  },
+  {
+   "id": "rem-continuation-hides-statement",
+   "question": "Does a statement on the line after `Rem comment _` run? (1 = hidden, 2 = ran)",
+   "source": "Public Function ZqR() As Long\n    Dim n As Long\n    n = 1\n    Rem comment _\n    n = 2\n    ZqR = n\nEnd Function\n",
+   "outcome": "passed",
+   "value": 1,
+   "error": null
+  },
+  {
+   "id": "end-of-line-comment-continuation-hides-statement",
+   "question": "After `n = 1 ' note _`, does the next line run? (1 = hidden, 2 = ran)",
+   "source": "Public Function ZqR() As Long\n    Dim n As Long\n    n = 1 ' note _\n    n = 2\n    ZqR = n\nEnd Function\n",
+   "outcome": "passed",
+   "value": 1,
+   "error": null
+  },
+  {
+   "id": "continuation-with-trailing-space",
+   "question": "Does `1 + _   ` continue onto the next line? (3 = continued)",
+   "source": "Public Function ZqR() As Long\n    ZqR = 1 + _   \n        2\nEnd Function\n",
+   "outcome": "passed",
+   "value": 3,
+   "error": null
+  },
+  {
+   "id": "if-then-colon-is-single-line",
+   "question": "After `If False Then:`, does the next line run? (5 = ran, so the If was single-line)",
+   "source": "Public Function ZqR() As Long\n    Dim n As Long\n    If False Then:\n    n = 5\n    ZqR = n\nEnd Function\n",
+   "outcome": "passed",
+   "value": 5,
+   "error": null
+  },
+  {
+   "id": "single-line-if-colon-scope",
+   "question": "In `If False Then n = 1: n = 2`, is the second statement conditional? (0 = yes)",
+   "source": "Public Function ZqR() As Long\n    Dim n As Long\n    If False Then n = 1: n = 2\n    ZqR = n\nEnd Function\n",
+   "outcome": "passed",
+   "value": 0,
+   "error": null
+  },
+  {
+   "id": "single-line-else-colon-scope",
+   "question": "In `If True Then n = 1 Else n = 2: n = 3`, is `n = 3` part of the Else? (1 = yes)",
+   "source": "Public Function ZqR() As Long\n    Dim n As Long\n    If True Then n = 1 Else n = 2: n = 3\n    ZqR = n\nEnd Function\n",
+   "outcome": "passed",
+   "value": 1,
+   "error": null
+  },
+  {
+   "id": "call-omitted-first-glued-runs",
+   "question": "Does `Foo, 2` call Foo with the first argument omitted? (102 = yes)",
+   "source": "Private zqLast As Long\nPrivate Sub ZqTwo(Optional a As Variant, Optional b As Variant)\n    zqLast = IIf(IsMissing(a), 100, 0) + IIf(IsMissing(b), 10, b)\nEnd Sub\nPublic Function ZqR() As Long\n    ZqTwo, 2\n    ZqR = zqLast\nEnd Function\n",
+   "outcome": "passed",
+   "value": 102,
+   "error": null
+  },
+  {
+   "id": "call-omitted-first-spaced-runs",
+   "question": "Control: `Foo , 2` calls Foo with the first argument omitted. (102 = yes)",
+   "source": "Private zqLast As Long\nPrivate Sub ZqTwo(Optional a As Variant, Optional b As Variant)\n    zqLast = IIf(IsMissing(a), 100, 0) + IIf(IsMissing(b), 10, b)\nEnd Sub\nPublic Function ZqR() As Long\n    ZqTwo , 2\n    ZqR = zqLast\nEnd Function\n",
+   "outcome": "passed",
+   "value": 102,
+   "error": null
+  }
+ ],
+ "isolated": [
+  {
+   "id": "i-contextual-keyword-as-name",
+   "question": "Do variables named text and binary keep their own spelling, and do they change the Text of Option Compare Text?",
+   "input": [
+    "option compare text",
+    "sub zqctx()",
+    "dim text as string, binary as long",
+    "text = \"a\"",
+    "binary = 1",
+    "debug.print TEXT; BINARY",
+    "end sub"
+   ],
+   "output": [
+    "Option Compare Text",
+    "Sub zqctx()",
+    "Dim text As String, binary As Long",
+    "text = \"a\"",
+    "binary = 1",
+    "Debug.Print text; binary",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "i-parameter-named-text",
+   "question": "Does a parameter named text keep its spelling in a module that uses nothing else called text?",
+   "input": [
+    "function zqlen(byval text as string) as long",
+    "zqlen = len(TEXT)",
+    "end function"
+   ],
+   "output": [
+    "Function zqlen(ByVal text As String) As Long",
+    "zqlen = Len(text)",
+    "End Function",
+    ""
+   ]
+  },
+  {
+   "id": "i-type-member-named-like-library-function",
+   "question": "Type members named second and left: do they keep their spelling, and do the library functions Second and Left elsewhere in the module take it?",
+   "input": [
+    "private type zqpair",
+    "second as long",
+    "left as long",
+    "end type",
+    "sub zqtm()",
+    "dim n as long, s as string",
+    "n = Second(now)",
+    "s = Left(\"ab\", 1)",
+    "end sub"
+   ],
+   "output": [
+    "Private Type zqpair",
+    "second As Long",
+    "left As Long",
+    "End Type",
+    "Sub zqtm()",
+    "Dim n As Long, s As String",
+    "n = second(Now)",
+    "s = left(\"ab\", 1)",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "i-two-declarations",
+   "question": "Two procedures declare one local name with different casing: which spelling wins?",
+   "input": [
+    "sub zqr1()",
+    "dim zqCount as long",
+    "zqcount = 1",
+    "end sub",
+    "sub zqr2()",
+    "dim ZQCOUNT as long",
+    "ZqCount = 2",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqr1()",
+    "Dim ZQCOUNT As Long",
+    "ZQCOUNT = 1",
+    "End Sub",
+    "Sub zqr2()",
+    "Dim ZQCOUNT As Long",
+    "ZQCOUNT = 2",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "i-parameter-named-like-library-function",
+   "question": "A parameter named LEFT: which spelling do it and a call of the Left function in another procedure get?",
+   "input": [
+    "sub zqpl(byval LEFT as long)",
+    "debug.print left",
+    "end sub",
+    "sub zqpl2()",
+    "debug.print Left(\"ab\", 1)",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqpl(ByVal LEFT As Long)",
+    "Debug.Print LEFT",
+    "End Sub",
+    "Sub zqpl2()",
+    "Debug.Print LEFT(\"ab\", 1)",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "i-library-names",
+   "question": "Undeclared names, members and named arguments that Excel's or Office's libraries define: which spelling does each get, including names two libraries spell differently?",
+   "input": [
+    "sub zqlib()",
+    "debug.print sql, ready, state, pi, total, z",
+    "debug.print id, filename, ddb, checkboxes, strikethrough, url, gridlines, xlconstants",
+    "activesheet.range(\"a1\").value = activesheet.cells(1, 1).END(xlup).row",
+    "activeworkbook.close savechanges:=false",
+    "msgbox prompt:=\"p\", title:=\"t\", buttons:=vbokonly",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqlib()",
+    "Debug.Print Sql, Ready, State, Pi, Total, Z",
+    "Debug.Print ID, Filename, DDB, CheckBoxes, Strikethrough, Url, Gridlines, xlConstants",
+    "ActiveSheet.Range(\"a1\").Value = ActiveSheet.Cells(1, 1).End(xlUp).Row",
+    "ActiveWorkbook.Close savechanges:=False",
+    "MsgBox prompt:=\"p\", Title:=\"t\", Buttons:=vbOKOnly",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "i-leading-blank-lines",
+   "question": "Blank lines before the first line of a module: does AddFromString keep them?",
+   "input": [
+    "",
+    "",
+    "option explicit",
+    "",
+    "sub zqlead()",
+    "end sub"
+   ],
+   "output": [
+    "Option Explicit",
+    "",
+    "Sub zqlead()",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "i-vba-library-members",
+   "question": "How does the VBE spell the members of Err, Debug and Collection, and Application.Hwnd and .Version?",
+   "input": [
+    "sub zqmem()",
+    "debug.print err.lastdllerror, err.helpcontext, err.helpfile, err.source",
+    "dim c as new collection",
+    "c.add 1: debug.print c.count, c.item(1)",
+    "debug.print application.hwnd, application.version",
+    "debug.assert true",
+    "end sub"
+   ],
+   "output": [
+    "Sub zqmem()",
+    "Debug.Print Err.LastDllError, Err.HelpContext, Err.HelpFile, Err.Source",
+    "Dim c As New Collection",
+    "c.Add 1: Debug.Print c.Count, c.Item(1)",
+    "Debug.Print Application.Hwnd, Application.Version",
+    "Debug.Assert True",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "i-declare-parameters",
+   "question": "Are a Declare's parameter names declarations: does `HWND` there respell application.hwnd?",
+   "input": [
+    "private declare ptrsafe function zqwintext lib \"user32\" alias \"GetWindowTextA\" (byval HWND as longptr, byval lpString as string, byval cch as long) as long",
+    "sub zqdp()",
+    "debug.print application.hwnd",
+    "end sub"
+   ],
+   "output": [
+    "Private Declare PtrSafe Function zqwintext Lib \"user32\" Alias \"GetWindowTextA\" (ByVal HWND As LongPtr, ByVal lpString As String, ByVal cch As Long) As Long",
+    "Sub zqdp()",
+    "Debug.Print Application.HWND",
+    "End Sub",
+    ""
+   ]
+  },
+  {
+   "id": "f-import-leading-blank-lines",
+   "question": "Blank lines between the Attribute lines and the first line of code: does Import keep them?",
+   "input": [
+    "",
+    "",
+    "option explicit",
+    "",
+    "sub zqlead()",
+    "end sub"
+   ],
+   "output": [
+    "",
+    "",
+    "Option Explicit",
+    "",
+    "Sub zqlead()",
+    "End Sub"
+   ],
+   "method": "VBComponents.Import"
+  },
+  {
+   "id": "f-import-trailing-blank-lines",
+   "question": "Blank lines after the last line of code: does Import keep them?",
+   "input": [
+    "option explicit",
+    "sub zqtail()",
+    "end sub",
+    "",
+    ""
+   ],
+   "output": [
+    "Option Explicit",
+    "Sub zqtail()",
+    "End Sub",
+    "",
+    ""
+   ],
+   "method": "VBComponents.Import"
+  }
+ ]
+}

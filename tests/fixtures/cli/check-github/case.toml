@@ -1,0 +1,9 @@
+title = "check --output-format github"
+description = """
+GitHub Actions workflow commands, which annotate the lines in a pull request.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["check", "--output-format", "github", "{file}"]
+exit = 1

@@ -1,0 +1,12 @@
+title = "A single-line If is never split"
+description = """
+Everything after the `Then` of a single-line If runs only when the condition
+holds (measured in Excel: in `If False Then n = 1: n = 2`, `n = 2` does not
+run). split-statements splits the other lines here, and leaves the If whole.
+"""
+file = "Module1.bas"
+
+[config]
+
+[config.rules]
+split-statements = true

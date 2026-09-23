@@ -1,0 +1,14 @@
+title = "Keep indentation, as the VBE does"
+description = """
+With `reindent = false` each line keeps its indentation and only what the VBE
+itself changes is changed: tabs become spaces and a line label moves to
+column 1, with the statement after it kept in its column. The `vbe` preset
+uses this.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { reindent = false }

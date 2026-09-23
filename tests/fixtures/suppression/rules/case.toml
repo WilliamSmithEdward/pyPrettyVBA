@@ -1,0 +1,6 @@
+title = "Suppress chosen rules on one line"
+description = """
+A rule list after a colon suppresses only those rules; the rest still apply.
+A `-- reason` after the list is free text.
+"""
+file = "Module1.bas"

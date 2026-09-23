@@ -1,0 +1,14 @@
+title = "CRLF, the ending the VBE writes"
+description = """
+`line-ending = "crlf"` gives every line a CRLF. The VBE writes CRLF and reads
+bare LF line endings badly on import, so this is the safe choice for code
+that goes back into Office. The export header is converted too.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+line-ending = "crlf"
+
+[config.rules]
+line-endings = true

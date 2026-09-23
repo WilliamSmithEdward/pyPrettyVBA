@@ -1,0 +1,2 @@
+2:10 trailing-comments Align the comment at column 24. [*]
+4:10 trailing-comments Align the comment at column 24. [*]

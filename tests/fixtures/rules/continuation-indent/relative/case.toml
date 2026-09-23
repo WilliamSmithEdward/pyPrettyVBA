@@ -1,0 +1,15 @@
+title = "Continuation lines keep their offset"
+description = """
+A continuation line keeps its extra indentation relative to the line it
+continues (the indent rule moves the whole statement together), and a line
+with none gets one level. A closing parenthesis lined up with its statement
+stays there.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = true
+continuation-indent = true

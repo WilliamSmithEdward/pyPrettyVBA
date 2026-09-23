@@ -1,0 +1,22 @@
+# Hooks for https://pre-commit.com. In a project's .pre-commit-config.yaml:
+#
+#   - repo: https://github.com/WilliamSmithEdward/pyPrettyVBA
+#     rev: v0.1.0
+#     hooks:
+#       - id: pyprettyvba-format
+
+- id: pyprettyvba-format
+  name: pyprettyvba format
+  description: Format VBA modules in place.
+  entry: pyprettyvba format
+  language: python
+  files: \.(bas|cls|frm|doccls)$
+  require_serial: true
+
+- id: pyprettyvba-check
+  name: pyprettyvba check
+  description: Report what pyPrettyVBA would change in VBA modules, without changing them.
+  entry: pyprettyvba check
+  language: python
+  files: \.(bas|cls|frm|doccls)$
+  require_serial: true

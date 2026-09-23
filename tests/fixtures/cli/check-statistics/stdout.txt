@@ -1,0 +1,4 @@
+    11  keyword-case           (fixable)
+     4  spacing                (fixable)
+     3  indent                 (fixable)
+     1  identifier-case        (fixable)

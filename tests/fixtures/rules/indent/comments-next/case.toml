@@ -1,0 +1,13 @@
+title = "Comment lines take the level of the next line"
+description = """
+By default a comment-only line sits at the level of the code around it. With
+`comments = "next"` it takes the level of the next line of code, so a
+comment above `Else` lines up with the `Else`.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { comments = "next" }

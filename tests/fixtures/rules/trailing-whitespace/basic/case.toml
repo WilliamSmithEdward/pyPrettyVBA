@@ -1,0 +1,13 @@
+title = "Remove trailing whitespace"
+description = """
+Whitespace at the end of a line goes, as the VBE removes it: after code,
+after a line continuation's underscore, inside a comment, and on blank
+lines.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+trailing-whitespace = true

@@ -1,0 +1,12 @@
+title = "Indent with tabs"
+description = """
+The global `indent-style = "tab"` indents with tab characters.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+indent-style = "tab"
+
+[config.rules]
+indent = true

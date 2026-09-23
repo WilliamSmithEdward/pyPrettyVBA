@@ -1,0 +1,13 @@
+title = "Continuation lines at a fixed indent"
+description = """
+With `style = "hanging"` every continuation line sits one level (the
+`hanging` option) in from the line it continues.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = true
+continuation-indent = { style = "hanging" }

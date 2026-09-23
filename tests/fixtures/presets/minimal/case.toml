@@ -1,0 +1,8 @@
+title = "The minimal preset"
+description = """
+Whitespace hygiene only: trailing whitespace, the end of the file, and line endings.
+"""
+file = "Invoices.bas"
+
+[config]
+preset = "minimal"

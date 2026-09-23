@@ -1,0 +1,12 @@
+title = "Case arms at the level of Select Case"
+description = """
+With `case = false`, `Case` lines sit at the level of their `Select Case`
+and only their statements are indented.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { case = false }

@@ -1,0 +1,6 @@
+1:1 keyword-case Spell 'sub' as 'Sub'. [*]
+2:5 keyword-case Spell 'if' as 'If'. [*]
+2:10 keyword-case Spell 'then' as 'Then'. [*]
+4:5 keyword-case Spell 'endif' as 'EndIf'. [*]
+5:1 keyword-case Spell 'end' as 'End'. [*]
+5:5 keyword-case Spell 'sub' as 'Sub'. [*]

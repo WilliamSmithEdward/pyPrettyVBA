@@ -1,0 +1,15 @@
+title = "Conditional compilation: arms one level in"
+description = """
+By default an `#If` line sits at the level of the code around it and the
+content of its arms one level deeper, when each arm leaves the block
+structure as it found it. Alternative procedure headers in the arms of an
+`#If` make one procedure, not two, and take no extra level, since only one
+arm is ever compiled.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = true

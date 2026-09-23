@@ -1,0 +1,12 @@
+title = "Align the comments of consecutive lines"
+description = """
+With `position = "align"`, the end-of-line comments of consecutive lines are
+lined up one space (`min-gap`) after the longest of them.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+trailing-comments = { position = "align" }

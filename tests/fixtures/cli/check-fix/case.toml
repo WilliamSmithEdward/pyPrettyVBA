@@ -1,0 +1,10 @@
+title = "check --fix: fix, then report what is left"
+description = """
+`--fix` applies the fixes and reports what could not be fixed.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["check", "--fix", "{file}"]
+exit = 1
+stderr = true

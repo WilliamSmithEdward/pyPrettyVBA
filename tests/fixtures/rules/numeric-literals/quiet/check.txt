@@ -1,0 +1,1 @@
+4:9 numeric-literals The VBE writes 1.0 as 1#. [*]

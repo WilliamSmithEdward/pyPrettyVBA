@@ -1,0 +1,4 @@
+2:5 identifier-case Spell 'RunningSum' as its last use does: 'RUNNINGSUM'. [*]
+3:5 identifier-case Spell 'total' as its library does: 'Total'. [*]
+7:5 identifier-case Spell 'runningsum' as its last use does: 'RUNNINGSUM'. [*]
+7:18 identifier-case Spell 'RunningSum' as its last use does: 'RUNNINGSUM'. [*]

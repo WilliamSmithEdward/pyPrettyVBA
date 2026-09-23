@@ -1,0 +1,192 @@
+[
+  {
+    "path": "Module1.bas",
+    "line": 1,
+    "column": 1,
+    "end_line": 1,
+    "end_column": 4,
+    "rule": "keyword-case",
+    "message": "Spell 'sub' as 'Sub'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 1,
+    "column": 11,
+    "end_line": 1,
+    "end_column": 16,
+    "rule": "keyword-case",
+    "message": "Spell 'byval' as 'ByVal'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 1,
+    "column": 21,
+    "end_line": 1,
+    "end_column": 23,
+    "rule": "keyword-case",
+    "message": "Spell 'as' as 'As'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 1,
+    "column": 24,
+    "end_line": 1,
+    "end_column": 30,
+    "rule": "keyword-case",
+    "message": "Spell 'string' as 'String'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 2,
+    "column": 1,
+    "end_line": 2,
+    "end_column": 1,
+    "rule": "indent",
+    "message": "Indent to column 5 (found column 1).",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 2,
+    "column": 1,
+    "end_line": 2,
+    "end_column": 3,
+    "rule": "keyword-case",
+    "message": "Spell 'if' as 'If'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 2,
+    "column": 4,
+    "end_line": 2,
+    "end_column": 7,
+    "rule": "keyword-case",
+    "message": "Spell 'len' as 'Len'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 2,
+    "column": 12,
+    "end_line": 2,
+    "end_column": 12,
+    "rule": "spacing",
+    "message": "Use one space between ')' and '>'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 2,
+    "column": 13,
+    "end_line": 2,
+    "end_column": 13,
+    "rule": "spacing",
+    "message": "Use one space between '>' and '0'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 2,
+    "column": 15,
+    "end_line": 2,
+    "end_column": 19,
+    "rule": "keyword-case",
+    "message": "Spell 'then' as 'Then'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 3,
+    "column": 1,
+    "end_line": 3,
+    "end_column": 1,
+    "rule": "indent",
+    "message": "Indent to column 9 (found column 1).",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 3,
+    "column": 1,
+    "end_line": 3,
+    "end_column": 7,
+    "rule": "identifier-case",
+    "message": "Spell 'msgbox' as its library does: 'MsgBox'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 3,
+    "column": 17,
+    "end_line": 3,
+    "end_column": 17,
+    "rule": "spacing",
+    "message": "Use one space between '/"Hello, /"' and '&'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 3,
+    "column": 18,
+    "end_line": 3,
+    "end_column": 18,
+    "rule": "spacing",
+    "message": "Use one space between '&' and 'who'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 4,
+    "column": 1,
+    "end_line": 4,
+    "end_column": 1,
+    "rule": "indent",
+    "message": "Indent to column 5 (found column 1).",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 4,
+    "column": 1,
+    "end_line": 4,
+    "end_column": 4,
+    "rule": "keyword-case",
+    "message": "Spell 'end' as 'End'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 4,
+    "column": 5,
+    "end_line": 4,
+    "end_column": 7,
+    "rule": "keyword-case",
+    "message": "Spell 'if' as 'If'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 5,
+    "column": 1,
+    "end_line": 5,
+    "end_column": 4,
+    "rule": "keyword-case",
+    "message": "Spell 'end' as 'End'.",
+    "fixable": true
+  },
+  {
+    "path": "Module1.bas",
+    "line": 5,
+    "column": 5,
+    "end_line": 5,
+    "end_column": 8,
+    "rule": "keyword-case",
+    "message": "Spell 'sub' as 'Sub'.",
+    "fixable": true
+  }
+]

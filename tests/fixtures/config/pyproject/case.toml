@@ -1,0 +1,10 @@
+title = "Configuration in pyproject.toml"
+description = """
+A `[tool.pyprettyvba]` table in `pyproject.toml` works like a
+`pyprettyvba.toml` file.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "--diff", "{file}"]
+exit = 1

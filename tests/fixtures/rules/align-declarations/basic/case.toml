@@ -1,0 +1,13 @@
+title = "Align As in runs of declarations"
+description = """
+Consecutive one-variable declarations at one indentation, and the members of
+a Type, get their `As` lined up. The VBE keeps an aligned `As` column, so
+the alignment survives an export and import.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+align-declarations = true

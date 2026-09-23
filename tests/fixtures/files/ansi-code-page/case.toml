@@ -1,0 +1,8 @@
+title = "A module in the ANSI code page"
+description = """
+The VBE exports in the machine's ANSI code page (Windows-1252 here). A file
+that is not valid UTF-8 is read in that code page and written back in it,
+byte for byte where nothing changed: the accented letters and the 0x81 byte
+Windows-1252 leaves undefined come through intact.
+"""
+file = "Greet.bas"

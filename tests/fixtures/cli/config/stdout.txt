@@ -1,0 +1,30 @@
+configuration: pyprettyvba.toml
+preset: strict
+indent-width: 4
+indent-style: space
+tab-width: 4
+line-ending: auto
+encoding: auto
+hosts: ['excel']
+enabled rules:
+  line-endings
+  rem-comments
+  comment-space (ignore=["'", "@", "!", "#", "-", "=", "*", "~", "/", "<", ">", "|", "+", "_", "."])
+  let-keyword
+  keyword-case (expand-endif=true)
+  identifier-case (builtins=true, scope="procedure", undeclared="keep", library="all", members="respell")
+  numeric-literals (report-precision-loss=true)
+  date-literals
+  statement-form
+  split-statements (case="split", labels="keep")
+  spacing (collapse=true)
+  indent (reindent=true, procedure-body=true, case=true, type-members=true, directives="indent", comments="code", debug-column-zero=false)
+  continuation-indent (style="relative", hanging=1, closing-paren="align")
+  align-declarations (min-gap=1, max-column=60)
+  trailing-comments (position="keep-column", min-gap=1)
+  trailing-whitespace (blank-lines="remove")
+  blank-lines (max-consecutive=1, between-procedures=1, trim-procedures=true, leading=0)
+  end-of-file (final-newline=true, trailing-blank-lines="remove")
+  max-line-length (max=100, ignore-comment-lines=false)
+  suppression-directive
+disabled rules: none

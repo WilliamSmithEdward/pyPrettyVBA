@@ -1,0 +1,13 @@
+title = "Different settings for some files"
+description = """
+An `[[overrides]]` table changes settings for the files its globs match.
+This module is formatted as `legacy/Old.bas`, which the override matches:
+its indentation is kept and blank lines are left alone.
+"""
+file = "legacy/Old.bas"
+
+[config]
+
+[[config.overrides]]
+files = ["legacy/**"]
+rules = { indent = false, blank-lines = false }

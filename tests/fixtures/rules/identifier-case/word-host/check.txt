@@ -1,0 +1,4 @@
+2:16 identifier-case Spell 'document' as its library does: 'Document'. [*]
+3:15 identifier-case Spell 'activedocument' as its library does: 'ActiveDocument'. [*]
+4:5 identifier-case Spell 'selection' as its library does: 'Selection'. [*]
+4:28 identifier-case Spell 'wdline' as its library does: 'wdLine'. [*]

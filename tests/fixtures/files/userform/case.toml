@@ -1,0 +1,6 @@
+title = "A UserForm's designer block is left alone"
+description = """
+A `.frm` file starts with the form's designer block, which is not VBA. Only
+the code after it is formatted.
+"""
+file = "Greeter.frm"

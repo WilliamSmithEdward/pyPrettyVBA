@@ -1,0 +1,12 @@
+title = "Debug statements in column 1"
+description = """
+With `debug-column-zero = true`, `Debug.Print` and `Debug.Assert` lines go to
+column 1, so temporary debugging stands out.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { debug-column-zero = true }

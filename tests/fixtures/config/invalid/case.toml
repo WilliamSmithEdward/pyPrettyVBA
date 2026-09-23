@@ -1,0 +1,11 @@
+title = "A configuration error names the problem"
+description = """
+An unknown setting, rule, or option, or a value of the wrong kind, stops the
+run with the closest valid name.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "--check", "{file}"]
+exit = 2
+stderr = true

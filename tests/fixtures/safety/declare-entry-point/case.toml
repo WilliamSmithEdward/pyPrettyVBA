@@ -1,0 +1,7 @@
+title = "The Declare name keeps its spelling"
+description = """
+`GetTickCount` is both the Declare's name and the entry point in
+kernel32.dll, which Windows looks up case-sensitively. A variable elsewhere
+spelled `gettickcount` gets the Declare's spelling, not the other way round.
+"""
+file = "Module1.bas"

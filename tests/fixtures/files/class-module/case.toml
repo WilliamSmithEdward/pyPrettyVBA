@@ -1,0 +1,6 @@
+title = "An exported class keeps its header"
+description = """
+The `VERSION`/`BEGIN` block and the `Attribute` lines of an exported class are
+the VBE's own metadata and are never touched.
+"""
+file = "Counter.cls"

@@ -1,0 +1,4 @@
+2:13 align-declarations Align As at column 20. [*]
+3:18 align-declarations Align As at column 20. [*]
+6:9 align-declarations Align As at column 15. [*]
+7:8 align-declarations Align As at column 15. [*]

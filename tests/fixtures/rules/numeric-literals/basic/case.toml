@@ -1,0 +1,16 @@
+title = "Numbers the way the VBE writes them"
+description = """
+The VBE rewrites numeric literals when it reads a line: `1.0` becomes `1#`,
+`.5` becomes `0.5`, `&hff` becomes `&HFF`, and a type suffix the value
+makes redundant goes. Each spelling here keeps the literal's exact value and
+type. The last literal has more digits than the VBE keeps: the VBE would
+store `3.14159265358979`, a different Double, so the rule reports it and
+leaves it alone.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+numeric-literals = true

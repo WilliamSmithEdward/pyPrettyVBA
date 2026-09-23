@@ -1,0 +1,14 @@
+title = "Built-in names take their library's spelling"
+description = """
+Names from the VBA library (functions, constants, the Err and Debug objects)
+and from the host libraries in the `hosts` setting (Excel by default) are
+spelled the way the library spells them. Compiler constants in `#If` lines
+too.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+identifier-case = true

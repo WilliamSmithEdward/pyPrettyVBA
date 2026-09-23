@@ -1,0 +1,12 @@
+title = "Procedure bodies at column 1"
+description = """
+With `procedure-body = false`, the statements of a procedure start at column
+1 and only the blocks inside it are indented.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { procedure-body = false }

@@ -1,0 +1,9 @@
+title = "check --output-format grouped"
+description = """
+Violations grouped under their file.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["check", "--output-format", "grouped", "{file}"]
+exit = 1

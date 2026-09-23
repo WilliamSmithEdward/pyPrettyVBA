@@ -1,0 +1,9 @@
+title = "rules: the catalogue"
+description = """
+Every rule, whether it is on by default, and whether it fixes what it finds.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["rules"]
+exit = 0

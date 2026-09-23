@@ -1,0 +1,6 @@
+title = "A file with LF line endings keeps them"
+description = """
+With `line-ending = "auto"` (the default) a file keeps the line ending it
+uses; set `crlf` to convert.
+"""
+file = "Module1.bas"

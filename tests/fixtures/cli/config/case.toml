@@ -1,0 +1,10 @@
+title = "config: the settings that apply to a file"
+description = """
+The configuration file found, the preset, and every enabled rule with its
+options.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["config", "{file}"]
+exit = 0

@@ -1,0 +1,2 @@
+3:1 trailing-whitespace Indent the blank line to the code around it. [*]
+6:1 trailing-whitespace Indent the blank line to the code around it. [*]

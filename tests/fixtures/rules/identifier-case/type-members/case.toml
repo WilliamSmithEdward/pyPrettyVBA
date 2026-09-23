@@ -1,0 +1,15 @@
+title = "A Type member keeps its own spelling"
+description = """
+A Type member is a declaration, so its spelling stays as written even when
+a library name matches it (`second`, the VBA function `Second`). The call
+`SECOND(Now)` names the library function, and takes the library's spelling.
+With `scope = "module"` the member's spelling wins everywhere instead, the
+function call included, which is what the VBE does.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+identifier-case = true

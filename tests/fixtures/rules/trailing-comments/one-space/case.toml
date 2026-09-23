@@ -1,0 +1,12 @@
+title = "One space before every end-of-line comment"
+description = """
+With `position = "one-space"`, every end-of-line comment sits one space
+after its code.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+trailing-comments = { position = "one-space" }

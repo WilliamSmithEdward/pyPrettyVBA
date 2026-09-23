@@ -1,0 +1,14 @@
+title = "Rule options in the configuration"
+description = """
+Rules take options in the `[rules]` table: here comments sit at the level of
+the next line, blank lines are capped at one, and the continuation style is
+hanging.
+"""
+file = "Module1.bas"
+
+[config]
+
+[config.rules]
+indent = { comments = "next" }
+blank-lines = { max-consecutive = 1 }
+continuation-indent = { style = "hanging" }

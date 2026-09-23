@@ -1,0 +1,11 @@
+title = "Start from another configuration file"
+description = """
+`extend` reads another configuration first, then applies this one's
+settings on top: here the shared base sets two-column indentation and the
+project adds `comment-space`.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "--diff", "{file}"]
+exit = 1

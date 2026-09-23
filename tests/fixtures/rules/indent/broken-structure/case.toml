@@ -1,0 +1,14 @@
+title = "Unmatched blocks are left as written"
+description = """
+When the block structure cannot be matched (an `End If` with no `If`, a
+`For` never closed), the rule cannot know the intended levels. It leaves
+that procedure exactly as written and reports why, and indents the rest of
+the module as usual.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = true

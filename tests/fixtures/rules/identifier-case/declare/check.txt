@@ -1,0 +1,3 @@
+6:15 identifier-case Spell 'gettickcount' as declared: 'GetTickCount'. [*]
+7:14 identifier-case Spell 'GETTICKCOUNT' as declared: 'GetTickCount'. [*]
+8:9 identifier-case Spell 'SLEEP' as declared: 'sleep'. [*]

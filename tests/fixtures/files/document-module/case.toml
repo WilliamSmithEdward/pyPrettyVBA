@@ -1,0 +1,6 @@
+title = "A worksheet's module"
+description = """
+A document module (ThisWorkbook, a sheet) exports as a class with a `VB_Base`
+attribute. It is formatted like any other module.
+"""
+file = "Sheet1.cls"

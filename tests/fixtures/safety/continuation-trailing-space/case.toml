@@ -1,0 +1,7 @@
+title = "` _` with trailing spaces still continues"
+description = """
+The VBE treats a line continuation followed by trailing spaces as a line
+continuation (measured). The continued line moves with its statement, and
+the trailing spaces go.
+"""
+file = "Module1.bas"

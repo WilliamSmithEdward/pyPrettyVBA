@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyprettyvba"
+dynamic = ["version"]
+description = "A configurable formatter for VBA, with autofix and rule suppression"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "William Smith Edward" }]
+keywords = ["vba", "formatter", "prettier", "excel", "office", "linter", "code-style"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Quality Assurance",
+    "Typing :: Typed",
+]
+# None: the formatter uses only the standard library (tests/test_packaging.py
+# checks). Third-party packages are for development only, below.
+dependencies = []
+
+[project.optional-dependencies]
+# Exact pins, as in pyVBAanalysis: the gate must not drift under main.
+dev = ["pytest==9.1.1", "hypothesis>=6", "ruff==0.16.8", "mypy==2.3.1"]
+# The corpus and differential checks read VBA through pyVBAanalysis, and the
+# live checks drive Office through pyVBAharness (Windows only).
+verify = ["pyvbaanalysis>=2.2", "pyvbaharness>=1.1; sys_platform == 'win32'"]
+build = ["build>=1.2", "twine>=5"]
+
+[project.scripts]
+pyprettyvba = "pyprettyvba.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/WilliamSmithEdward/pyPrettyVBA"
+Repository = "https://github.com/WilliamSmithEdward/pyPrettyVBA"
+Issues = "https://github.com/WilliamSmithEdward/pyPrettyVBA/issues"
+
+[tool.hatch.version]
+path = "src/pyprettyvba/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyprettyvba"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["artifacts/"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live: drives real Office through pyVBAharness (deselected by default)",
+    "corpus: formats real-world modules found on this machine (skipped when none are configured)",
+]
+addopts = "-m 'not live'"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.isort]
+# The tests' shared support modules, imported from tests/.
+known-local-folder = ["fixture_support", "vba_strategies"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/pyprettyvba"]

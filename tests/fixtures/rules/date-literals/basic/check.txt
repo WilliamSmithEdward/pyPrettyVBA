@@ -1,0 +1,6 @@
+3:9 date-literals The VBE writes #2020-01-15# as #1/15/2020#. [*]
+4:9 date-literals The VBE writes #15/1/2020# as #1/15/2020#. [*]
+5:9 date-literals The VBE writes #January 15, 2020# as #1/15/2020#. [*]
+6:9 date-literals The VBE writes #1/1/2000 10:30# as #1/1/2000 10:30:00 AM#. [*]
+7:9 date-literals The VBE writes #10:30 PM# as #10:30:00 PM#. [*]
+8:9 date-literals The VBE writes #1/1/2000 00:00:00# as #1/1/2000#. [*]

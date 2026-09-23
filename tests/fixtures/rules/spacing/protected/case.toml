@@ -1,0 +1,15 @@
+title = "Whitespace that changes meaning is never touched"
+description = """
+Some whitespace decides how VBA reads a line. A glued `&` is a type
+character (`s&t` is the Long `s&` followed by `t`, a syntax error), a bang
+must stay glued to its dictionary key, and `Report .Name` passes a With
+member where `Report.Name` would call a member. Those gaps are left exactly
+as written.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+spacing = true

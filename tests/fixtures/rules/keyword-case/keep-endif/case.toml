@@ -1,0 +1,12 @@
+title = "Leave the one-word EndIf alone"
+description = """
+With `expand-endif = false`, keyword-case gives `EndIf` its capitals but
+keeps it one word, as XLIDE's Format Document does.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+keyword-case = { expand-endif = false }

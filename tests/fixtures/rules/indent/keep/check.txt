@@ -1,0 +1,3 @@
+2:1 indent Write the indentation in the configured style. [*]
+4:1 indent Put the line label in column 1, as the VBE does. [*]
+4:11 indent Keep the statement after the label in its column. [*]

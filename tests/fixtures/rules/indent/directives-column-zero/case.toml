@@ -1,0 +1,12 @@
+title = "Directives in column 1"
+description = """
+With `directives = "column-zero"`, `#If` lines go to column 1, and the code
+between them is indented as if they were not there.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { directives = "column-zero" }

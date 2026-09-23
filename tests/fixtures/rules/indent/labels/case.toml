@@ -1,0 +1,13 @@
+title = "Line labels and line numbers in column 1"
+description = """
+The VBE keeps a line label or line number in column 1, so the indent rule
+puts it there, with the statement after it at the statement's level (or one
+space after a long label).
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = true

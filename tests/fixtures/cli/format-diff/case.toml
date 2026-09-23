@@ -1,0 +1,9 @@
+title = "format --diff: the changes as a diff"
+description = """
+`--diff` prints the changes as a unified diff and writes nothing.
+"""
+file = "Module1.bas"
+
+[cli]
+args = ["format", "--diff", "{file}"]
+exit = 1

@@ -1,0 +1,13 @@
+title = "Indent by block structure"
+description = """
+Procedure bodies, If arms, loops, With blocks, Select Case arms (and their
+statements, one level more), and the members of Type and Enum blocks each
+sit one level in. A single-line If opens no block.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = true

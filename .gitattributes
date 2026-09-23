@@ -1,0 +1,4 @@
+* text=auto
+# Fixtures and oracle evidence are byte-exact: never convert their line endings.
+tests/fixtures/** -text
+tests/oracle/** -text

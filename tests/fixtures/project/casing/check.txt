@@ -1,0 +1,7 @@
+Orders.bas:3:1 blank-lines Separate procedures with 1 blank line. [*]
+Orders.bas:4:19 identifier-case Spell 'shoppingbasket' as the module that declares it does: 'ShoppingBasket'. [*]
+Orders.bas:5:22 identifier-case Spell 'SHOPPINGBASKET' as the module that declares it does: 'ShoppingBasket'. [*]
+Orders.bas:6:23 identifier-case Spell 'MAXITEMS' as the module that declares it does: 'MaxItems'. [*]
+Orders.bas:6:37 identifier-case Spell 'logmessage' as the module that declares it does: 'LogMessage'. [*]
+Settings.bas:4:1 blank-lines Separate procedures with 1 blank line. [*]
+ShoppingBasket.cls:12:1 blank-lines Separate procedures with 1 blank line. [*]

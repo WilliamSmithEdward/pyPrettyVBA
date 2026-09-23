@@ -1,0 +1,8 @@
+title = "The none preset"
+description = """
+Nothing but checking suppression directives. A base for enabling rules one by one.
+"""
+file = "Invoices.bas"
+
+[config]
+preset = "none"

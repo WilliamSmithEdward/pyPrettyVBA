@@ -1,0 +1,11 @@
+title = "Rem comments become apostrophe comments"
+description = """
+`Rem note` becomes `' note`, including after a statement separator.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+rem-comments = true

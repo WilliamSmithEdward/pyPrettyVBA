@@ -1,0 +1,14 @@
+title = "Aligned As, and statements after a colon, keep their column"
+description = """
+The VBE keeps the column of `As` in a declaration, and of a statement after a
+`:`, when the gap before it was wider than one space: that is how aligned
+declarations survive an import. A single space stays a single space even
+when the text before it shrinks. Tabs become spaces.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+spacing = true

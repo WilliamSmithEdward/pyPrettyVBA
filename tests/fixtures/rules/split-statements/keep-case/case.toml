@@ -1,0 +1,11 @@
+title = "Keep one-line Case arms"
+description = """
+With `case = "keep"`, `Case 1: y = 10` stays on one line.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+split-statements = { case = "keep" }

@@ -1,0 +1,6 @@
+title = "A module as it arrives, and as it leaves"
+description = """
+A module written in a hurry, the way code grows in a workbook, formatted
+with the defaults.
+"""
+file = "Inventory.bas"

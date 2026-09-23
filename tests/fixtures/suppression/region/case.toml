@@ -1,0 +1,7 @@
+title = "Suppress a region"
+description = """
+`'@prettyvba-ignore-start` and `'@prettyvba-ignore-end` bracket a region.
+Here a hand-laid table keeps its layout while the code around it is
+formatted.
+"""
+file = "Module1.bas"

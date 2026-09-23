@@ -1,0 +1,12 @@
+title = "Conditional compilation without the extra level"
+description = """
+With `directives = "flat"`, `#If` lines sit at the level of the code around
+them and their content is not indented further.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { directives = "flat" }

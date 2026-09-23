@@ -1,0 +1,14 @@
+title = "One statement per line"
+description = """
+Colon-separated statements go on lines of their own. A single-line If is
+never split: everything after its `Then` runs only when the condition holds,
+so moving `total = 0` to a line of its own would run it always.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+split-statements = true
+indent = true

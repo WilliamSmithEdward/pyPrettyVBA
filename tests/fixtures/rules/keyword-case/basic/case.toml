@@ -1,0 +1,16 @@
+title = "Keywords take the VBE's spelling"
+description = """
+Every reserved word is written the way the VBE writes it, including the
+contextual keywords inside the statement that makes them keywords
+(`Option Compare Text`, `Declare PtrSafe ... Lib ... Alias`, `Step`,
+`On Error`), the `Rem` of a Rem comment, the letters of a `DefInt` range, and
+the one-word `EndIf`, which the VBE writes `End If`. A keyword used as a
+member name (`.Name`, `.Close`) is a name, and keeps its spelling.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+keyword-case = true

@@ -1,0 +1,14 @@
+title = "Names take the spelling of their declaration"
+description = """
+A name declared in the module is spelled everywhere the way its declaration
+spells it: variables, constants, procedures, Enum members, labels. Member
+names (after `.`) and named arguments (before `:=`) keep their spelling,
+since their casing comes from an object's type.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+identifier-case = true

@@ -1,0 +1,5 @@
+1:11 trailing-whitespace Remove trailing whitespace. [*]
+2:14 trailing-whitespace Remove trailing whitespace. [*]
+3:10 trailing-whitespace Remove trailing whitespace. [*]
+4:11 trailing-whitespace Remove trailing whitespace. [*]
+5:1 trailing-whitespace Remove trailing whitespace. [*]

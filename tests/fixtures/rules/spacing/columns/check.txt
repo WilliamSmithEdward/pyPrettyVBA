@@ -1,0 +1,7 @@
+5:8 spacing Use one space between 'Dim' and 'first'. [*]
+5:17 spacing Keep 'As' in its column. [*]
+6:8 spacing Use one space between 'Dim' and 'third'. [*]
+8:10 spacing Use one space between 'first' and '='. [*]
+8:15 spacing Use one space between '=' and '1'. [*]
+9:10 spacing Use one space between 'third' and '='. [*]
+9:12 spacing Use one space between '=' and '3'. [*]

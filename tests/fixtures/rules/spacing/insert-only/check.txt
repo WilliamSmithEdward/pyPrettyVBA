@@ -1,0 +1,4 @@
+2:6 spacing Use one space between 'x' and '='. [*]
+2:7 spacing Use one space between '=' and '1'. [*]
+2:8 spacing Use one space between '1' and '+'. [*]
+2:9 spacing Use one space between '+' and '2'. [*]

@@ -1,0 +1,13 @@
+title = "A Declare's spelling is the DLL entry point"
+description = """
+The name of a Declare without an Alias is also the entry point Windows looks
+up in the DLL, and that lookup is case-sensitive. So the uses take the
+Declare's spelling, and the Declare itself is never respelled.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+identifier-case = true

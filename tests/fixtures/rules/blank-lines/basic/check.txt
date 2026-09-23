@@ -1,0 +1,8 @@
+1:1 blank-lines Remove blank lines at the start of the module. [*]
+6:1 blank-lines Use at most 2 blank lines in a row. [*]
+8:1 blank-lines Separate procedures with 1 blank line. [*]
+9:1 blank-lines Remove blank lines after a procedure header. [*]
+13:1 blank-lines Use at most 2 blank lines in a row. [*]
+15:1 blank-lines Remove blank lines before the end of a procedure. [*]
+17:1 blank-lines Separate procedures with 1 blank line. [*]
+19:1 blank-lines Separate procedures with 1 blank line. [*]

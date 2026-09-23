@@ -1,0 +1,12 @@
+title = "Drop the optional Let"
+description = """
+`Let x = 1` becomes `x = 1`. `Property Let` is a declaration and is left
+alone.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+let-keyword = true

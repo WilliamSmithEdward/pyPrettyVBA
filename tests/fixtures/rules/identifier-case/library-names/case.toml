@@ -1,0 +1,18 @@
+title = "Every name the libraries define, members included"
+description = """
+With `library = "all"` and `members = "respell"`, identifier-case spells
+names the way the VBE's own name table does. That table holds every name
+the referenced libraries define, not only the ones code can use without a
+qualifier. So members (`.cells`, `.value`, `.end`) and named arguments
+(`title:=`) take the library's spelling, and so does an undeclared variable
+that shares a name with one (`sql`, after Excel's `QueryTable.Sql`).
+Parameter names are not in the table: the VBE leaves `savechanges:=` as
+written, and so does this. The `vbe` preset uses both options.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+identifier-case = { library = "all", members = "respell" }

@@ -1,0 +1,13 @@
+title = "Indent blank lines like the code around them"
+description = """
+With `blank-lines = "indent"`, a blank line gets the indentation of the code
+around it, the way the VBE's editor leaves a blank line (XLIDE's Format
+Document does this too). `keep` leaves blank lines as they are.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+trailing-whitespace = { blank-lines = "indent" }

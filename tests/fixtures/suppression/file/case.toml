@@ -1,0 +1,6 @@
+title = "Suppress a rule for the whole module"
+description = """
+`'@prettyvba-ignore-file` before the first line of code applies to the whole
+module.
+"""
+file = "Module1.bas"

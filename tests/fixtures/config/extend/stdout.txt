@@ -1,0 +1,11 @@
+--- a/Module1.bas
++++ b/Module1.bas
+@@ -1,4 +1,4 @@
+-sub a()
+-'note
+-x=1
+-end sub
++Sub a()
++  ' note
++  x = 1
++End Sub

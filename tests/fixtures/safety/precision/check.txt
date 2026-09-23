@@ -1,0 +1,2 @@
+2:5 identifier-case Spell 'pi' as its library does: 'Pi'. [*]
+2:10 numeric-literals The VBE keeps fewer digits than 3.141592653589793 has and stores 3.14159265358979, a different value.

@@ -1,0 +1,8 @@
+title = "Directives that cannot be read are reported"
+description = """
+A directive with an unknown rule or verb, a misplaced `-file`, an `-end`
+with no `-start`, or a `-start` never closed suppresses nothing, which is
+easy to miss. The `suppression-directive` rule reports each one, and no
+directive can suppress it.
+"""
+file = "Module1.bas"

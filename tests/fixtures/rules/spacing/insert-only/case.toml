@@ -1,0 +1,12 @@
+title = "Only insert missing spaces"
+description = """
+With `collapse = false` the rule inserts the spaces the VBE inserts and
+never removes one, which is what XLIDE's Format Document does.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+spacing = { collapse = false }

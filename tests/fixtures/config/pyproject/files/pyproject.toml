@@ -1,0 +1,5 @@
+[project]
+name = "demo"
+
+[tool.pyprettyvba]
+indent-width = 2

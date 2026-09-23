@@ -1,0 +1,8 @@
+title = "A comment continued by ` _` is one comment"
+description = """
+A comment whose line ends in ` _` continues onto the next line (measured: a
+statement there does not run). The continued text is part of the comment, so
+it is not indented, cased, or read as block structure. This `End Sub` is
+comment text.
+"""
+file = "Module1.bas"

@@ -1,0 +1,7 @@
+2:10 split-statements Put each statement on a line of its own. [*]
+2:17 split-statements Put each statement on a line of its own. [*]
+4:19 split-statements Put each statement on a line of its own. [*]
+4:21 indent Indent to column 9 (found column 5). [*]
+4:30 split-statements Put each statement on a line of its own. [*]
+7:15 split-statements Put each statement on a line of its own. [*]
+7:17 indent Indent to column 13 (found column 9). [*]

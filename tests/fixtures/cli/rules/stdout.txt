@@ -1,0 +1,20 @@
+line-endings           on   fix  Use one line ending throughout.
+rem-comments           off  fix  Write Rem comments with an apostrophe.
+comment-space          off  fix  Put a space after the apostrophe of a comment.
+let-keyword            off  fix  Drop the optional Let from assignments.
+keyword-case           on   fix  Spell keywords the way the VBE does.
+identifier-case        on   fix  Spell names the way they are declared.
+numeric-literals       on   fix  Spell numbers the way the VBE does.
+date-literals          on   fix  Spell dates the way the VBE does.
+statement-form         on   fix  Write Call Foo() and Else x the way the VBE does.
+split-statements       off  fix  Put each statement on a line of its own.
+spacing                on   fix  Space tokens the way the VBE writes them.
+indent                 on   fix  Indent lines by block structure.
+continuation-indent    on   fix  Indent continuation lines consistently.
+align-declarations     off  fix  Align As in runs of declarations.
+trailing-comments      on   fix  Place end-of-line comments consistently.
+trailing-whitespace    on   fix  Remove whitespace at the end of lines.
+blank-lines            on   fix  Keep blank lines consistent.
+end-of-file            on   fix  End the file with one line break.
+max-line-length        off       Report lines longer than a limit.
+suppression-directive  on        Report suppression directives that cannot be read.

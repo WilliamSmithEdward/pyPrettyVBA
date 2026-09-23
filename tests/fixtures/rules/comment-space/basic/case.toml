@@ -1,0 +1,12 @@
+title = "A space after the apostrophe"
+description = """
+`'note` becomes `' note`. Documentation comments (`'''`), annotations and
+directives (`'@...`), and separator lines like `'-----` are left alone.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+comment-space = true
