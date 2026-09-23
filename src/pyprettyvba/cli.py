@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import inspect
 import json
 import sys
 import textwrap
@@ -387,7 +388,9 @@ def _cmd_rules(args: argparse.Namespace, out: TextIO, err: TextIO) -> int:
             traits.append("does what the VBE does")
         print(f"({', '.join(traits)}; category: {rule.category})", file=out)
         print(file=out)
-        print(textwrap.dedent(rule.__doc__ or "").strip(), file=out)
+        # cleandoc, not dedent: before 3.13 a docstring keeps the indentation
+        # of every line but its first, which dedent then leaves in place.
+        print(inspect.cleandoc(rule.__doc__ or ""), file=out)
         if rule.options:
             print("\nOptions:", file=out)
             for option in rule.options:
@@ -416,7 +419,7 @@ def _rule_json(rule: Any, enabled: bool) -> dict[str, Any]:
         "enabled_by_default": enabled,
         "fixable": rule.fixable,
         "vbe_canonical": rule.vbe_canonical,
-        "description": textwrap.dedent(rule.__doc__ or "").strip(),
+        "description": inspect.cleandoc(rule.__doc__ or ""),
         "options": [
             {"name": o.name, "default": o.default, "choices": list(o.choices) if o.choices else None, "doc": o.doc}
             for o in rule.options

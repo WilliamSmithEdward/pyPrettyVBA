@@ -136,7 +136,9 @@ def _run_project(case: Case) -> Outcome:
 def _run_cli(case: Case) -> Outcome:
     assert case.cli is not None
     with tempfile.TemporaryDirectory() as tmp:
-        work = Path(tmp)
+        # Resolved, because the command prints resolved paths: on Windows the
+        # temporary directory can be named in 8.3 form (C:\Users\RUNNER~1\...).
+        work = Path(tmp).resolve()
         if case.input_path().exists():
             target = work / case.file
             target.parent.mkdir(parents=True, exist_ok=True)
