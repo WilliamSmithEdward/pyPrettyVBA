@@ -145,7 +145,7 @@ where `Foo.Bar` calls one; a comment ending in ` _` swallows the next line;
 a `Declare` without an `Alias` looks its entry point up case-sensitively.
 Before it returns anything, the formatter reduces the input and the output
 to the statements they run and compares them, and it refuses output that
-differs. Property-based tests, a corpus of 422 real modules, and the VBE
+differs. Property-based tests, a corpus of 336 real modules, and the VBE
 itself (below) check that this never has to happen.
 
 ## What the VBE does, measured
