@@ -7,6 +7,7 @@ from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from . import office
 from .config import Config, ConfigError, Settings, find_config_file
 from .document import Document, split_header
 from .engine import FormatResult, UnstableFormattingError, Violation, run_pipeline
@@ -22,6 +23,7 @@ __all__ = [
     "ProjectNames",
     "check_source",
     "format_file",
+    "format_office_file",
     "format_paths",
     "format_source",
     "module_kind",
@@ -88,7 +90,8 @@ def _project(project: ProjectLike) -> ProjectNames:
     return ProjectNames(dict(project), dict(project), dict(project))
 
 
-def _context(settings: Settings, source: str, path: str | Path | None, project: ProjectLike) -> FormatContext:
+def _context(settings: Settings, source: str, path: str | Path | None, project: ProjectLike,
+             kind: str | None = None) -> FormatContext:
     names = _project(project)
     return FormatContext(
         indent_width=settings.indent_width,
@@ -96,7 +99,7 @@ def _context(settings: Settings, source: str, path: str | Path | None, project: 
         tab_width=settings.tab_width,
         line_ending=settings.line_ending,
         filename=str(path) if path is not None else None,
-        module_kind=module_kind(path, source),
+        module_kind=kind or module_kind(path, source),
         hosts=settings.hosts,
         project_names=dict(names.public),
         project_declared=dict(names.declared),
@@ -113,23 +116,25 @@ def format_source(
     *,
     path: str | Path | None = None,
     project: ProjectLike = None,
+    kind: str | None = None,
     check_safety: bool = True,
 ) -> FormatResult:
     """Format a module's source text.
 
     ``path`` selects per-file overrides and tells the formatter what kind of
-    module this is (by extension); it is not read. ``project`` holds what the
-    other modules of the project declare (see ``project_names``), or a plain
-    mapping of lower-case names to their spelling. The result carries the
-    formatted text and every violation found, with 1-based positions in
-    ``source``.
+    module this is (by extension); it is not read. ``kind`` (standard,
+    class, form or document) says so directly, for text that comes from
+    somewhere other than a file. ``project`` holds what the other modules of
+    the project declare (see ``project_names``), or a plain mapping of
+    lower-case names to their spelling. The result carries the formatted
+    text and every violation found, with 1-based positions in ``source``.
 
     Raises ``SafetyError`` if the output would mean something different from
     the input (a formatter bug; nothing is lost, the input is untouched).
     """
     config = config or Config.default()
     settings = config.settings_for(path)
-    context = _context(settings, source, path, project)
+    context = _context(settings, source, path, project, kind)
     rules = settings.instantiate(context)
     header_newline = context.newline if settings.enabled("line-endings") else None
     return run_pipeline(
@@ -150,7 +155,7 @@ def check_source(
 
 @dataclass
 class FileResult:
-    """The outcome of formatting one file."""
+    """The outcome of formatting one file, or one module of an Office file."""
 
     path: Path
     violations: list[Violation] = field(default_factory=list)
@@ -160,10 +165,17 @@ class FileResult:
     error: str | None = None
     source: str | None = None
     output: str | None = None
+    # The module's name, for a module of an Office file.
+    module: str | None = None
 
     @property
     def ok(self) -> bool:
         return self.error is None
+
+    @property
+    def label(self) -> str:
+        """How reports name it: the path, and for an Office file `path:Module`."""
+        return f"{self.path}:{self.module}" if self.module is not None else str(self.path)
 
 
 def project_names(sources: Iterable[tuple[str | Path | None, str]]) -> ProjectNames:
@@ -197,9 +209,15 @@ def format_file(
     write: bool = False,
     project: ProjectLike = None,
 ) -> FileResult:
-    """Format one file; write it back when ``write`` is true and it changed."""
+    """Format one module file; write it back when ``write`` is true and it changed.
+
+    An Office file holds several modules: see ``format_office_file``.
+    """
     path = Path(path)
     result = FileResult(path=path)
+    if office.is_office_file(path):
+        result.error = "an Office file holds several modules: format it with format_office_file or format_paths"
+        return result
     try:
         config = config or Config.discover(path)
         settings = config.settings_for(path)
@@ -227,6 +245,90 @@ def format_file(
     return result
 
 
+def format_office_file(
+    path: str | Path,
+    config: Config | None = None,
+    *,
+    write: bool = False,
+    project_casing: bool = True,
+) -> list[FileResult]:
+    """Format the modules of the VBA project inside an Office file.
+
+    Excel (.xlsm .xlsb .xlam .xls), Word (.docm .dotm .doc), PowerPoint
+    (.pptm .potm .ppt) and Access (.accdb .mdb) files are read and written
+    through pyOpenVBA. There is one result per module, named by
+    ``FileResult.module``, or a single result carrying the error when the
+    file cannot be read.
+
+    The modules are one project, as they are in the VBE: with
+    ``project_casing``, a name one of them declares is spelled its way in
+    the others. Their line endings are CRLF whatever the configuration
+    says, since that is how a VBA project stores its code. With ``write``,
+    the changed modules go back into the file: it is saved beside the
+    original and then moved over it, so an interrupted save changes
+    nothing. A project with a digital signature is not written, since
+    editing it would invalidate the signature; the signature is found in
+    the zip-based formats, not in .xls, .doc, .ppt or Access files.
+    """
+    path = Path(path)
+    try:
+        config = (config or Config.discover(path)).with_changes(globals_={"line-ending": "crlf"})
+    except ConfigError as exc:
+        return [FileResult(path=path, error=str(exc))]
+    results: list[FileResult] = []
+    saved: Path | None = None
+    try:
+        with office.open_host(path) as host:
+            modules = office.modules_of(host)
+            project = ProjectNames()
+            if project_casing:
+                project = project_names((_office_module_path(m), m.source) for m in modules)
+            changes: dict[str, str] = {}
+            for module in modules:
+                result = FileResult(path=path, module=module.name, source=module.source)
+                results.append(result)
+                try:
+                    formatted = format_source(module.source, config, path=path, project=project, kind=module.kind)
+                except (SafetyError, UnstableFormattingError) as exc:
+                    result.error = f"not formatted: {exc}"
+                    continue
+                result.violations = formatted.violations
+                result.output = formatted.output
+                result.changed = formatted.changed
+                if formatted.changed:
+                    changes[module.name] = formatted.output
+            if write and changes:
+                for name, text in changes.items():
+                    host.set_module(name, text)
+                saved = office.save_beside(host, path)
+    except office.SignedProjectError as exc:
+        return _not_written(results, f"not written: {exc}")
+    except office.FILE_ERRORS as exc:
+        if not results:
+            return [FileResult(path=path, error=f"cannot read the VBA project: {exc}")]
+        return _not_written(results, f"cannot write: {exc}")
+    if saved is not None:
+        try:
+            office.replace(saved, path)
+        except OSError as exc:
+            return _not_written(results, f"cannot write: {exc}")
+        for result in results:
+            result.written = result.changed
+    return results
+
+
+def _office_module_path(module: office.OfficeModule) -> Path:
+    """A file name that tells ``project_names`` the module's kind."""
+    return Path(module.name + (".bas" if module.kind == "standard" else ".cls"))
+
+
+def _not_written(results: list[FileResult], error: str) -> list[FileResult]:
+    for result in results:
+        if result.ok and result.changed:
+            result.error = error
+    return results
+
+
 def format_paths(
     paths: Sequence[str | Path],
     config: Config | None = None,
@@ -236,16 +338,21 @@ def format_paths(
 ) -> list[FileResult]:
     """Format files and directories (searched with each configuration's include/exclude).
 
-    Files that share a configuration (or, with none, a directory) are one
-    project: with ``project_casing``, names one of them declares are spelled
-    the same way in the others.
+    Module files that share a configuration (or, with none, a directory) are
+    one project: with ``project_casing``, names one of them declares are
+    spelled the same way in the others. An Office file is a project of its
+    own (see ``format_office_file``).
     """
     files = collect_files(paths, config)
+    results: list[FileResult] = []
+    for file in files:
+        if office.is_office_file(file):
+            results.extend(format_office_file(file, config, write=write, project_casing=project_casing))
+    files = [file for file in files if not office.is_office_file(file)]
     groups: dict[str, list[Path]] = {}
     for file in files:
         key = _project_key(file, config)
         groups.setdefault(key, []).append(file)
-    results: list[FileResult] = []
     for _key, members in groups.items():
         project = ProjectNames()
         if project_casing and len(members) > 1:

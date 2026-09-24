@@ -1,11 +1,12 @@
 # pyPrettyVBA
 
-A formatter for VBA modules (`.bas`, `.cls`, `.frm`), in the spirit of
-Prettier but configurable: every change it makes belongs to a named rule
-that can be switched off, tuned, or suppressed for one line, a region or a
-whole module. It spells code the way the VBE spells it, lays it out the way
-you configure, and refuses to return output that would run differently from
-the input.
+A formatter for VBA, in exported modules (`.bas`, `.cls`, `.frm`) or right
+inside Office files (`.xlsm`, `.docm`, `.pptm`, `.accdb` and more). It is
+in the spirit of Prettier but configurable: every change it makes belongs
+to a named rule that can be switched off, tuned, or suppressed for one
+line, a region or a whole module. It spells code the way the VBE spells
+it, lays it out the way you configure, and refuses to return output that
+would run differently from the input.
 
 Before:
 
@@ -42,8 +43,11 @@ The whole module, before and after, is in
 
 ## Install
 
-pyPrettyVBA needs Python 3.11 or later and nothing else: it uses only the
-standard library. It is not on PyPI yet; install it from a checkout:
+pyPrettyVBA needs Python 3.11 or later. Its one dependency is
+[pyOpenVBA](https://github.com/WilliamSmithEdward/pyOpenVBA), which reads
+and writes the VBA inside Office files and is pure Python with no
+dependencies of its own. pyPrettyVBA is not on PyPI yet. Install it from
+a checkout, and pip fetches pyOpenVBA from PyPI:
 
 ```bash
 pip install -e .
@@ -82,6 +86,36 @@ result.violations   # what each rule found, with line and column in the input
 `format_file` and `format_paths` read and write files; `project_names`
 gathers what a project's modules declare, so that a name declared in one
 module is spelled the same way in the others.
+
+## Office files
+
+The VBA inside a workbook, document, presentation or database is checked
+and formatted in place, with no Office installed:
+
+```bash
+pyprettyvba check Book1.xlsm        # Book1.xlsm:Module1:12:5: spacing ...
+pyprettyvba format --diff Book1.xlsm
+pyprettyvba format Book1.xlsm
+```
+
+Excel (`.xlsm`, `.xlsb`, `.xlam`, `.xls`), Word (`.docm`, `.dotm`,
+`.doc`), PowerPoint (`.pptm`, `.potm`, `.ppt`) and Access (`.accdb`,
+`.mdb`) files are read and written through pyOpenVBA. The modules of a
+file are one project, as they are in the VBE, so a name one of them
+declares is spelled its way in the others. The file is saved beside the
+original and then moved over it, so an interrupted save changes nothing.
+A project with a digital signature is left unwritten, since any edit
+would invalidate the signature. The signature is found in the zip-based
+files; in an `.xls`, `.doc`, `.ppt` or Access file it is not recognized,
+and formatting leaves it out of date. A password-protected project is
+written, and keeps its password and its lock.
+
+Office files are formatted when named on the command line. Formatting a
+directory takes module files only, unless an `include` pattern names
+Office files too (see [configuration](docs/configuration.md)).
+
+From Python, `format_office_file("Book1.xlsm", write=True)` returns one
+result per module.
 
 ## Presets
 

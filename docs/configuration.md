@@ -84,6 +84,16 @@ matches a directory covers everything under it. `extend-exclude` adds to
 the default `exclude` list instead of replacing it. Files named on the
 command line are always formatted.
 
+The default `include` takes module files only. To format the VBA inside
+Office files found in a directory too, name them:
+
+```toml
+include = ["*.bas", "*.cls", "*.frm", "*.doccls", "*.xlsm", "*.docm"]
+```
+
+The modules of an Office file always keep CRLF line endings, whatever
+`line-ending` says: that is how a VBA project stores its code.
+
 ## Rules
 
 The `[rules]` table sets each rule by its name (see [rules.md](rules.md)):

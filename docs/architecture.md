@@ -78,6 +78,18 @@ signature records it: whether `&`, `!`, `#`, `^` and `.` touch the tokens
 around them. Output whose signature differs from the input's is refused
 with `SafetyError`, and the input is left untouched.
 
+## Office files: `office`
+
+`office.py` is a thin layer over pyOpenVBA: it opens an Excel, Word,
+PowerPoint or Access file by its extension, lists the modules of its VBA
+project with their kinds and code, and saves the file beside the original
+before moving it over, refusing a project with a digital signature. A
+zip-based file keeps that signature in package parts of its own, which
+pyOpenVBA does not look for, so `office.py` finds them itself.
+`api.format_office_file` formats each module with the rest of the
+pipeline, the file's modules forming one project, and writes the changed
+ones back.
+
 ## The API and the command line: `api`, `cli`, `config`
 
 `config.Config` holds a configuration: a preset, global settings, rule
@@ -105,6 +117,8 @@ that `project_names` can give each module the spellings the others declare.
 - `tests/test_corpus.py`: every preset over a directory of real modules
   (`PYPRETTYVBA_CORPUS`), with pyVBAanalysis's diagnostics compared before
   and after.
+- `tests/test_office.py`: Excel, Word, PowerPoint and Access files made
+  with pyOpenVBA as the tests run, formatted in place and read back.
 - `tests/test_live.py`: the `vbe` preset's output imported into a real VBE,
   and compile outcomes before and after formatting (`pytest -m live`).
 - `tests/test_docs.py`: `docs/rules.md` matches the rules.

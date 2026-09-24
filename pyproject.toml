@@ -26,9 +26,11 @@ classifiers = [
     "Topic :: Software Development :: Quality Assurance",
     "Typing :: Typed",
 ]
-# None: the formatter uses only the standard library (tests/test_packaging.py
-# checks). Third-party packages are for development only, below.
-dependencies = []
+# One: pyOpenVBA, which reads and writes the VBA inside Office files, and is
+# pure Python with no dependencies of its own. Everything else is the
+# standard library (tests/test_packaging.py checks); the extras below are
+# for development only.
+dependencies = ["pyOpenVBA>=6.0"]
 
 [project.optional-dependencies]
 # Exact pins, as in pyVBAanalysis: the gate must not drift under main.
@@ -78,3 +80,8 @@ known-local-folder = ["fixture_support", "vba_strategies"]
 python_version = "3.11"
 strict = true
 files = ["src/pyprettyvba"]
+
+[[tool.mypy.overrides]]
+# pyOpenVBA ships no py.typed marker; office.py treats its objects as Any.
+module = ["pyopenvba", "pyopenvba.*"]
+ignore_missing_imports = true

@@ -18,6 +18,9 @@ The first version.
 - A command line (`format`, `check`, `rules`, `config`, `init`) with text,
   grouped, JSON and GitHub output, and a Python API.
 - Projects formatted together share their modules' spellings.
+- The VBA inside Excel, Word, PowerPoint and Access files, checked and
+  formatted in place through pyOpenVBA.
 - A safety check that refuses output which runs differently from the input.
 - Rule behavior measured against Excel's VBE and replayed by the tests.
-- No dependencies: Python 3.11 or later and its standard library.
+- Python 3.11 or later, and one dependency: pyOpenVBA, which is pure Python
+  with no dependencies of its own.

@@ -27,5 +27,8 @@ python tools/build_docs.py                   # regenerate docs/rules.md
   explain every changed output.
 - A rule's docstring is its user documentation (`docs/rules.md` is built
   from it, and `tests/test_docs.py` fails when it is stale).
+- The package imports the standard library and pyOpenVBA, nothing else
+  (`tests/test_packaging.py` checks). Other third-party packages are for
+  development only.
 - Keep text in files plain ASCII, apart from test data that is about
   non-ASCII text.

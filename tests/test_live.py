@@ -142,6 +142,31 @@ def test_the_vbe_leaves_the_vbe_preset_output_alone(excel: Any, case: Case) -> N
     assert _lines(exported) == _lines(formatted)
 
 
+def test_a_workbook_formatted_in_place_opens_compiles_and_keeps_its_code(excel: Any, tmp_path: Path) -> None:
+    """Format a macro workbook through pyOpenVBA, then open it in Excel."""
+    from pyopenvba import ExcelFile
+
+    from pyprettyvba import format_office_file
+
+    book = tmp_path / "Formatted.xlsm"
+    with ExcelFile.create_new(book) as wb:
+        wb.set_module(
+            "Module1",
+            "option explicit\r\npublic function total(ws as worksheet) as long\r\ndim r as long\r\n"
+            "for r=2 to ws.cells(ws.rows.count,1).end(xlup).row\r\ntotal=total+ws.cells(r,2).value\r\n"
+            "next r\r\nend function\r\n",
+        )
+        wb.save()
+    results = format_office_file(book, VBE, write=True)
+    formatted = next(r for r in results if r.module == "Module1")
+    assert formatted.written and formatted.output is not None
+    excel.open_workbook(book, read_only=True)
+    exported = {Path(f).stem: Path(f) for f in excel.export_modules(tmp_path / "out")}
+    assert _lines(exported["Module1"].read_bytes().decode("cp1252")) == _lines(formatted.output)
+    result = excel.compile_project(watch_seconds=20)
+    assert result.outcome == "accepted", result.message
+
+
 @pytest.mark.parametrize("case", COMPILE_CASES, ids=[c.id for c in COMPILE_CASES])
 def test_formatting_keeps_the_compile_outcome(excel: Any, case: Case) -> None:
     source, formatted = _formatted(case, Config(case.config))

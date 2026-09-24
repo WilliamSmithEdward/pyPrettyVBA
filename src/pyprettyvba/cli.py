@@ -9,7 +9,10 @@
     pyprettyvba config [PATH]         show the settings that apply to a file
     pyprettyvba init                  write a starter pyprettyvba.toml
 
-A path of `-` reads standard input and writes standard output.
+A path of `-` reads standard input and writes standard output. An Office
+file (.xlsm .xlsb .xlam .xls .docm .dotm .doc .pptm .potm .ppt .accdb
+.mdb) is read and written through pyOpenVBA, one module at a time; its
+modules are reported as `Book1.xlsm:Module1`.
 
 Exit codes: 0 when nothing needs changing, 1 when files would change or
 violations were found, 2 on an error (configuration, I/O, or output the
@@ -31,9 +34,18 @@ from pathlib import Path
 from typing import Any, TextIO
 
 from . import __version__
-from .api import FileResult, ProjectNames, collect_files, format_file, format_source, project_names
+from .api import (
+    FileResult,
+    ProjectNames,
+    collect_files,
+    format_file,
+    format_office_file,
+    format_source,
+    project_names,
+)
 from .config import PRESETS, Config, ConfigError
 from .engine import UnstableFormattingError, Violation
+from .office import is_office_file
 from .rules import RULES, RULES_BY_CODE
 from .safety import SafetyError
 from .textio import decode
@@ -52,7 +64,10 @@ def _parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     def common(p: argparse.ArgumentParser) -> None:
-        p.add_argument("paths", nargs="*", default=["."], help="files or directories (- for stdin)")
+        p.add_argument(
+            "paths", nargs="*", default=["."],
+            help="module files, Office files (.xlsm, .docm, .accdb ...) or directories; - for stdin",
+        )
         p.add_argument("--config", type=Path, help="use this configuration file instead of discovering one")
         p.add_argument("--isolated", action="store_true", help="ignore configuration files")
         p.add_argument("--preset", choices=PRESETS, help="start from this preset")
@@ -198,10 +213,14 @@ def _writes(args: argparse.Namespace) -> bool:
 
 def _format_all(files: list[Path], configs: dict[Path, Config], *, write: bool,
                 project_casing: bool) -> list[FileResult]:
+    results: list[FileResult] = []
     groups: dict[int, list[Path]] = {}
     for file in files:
+        if is_office_file(file):
+            # An Office file's modules are a project of their own.
+            results.extend(format_office_file(file, configs[file], write=write, project_casing=project_casing))
+            continue
         groups.setdefault(id(configs[file]), []).append(file)
-    results: list[FileResult] = []
     for members in groups.values():
         config = configs[members[0]]
         project = ProjectNames()
@@ -251,21 +270,24 @@ def _report_format(args: argparse.Namespace, results: list[FileResult], out: Tex
     errors = [r for r in results if not r.ok]
     changed = [r for r in results if r.ok and r.changed]
     for result in errors:
-        print(f"pyprettyvba: {result.path}: {result.error}", file=err)
+        print(f"pyprettyvba: {result.label}: {result.error}", file=err)
     if args.diff:
         for result in changed:
             assert result.source is not None and result.output is not None
-            out.write(_diff(str(result.path), result.source, result.output))
+            out.write(_diff(result.label, result.source, result.output))
     elif args.check:
         for result in changed:
-            print(f"Would reformat: {result.path}", file=out)
+            print(f"Would reformat: {result.label}", file=out)
     if not args.quiet:
-        unchanged = len(results) - len(changed) - len(errors)
+        # Counted by file: an Office file's modules are one file.
+        failed = {r.path for r in errors}
+        reformatted = {r.path for r in changed} - failed
+        unchanged = len({r.path for r in results} - reformatted - failed)
         verb = "reformatted" if not (args.check or args.diff) else "would be reformatted"
         print(
-            f"{len(changed)} file{'s' if len(changed) != 1 else ''} {verb}, "
+            f"{len(reformatted)} file{'s' if len(reformatted) != 1 else ''} {verb}, "
             f"{unchanged} file{'s' if unchanged != 1 else ''} left unchanged"
-            + (f", {len(errors)} failed" if errors else ""),
+            + (f", {len(failed)} failed" if failed else ""),
             file=err,
         )
     if errors:
@@ -278,12 +300,12 @@ def _report_format(args: argparse.Namespace, results: list[FileResult], out: Tex
 def _report_check(args: argparse.Namespace, results: list[FileResult], out: TextIO, err: TextIO) -> int:
     errors = [r for r in results if not r.ok]
     for result in errors:
-        print(f"pyprettyvba: {result.path}: {result.error}", file=err)
+        print(f"pyprettyvba: {result.label}: {result.error}", file=err)
     if args.diff:
         for result in results:
             if result.ok and result.changed:
                 assert result.source is not None and result.output is not None
-                out.write(_diff(str(result.path), result.source, result.output))
+                out.write(_diff(result.label, result.source, result.output))
     reported: list[tuple[str, list[Violation]]] = []
     for result in results:
         if not result.ok:
@@ -291,7 +313,7 @@ def _report_check(args: argparse.Namespace, results: list[FileResult], out: Text
         violations = result.violations
         if args.fix:
             violations = [v for v in violations if not v.fixable]
-        reported.append((str(result.path), violations))
+        reported.append((result.label, violations))
     total = sum(len(v) for _p, v in reported)
     if args.statistics:
         counts = Counter(v.rule for _p, vs in reported for v in vs)
@@ -301,7 +323,7 @@ def _report_check(args: argparse.Namespace, results: list[FileResult], out: Text
     else:
         _print_violations(args, reported, out)
     if not args.quiet and args.output_format in ("text", "grouped"):
-        fixed = sum(1 for r in results if r.written)
+        fixed = len({r.path for r in results if r.written})
         fixable_count = sum(1 for _p, vs in reported for v in vs if v.fixable)
         summary = f"Found {total} violation{'s' if total != 1 else ''}"
         if args.fix:
