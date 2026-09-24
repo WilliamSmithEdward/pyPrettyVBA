@@ -105,10 +105,13 @@ file are one project, as they are in the VBE, so a name one of them
 declares is spelled its way in the others. The file is saved beside the
 original and then moved over it, so an interrupted save changes nothing.
 A project with a digital signature is left unwritten, since any edit
-would invalidate the signature. The signature is found in the zip-based
-files; in an `.xls`, `.doc`, `.ppt` or Access file it is not recognized,
-and formatting leaves it out of date. A password-protected project is
-written, and keeps its password and its lock.
+would invalidate the signature. `--remove-signatures`
+(`remove_signatures=True` from Python) writes it anyway and removes the
+signature, for you to sign the project again in the VBE. The signature is
+found in the zip-based files; in an `.xls`, `.doc`, `.ppt` or Access file
+it is not recognized, and formatting leaves it out of date. A
+password-protected project is written, and keeps its password and its
+lock.
 
 Office files are formatted when named on the command line. Formatting a
 directory takes module files only, unless an `include` pattern names

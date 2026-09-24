@@ -85,7 +85,9 @@ PowerPoint or Access file by its extension, lists the modules of its VBA
 project with their kinds and code, and saves the file beside the original
 before moving it over, refusing a project with a digital signature. A
 zip-based file keeps that signature in package parts of its own, which
-pyOpenVBA does not look for, so `office.py` finds them itself.
+pyOpenVBA does not look for, so `office.py` finds them itself; asked to
+remove the signature, it deletes those parts, their relationships and
+their content types once pyOpenVBA has saved the file.
 `api.format_office_file` formats each module with the rest of the
 pipeline, the file's modules forming one project, and writes the changed
 ones back.

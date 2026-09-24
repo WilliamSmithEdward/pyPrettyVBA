@@ -66,6 +66,11 @@ def _module(path: Path, name: str) -> str:
         return str(wb.get_module(name))
 
 
+def _entries(path: Path) -> dict[str, bytes]:
+    with zipfile.ZipFile(path) as archive:
+        return {name: archive.read(name) for name in archive.namelist()}
+
+
 def test_a_workbook_is_formatted_module_by_module(tmp_path: Path) -> None:
     book = _workbook(tmp_path / "Book1.xlsm")
     results = format_office_file(book, Config(), write=True)
@@ -211,9 +216,30 @@ def test_a_signed_file_is_not_written(tmp_path: Path, suffix: str, host: Any) ->
     assert not list(tmp_path.glob(".*pyprettyvba*"))
 
 
-def test_signature_streams_pyopenvba_finds_are_refused_too(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    book = _workbook(tmp_path / "Book1.xlsm")
-    before = book.read_bytes()
+@pytest.mark.parametrize(("suffix", "host"), [(".xlsm", ExcelFile), (".docm", WordFile), (".pptm", PowerPointFile)])
+def test_removing_the_signature_leaves_the_package_of_an_unsigned_file(tmp_path: Path, suffix: str, host: Any) -> None:
+    path = tmp_path / f"Signed{suffix}"
+    with host.create_new(path) as document:
+        _put(document, "Module1", MESSY)
+        document.save()
+    unsigned = _entries(path)
+    _sign(path)
+    results = format_office_file(path, Config(), write=True, remove_signatures=True)
+    assert next(r for r in results if r.module == "Module1").written
+    assert all(r.signature_removed for r in results)
+    # The parts, their relationships and their content types are gone; the
+    # rest of the package is as it was, apart from the code.
+    signed_out = _entries(path)
+    assert set(signed_out) == set(unsigned)
+    for name, data in unsigned.items():
+        if not name.endswith("/vbaProject.bin"):
+            assert signed_out[name] == data, name
+    with host(path) as document:
+        assert document.get_module("Module1").rstrip("\r\n").endswith(TIDY_BODY.rstrip("\r\n"))
+
+
+def _signed_save(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Make ExcelFile.save warn as pyOpenVBA does when it drops signature streams."""
     save = ExcelFile.save
 
     def signed_save(self: ExcelFile, dest: Any = None, **kwargs: Any) -> None:
@@ -221,12 +247,21 @@ def test_signature_streams_pyopenvba_finds_are_refused_too(tmp_path: Path, monke
         warnings.warn("Dropped stale VBA digital signature streams (legacy).", UserWarning, stacklevel=2)
 
     monkeypatch.setattr(ExcelFile, "save", signed_save)
+
+
+def test_signature_streams_pyopenvba_finds_are_refused_too(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    book = _workbook(tmp_path / "Book1.xlsm")
+    before = book.read_bytes()
+    _signed_save(monkeypatch)
     results = format_office_file(book, Config(), write=True)
     changed = [r for r in results if r.changed]
     assert changed and all("digitally signed" in (r.error or "") for r in changed)
     assert not any(r.written for r in results)
     assert book.read_bytes() == before
     assert not list(tmp_path.glob(".*pyprettyvba*"))
+    results = format_office_file(book, Config(), write=True, remove_signatures=True)
+    assert all(r.signature_removed for r in results)
+    assert _module(book, "Module1").endswith(TIDY_BODY)
 
 
 def _protect(path: Path) -> None:
@@ -297,3 +332,13 @@ def test_the_command_line_names_modules(tmp_path: Path, monkeypatch: pytest.Monk
     assert code == 0 and "1 file reformatted" in err
     code, out, err = _cli(["check", "--isolated", "Book1.xlsm"], tmp_path, monkeypatch)
     assert code == 0 and out == ""
+
+
+def test_the_command_line_removes_a_signature_only_when_asked(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _sign(_workbook(tmp_path / "Book1.xlsm"))
+    code, out, err = _cli(["format", "--isolated", "Book1.xlsm"], tmp_path, monkeypatch)
+    assert code == 2 and "Book1.xlsm:Module1: not written: the VBA project is digitally signed" in err
+    code, out, err = _cli(["format", "--isolated", "--remove-signatures", "Book1.xlsm"], tmp_path, monkeypatch)
+    assert code == 0, err
+    assert "pyprettyvba: Book1.xlsm: removed the VBA project's digital signature; sign it again" in err
+    assert signature_parts(tmp_path / "Book1.xlsm") == []

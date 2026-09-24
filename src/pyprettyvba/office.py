@@ -9,7 +9,8 @@ extension, list its modules with their kinds and code, and save it.
 Saving never writes the file in place. The file is saved beside the
 original first, and replaces it only when the save went through cleanly,
 so an interrupted or refused save leaves the original as it was. A project
-with a digital signature is refused: any edit invalidates the signature. A
+with a digital signature is refused, since any edit invalidates the
+signature, unless the caller asks for the signature to be removed. A
 password-protected project is written: its password material is kept as it
 was.
 
@@ -81,6 +82,7 @@ _SIGNED = "the VBA project is digitally signed, and editing it would invalidate 
 # The relationship types that point from vbaProject.bin to its signatures.
 _SIGNATURE_TYPES = (b"/vbaProjectSignature", b"/vbaProjectSignatureAgile", b"/vbaProjectSignatureV3")
 _RELATIONSHIP_RE = re.compile(rb"<Relationship\b[^>]*?(?:/>|>\s*</Relationship\s*>)")
+_OVERRIDE_RE = re.compile(rb"<Override\b[^>]*?(?:/>|>\s*</Override\s*>)")
 _ATTRIBUTE_RE = re.compile(rb"""([\w:]+)\s*=\s*(?:"([^"]*)"|'([^']*)')""")
 
 
@@ -141,7 +143,7 @@ def _signature_links(package: zipfile.ZipFile) -> list[tuple[str, bytes, str]]:
         if base.lower() != "vbaproject.bin" or rels is None:
             continue
         for element in _RELATIONSHIP_RE.findall(package.read(rels)):
-            attributes = {key: double or single for key, double, single in _ATTRIBUTE_RE.findall(element)}
+            attributes = _attributes(element)
             if attributes.get(b"TargetMode") == b"External":
                 continue
             if not attributes.get(b"Type", b"").endswith(_SIGNATURE_TYPES):
@@ -155,13 +157,50 @@ def _signature_links(package: zipfile.ZipFile) -> list[tuple[str, bytes, str]]:
     return links
 
 
-def save_beside(host: Any, path: Path) -> Path:
-    """Save the open file next to ``path``; return where it was saved.
+def _attributes(element: bytes) -> dict[bytes, bytes]:
+    return {key: double or single for key, double, single in _ATTRIBUTE_RE.findall(element)}
 
-    Raises SignedProjectError, having written nothing, when the project is
-    digitally signed.
+
+def _remove_signature_parts(path: Path) -> None:
+    """Remove the signature parts of a zip-based file, with their relationships and content types.
+
+    What is left is the package Office writes for an unsigned project.
     """
-    if signature_parts(path):
+    with zipfile.ZipFile(path) as package:
+        links = _signature_links(package)
+        entries = [(info, package.read(info)) for info in package.infolist()]
+    parts = {part.lower() for _rels, _element, part in links}
+    elements: dict[str, list[bytes]] = {}
+    for rels, element, _part in links:
+        elements.setdefault(rels, []).append(element)
+    with zipfile.ZipFile(path, "w") as package:
+        for info, data in entries:
+            name = info.filename
+            if name.lower() in parts:
+                continue
+            if name in elements:
+                for element in elements[name]:
+                    data = data.replace(element, b"", 1)
+                if not _RELATIONSHIP_RE.search(data):
+                    continue  # no relationships left: an unsigned project has no such part
+            elif name == "[Content_Types].xml":
+                data = _OVERRIDE_RE.sub(lambda m: b"" if _part_name(m.group(0)) in parts else m.group(0), data)
+            package.writestr(info, data)
+
+
+def _part_name(override: bytes) -> str:
+    return _attributes(override).get(b"PartName", b"").decode("utf-8", "replace").lstrip("/").lower()
+
+
+def save_beside(host: Any, path: Path, *, remove_signatures: bool = False) -> tuple[Path, bool]:
+    """Save the open file next to ``path``; return where, and whether a signature was removed.
+
+    A digitally signed project raises SignedProjectError, and nothing is
+    written, unless ``remove_signatures``: the saved file then has no
+    signature, since the one it had would not match the edited code.
+    """
+    signed = bool(signature_parts(path))
+    if signed and not remove_signatures:
         raise SignedProjectError(_SIGNED)
     temporary = path.with_name(f".{path.stem}.pyprettyvba{path.suffix}")
     try:
@@ -169,12 +208,15 @@ def save_beside(host: Any, path: Path) -> Path:
             warnings.simplefilter("always")
             host.save(temporary, allow_protected=True)
         # pyOpenVBA drops the signature streams it finds inside vbaProject.bin, and warns.
-        if any("signature" in str(warning.message).lower() for warning in caught):
+        dropped = any("signature" in str(warning.message).lower() for warning in caught)
+        if dropped and not remove_signatures:
             raise SignedProjectError(_SIGNED)
+        if signed:
+            _remove_signature_parts(temporary)
     except BaseException:
         temporary.unlink(missing_ok=True)
         raise
-    return temporary
+    return temporary, signed or dropped
 
 
 def replace(temporary: Path, path: Path) -> None:

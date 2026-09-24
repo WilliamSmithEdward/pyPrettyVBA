@@ -20,6 +20,8 @@ The first version.
 - Projects formatted together share their modules' spellings.
 - The VBA inside Excel, Word, PowerPoint and Access files, checked and
   formatted in place through pyOpenVBA.
+- A digitally signed VBA project is left alone unless `--remove-signatures`
+  is given; then it is formatted and its signature removed.
 - A safety check that refuses output which runs differently from the input.
 - Rule behavior measured against Excel's VBE and replayed by the tests.
 - Python 3.11 or later, and one dependency: pyOpenVBA, which is pure Python

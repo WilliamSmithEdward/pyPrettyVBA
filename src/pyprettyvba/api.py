@@ -167,6 +167,8 @@ class FileResult:
     output: str | None = None
     # The module's name, for a module of an Office file.
     module: str | None = None
+    # Whether the Office file was written without the digital signature it had.
+    signature_removed: bool = False
 
     @property
     def ok(self) -> bool:
@@ -251,6 +253,7 @@ def format_office_file(
     *,
     write: bool = False,
     project_casing: bool = True,
+    remove_signatures: bool = False,
 ) -> list[FileResult]:
     """Format the modules of the VBA project inside an Office file.
 
@@ -267,8 +270,10 @@ def format_office_file(
     the changed modules go back into the file: it is saved beside the
     original and then moved over it, so an interrupted save changes
     nothing. A project with a digital signature is not written, since
-    editing it would invalidate the signature; the signature is found in
-    the zip-based formats, not in .xls, .doc, .ppt or Access files.
+    editing it would invalidate the signature, unless ``remove_signatures``:
+    then it is written without one, to be signed again, and its results
+    say ``signature_removed``. The signature is found in the zip-based
+    formats, not in .xls, .doc, .ppt or Access files.
     """
     path = Path(path)
     try:
@@ -277,6 +282,7 @@ def format_office_file(
         return [FileResult(path=path, error=str(exc))]
     results: list[FileResult] = []
     saved: Path | None = None
+    signature_removed = False
     try:
         with office.open_host(path) as host:
             modules = office.modules_of(host)
@@ -300,7 +306,7 @@ def format_office_file(
             if write and changes:
                 for name, text in changes.items():
                     host.set_module(name, text)
-                saved = office.save_beside(host, path)
+                saved, signature_removed = office.save_beside(host, path, remove_signatures=remove_signatures)
     except office.SignedProjectError as exc:
         return _not_written(results, f"not written: {exc}")
     except office.FILE_ERRORS as exc:
@@ -314,6 +320,7 @@ def format_office_file(
             return _not_written(results, f"cannot write: {exc}")
         for result in results:
             result.written = result.changed
+            result.signature_removed = signature_removed
     return results
 
 
@@ -335,19 +342,24 @@ def format_paths(
     *,
     write: bool = False,
     project_casing: bool = True,
+    remove_signatures: bool = False,
 ) -> list[FileResult]:
     """Format files and directories (searched with each configuration's include/exclude).
 
     Module files that share a configuration (or, with none, a directory) are
     one project: with ``project_casing``, names one of them declares are
     spelled the same way in the others. An Office file is a project of its
-    own (see ``format_office_file``).
+    own (see ``format_office_file``, and its ``remove_signatures``).
     """
     files = collect_files(paths, config)
     results: list[FileResult] = []
     for file in files:
         if office.is_office_file(file):
-            results.extend(format_office_file(file, config, write=write, project_casing=project_casing))
+            results.extend(
+                format_office_file(
+                    file, config, write=write, project_casing=project_casing, remove_signatures=remove_signatures
+                )
+            )
     files = [file for file in files if not office.is_office_file(file)]
     groups: dict[str, list[Path]] = {}
     for file in files:

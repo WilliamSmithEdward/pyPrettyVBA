@@ -85,6 +85,10 @@ def _parser() -> argparse.ArgumentParser:
             "--no-project-casing", action="store_true",
             help="do not spell names from other modules of the project their way",
         )
+        p.add_argument(
+            "--remove-signatures", action="store_true",
+            help="write digitally signed Office files too, removing the signature (sign them again after)",
+        )
         p.add_argument("-q", "--quiet", action="store_true", help="print only errors")
 
     fmt = sub.add_parser("format", help="format files in place")
@@ -199,7 +203,13 @@ def _cmd_run(args: argparse.Namespace, out: TextIO, err: TextIO, stdin: TextIO) 
         return EXIT_CLEAN
 
     write = _writes(args)
-    results = _format_all(files, configs, write=write, project_casing=not args.no_project_casing)
+    results = _format_all(
+        files, configs, write=write, project_casing=not args.no_project_casing,
+        remove_signatures=args.remove_signatures,
+    )
+    if not args.quiet:
+        for path in dict.fromkeys(r.path for r in results if r.signature_removed):
+            print(f"pyprettyvba: {path}: removed the VBA project's digital signature; sign it again", file=err)
     if args.command == "format":
         return _report_format(args, results, out, err)
     return _report_check(args, results, out, err)
@@ -212,13 +222,18 @@ def _writes(args: argparse.Namespace) -> bool:
 
 
 def _format_all(files: list[Path], configs: dict[Path, Config], *, write: bool,
-                project_casing: bool) -> list[FileResult]:
+                project_casing: bool, remove_signatures: bool) -> list[FileResult]:
     results: list[FileResult] = []
     groups: dict[int, list[Path]] = {}
     for file in files:
         if is_office_file(file):
             # An Office file's modules are a project of their own.
-            results.extend(format_office_file(file, configs[file], write=write, project_casing=project_casing))
+            results.extend(
+                format_office_file(
+                    file, configs[file], write=write, project_casing=project_casing,
+                    remove_signatures=remove_signatures,
+                )
+            )
             continue
         groups.setdefault(id(configs[file]), []).append(file)
     for members in groups.values():
