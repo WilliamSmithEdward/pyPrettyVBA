@@ -1,0 +1,23 @@
+# What the security scans are expected to report, and why each is accepted.
+#
+# scripts/security/security_report.py fails a scan on any finding, or any
+# warning a tool raises about the scan, that this file does not list, and
+# on any entry here that no longer matches. A finding is matched by tool,
+# rule, file and the text of the line it flags, so it follows code that
+# moves and comes back up for review when the line itself changes.
+#
+# Add an entry only with a reason a reviewer can check. Fixing the code
+# is the better answer wherever there is one.
+
+[[finding]]
+tool = "Semgrep"
+rule = "python.lang.compatibility.python37.python37-compatibility-importlib2"
+where = [
+    { path = "src/pyprettyvba/names.py", line = "from importlib import resources" },
+]
+reason = """
+The rule warns that importlib.resources does not exist before Python 3.7.
+pyproject.toml requires Python 3.11 or later, so every Python the
+package installs on has it. The rule is about compatibility, not
+security, and the line reads the name tables shipped inside the package.
+"""

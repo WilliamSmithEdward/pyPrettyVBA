@@ -12,7 +12,7 @@ pip install -e .[verify]          # pyVBAanalysis, and pyVBAharness on Windows
 ## Check
 
 ```bash
-ruff check src tests tools
+ruff check src tests tools scripts
 mypy                              # strict, on src/pyprettyvba
 python -m pytest                  # everything that needs no Office
 ```
