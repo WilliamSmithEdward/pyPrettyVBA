@@ -8,3 +8,16 @@
 #
 # Add an entry only with a reason a reviewer can check. Fixing the code
 # is the better answer wherever there is one.
+
+[[finding]]
+tool = "Semgrep"
+rule = "python.lang.compatibility.python37.python37-compatibility-importlib2"
+where = [
+    { path = "src/pyprettyvba/names.py", line = "from importlib import resources" },
+]
+reason = """
+The rule warns that importlib.resources does not exist before Python 3.7.
+pyproject.toml requires Python 3.11 or later, so every Python the
+package installs on has it. The rule is about compatibility, not
+security, and the line reads the name tables shipped inside the package.
+"""
