@@ -1,6 +1,11 @@
 # pyPrettyVBA
 
 [![PyPI version](https://img.shields.io/pypi/v/pyprettyvba.svg)](https://pypi.org/project/pyprettyvba/)
+[![Python versions](https://img.shields.io/pypi/pyversions/pyprettyvba.svg)](https://pypi.org/project/pyprettyvba/)
+[![CI](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/ci.yml/badge.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/ci.yml)
+[![Security](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/security.yml/badge.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/security.yml)
+[![Malware scan](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware.yml/badge.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/blob/main/LICENSE)
 
 A formatter for VBA, in exported modules (`.bas`, `.cls`, `.frm`) or right
 inside Office files (`.xlsm`, `.docm`, `.pptm`, `.accdb` and more). It is
@@ -192,6 +197,16 @@ The rules that claim to do what the VBE does are checked against the VBE:
 probe modules pasted into Excel and exported again, compile checks, run-time
 checks, and whole modules imported from files. The recording is replayed by
 the test suite without Office. See [docs/vbe-evidence.md](docs/vbe-evidence.md).
+
+## Security
+
+Report a vulnerability privately through the repository's
+[Security tab](https://github.com/WilliamSmithEdward/pyPrettyVBA/security/advisories/new).
+CodeQL and Semgrep scan the code, and ClamAV and YARA-X scan every file
+in the repository, on every push, pull request and release, and on a
+schedule. Anything they report that is not listed, with its reason, in
+`.github/security/` fails the build. Each release carries both reports.
+See [SECURITY.md](SECURITY.md).
 
 ## Development
 

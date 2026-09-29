@@ -8,7 +8,7 @@ the input. Read `docs/architecture.md` first.
 
 ```bash
 pip install -e .[dev]
-ruff check src tests tools
+ruff check src tests tools scripts
 mypy
 python -m pytest                             # fast; no Office needed
 python tools/fixtures.py bless [PREFIX]      # rewrite expected fixture files

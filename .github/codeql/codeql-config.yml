@@ -1,0 +1,15 @@
+# CodeQL for the Security workflow: GitHub's security-extended queries over
+# the package, the workflows that build and publish it, and the scripts
+# that hold the scans to the accepted lists. Tests and tools/ are left out:
+# they run only on a maintainer's machine or in CI, on files the repository
+# holds. Each path is a folder, since the Python extractor walks folders and
+# fails on a file.
+name: pyPrettyVBA security
+
+queries:
+  - uses: security-extended
+
+paths:
+  - src
+  - .github
+  - scripts/security

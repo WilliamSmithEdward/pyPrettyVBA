@@ -2,7 +2,9 @@ name: Publish to PyPI
 
 # A pushed tag vX.Y.Z builds, checks and publishes that version to PyPI
 # through Trusted Publishing (no token is stored), then makes the GitHub
-# release from the changelog.
+# release from the changelog. Nothing is published until the tagged commit
+# passes the Security and Malware scans, and the release carries both
+# reports and the SARIF the security report was made from.
 
 on:
   push:
@@ -42,7 +44,7 @@ jobs:
 
       - name: Build sdist and wheel
         run: |
-          python -m pip install --upgrade build twine
+          python -m pip install -e ".[build]"
           python -m build
 
       - name: Validate metadata
@@ -55,9 +57,24 @@ jobs:
           path: dist/
           if-no-files-found: error
 
+  # The tagged commit's scans. A finding or match the accepted lists do not
+  # account for fails its job, and nothing is published.
+  security:
+    name: Security scans
+    uses: ./.github/workflows/security.yml
+    permissions:
+      contents: read
+      security-events: write
+
+  malware:
+    name: Malware scans
+    uses: ./.github/workflows/malware.yml
+    permissions:
+      contents: read
+
   publish:
     name: Publish to PyPI
-    needs: build
+    needs: [build, security, malware]
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     environment:
@@ -78,7 +95,7 @@ jobs:
 
   github-release:
     name: Create GitHub Release
-    needs: publish
+    needs: [publish, security, malware]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -90,6 +107,27 @@ jobs:
         with:
           name: dist
           path: dist/
+
+      - name: Download the security report
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: security-report
+          path: reports/
+
+      - name: Download the malware report
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: malware-report
+          path: reports/
+
+      # Named for the release: pyprettyvba-0.2.0-security-report.md,
+      # pyprettyvba-0.2.0-malware-report.md, pyprettyvba-0.2.0-semgrep.sarif.
+      - name: Name the reports after the release
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          for file in reports/*; do
+            mv "$file" "reports/pyprettyvba-$VERSION-$(basename "$file")"
+          done
 
       - name: Extract changelog section for this tag
         run: |
@@ -109,5 +147,7 @@ jobs:
           name: ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           body_path: release_notes.md
-          files: dist/*
+          files: |
+            dist/*
+            reports/*
           fail_on_unmatched_files: true
