@@ -46,11 +46,10 @@ The whole module, before and after, is in
 pyPrettyVBA needs Python 3.11 or later. Its one dependency is
 [pyOpenVBA](https://github.com/WilliamSmithEdward/pyOpenVBA), which reads
 and writes the VBA inside Office files and is pure Python with no
-dependencies of its own. pyPrettyVBA is not on PyPI yet. Install it from
-a checkout, and pip fetches pyOpenVBA from PyPI:
+dependencies of its own.
 
 ```bash
-pip install -e .
+pip install pyprettyvba
 ```
 
 ## Use
