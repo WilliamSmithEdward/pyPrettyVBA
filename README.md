@@ -1,5 +1,7 @@
 # pyPrettyVBA
 
+[![PyPI version](https://img.shields.io/pypi/v/pyprettyvba.svg)](https://pypi.org/project/pyprettyvba/)
+
 A formatter for VBA, in exported modules (`.bas`, `.cls`, `.frm`) or right
 inside Office files (`.xlsm`, `.docm`, `.pptm`, `.accdb` and more). It is
 in the spirit of Prettier but configurable: every change it makes belongs
