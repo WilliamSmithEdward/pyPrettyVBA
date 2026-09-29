@@ -1,4 +1,4 @@
-name: Publish to PyPI
+name: Publish
 
 # A pushed tag vX.Y.Z builds, checks and publishes that version to PyPI
 # through Trusted Publishing (no token is stored), then makes the GitHub
@@ -68,7 +68,7 @@ jobs:
 
   malware:
     name: Malware scans
-    uses: ./.github/workflows/malware.yml
+    uses: ./.github/workflows/malware-scan.yml
     permissions:
       contents: read
 
@@ -94,7 +94,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
 
   github-release:
-    name: Create GitHub Release
+    name: Create GitHub release
     needs: [publish, security, malware]
     runs-on: ubuntu-latest
     permissions:
@@ -141,7 +141,7 @@ jobs:
             echo "Release $TAG" > release_notes.md
           fi
 
-      - name: Create GitHub Release
+      - name: Create GitHub release
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           name: ${{ github.ref_name }}

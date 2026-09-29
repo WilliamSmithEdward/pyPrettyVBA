@@ -4,7 +4,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/pyprettyvba.svg)](https://pypi.org/project/pyprettyvba/)
 [![CI](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/ci.yml/badge.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/ci.yml)
 [![Security](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/security.yml/badge.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/security.yml)
-[![Malware scan](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware.yml/badge.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware.yml)
+[![Malware scan](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware-scan.yml/badge.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware-scan.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/WilliamSmithEdward/pyPrettyVBA/blob/main/LICENSE)
 
 A formatter for VBA, in exported modules (`.bas`, `.cls`, `.frm`) or right

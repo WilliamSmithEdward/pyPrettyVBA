@@ -5,7 +5,7 @@
 # exactly. The runtime dependency, pyOpenVBA, is a minimum version and
 # moves only when a newer one is needed. The YARA-X engine and the YARA
 # Forge rules are release downloads Dependabot cannot follow;
-# yara-update.yml proposes those.
+# update-yara-rules.yml proposes those.
 #
 # A release waits a week before it is proposed, long enough for most
 # hijacked or broken releases to be found and pulled first. Security
