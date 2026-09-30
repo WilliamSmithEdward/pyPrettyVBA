@@ -6,7 +6,7 @@ name: Publish
 # passes the Security and Malware scans, and the release carries both
 # reports and the SARIF the security report was made from.
 #
-# Started by hand, this is a dry run unless dry_run is unticked: it builds,
+# Started by hand, this is always a dry run: it builds,
 # scans and assembles the release files exactly as a release would, and
 # uploads them as the release-preview artifact instead of publishing anything.
 
@@ -15,11 +15,6 @@ on:
     tags:
       - "v*.*.*"
   workflow_dispatch:
-    inputs:
-      dry_run:
-        description: Build, scan and assemble the release, but publish nothing
-        type: boolean
-        default: true
 
 permissions:
   contents: read
@@ -86,7 +81,7 @@ jobs:
   publish:
     name: Publish to PyPI
     needs: [build, security, malware-scan]
-    if: ${{ github.ref_type == 'tag' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+    if: ${{ github.ref_type == 'tag' && github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-24.04
     environment:
       name: pypi
@@ -112,12 +107,12 @@ jobs:
     if: >-
       ${{ !cancelled() && needs.build.result == 'success'
       && needs.security.result == 'success' && needs.malware-scan.result == 'success'
-      && (needs.publish.result == 'success' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)) }}
+      && (needs.publish.result == 'success' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     env:
-      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
