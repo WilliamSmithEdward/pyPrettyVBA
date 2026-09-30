@@ -60,21 +60,21 @@ jobs:
   # The tagged commit's scans. A finding or match the accepted lists do not
   # account for fails its job, and nothing is published.
   security:
-    name: Security scans
+    name: Security
     uses: ./.github/workflows/security.yml
     permissions:
       contents: read
       security-events: write
 
-  malware:
-    name: Malware scans
+  malware-scan:
+    name: Malware scan
     uses: ./.github/workflows/malware-scan.yml
     permissions:
       contents: read
 
   publish:
     name: Publish to PyPI
-    needs: [build, security, malware]
+    needs: [build, security, malware-scan]
     if: github.ref_type == 'tag'
     runs-on: ubuntu-24.04
     environment:
@@ -95,7 +95,7 @@ jobs:
 
   github-release:
     name: Create GitHub release
-    needs: [publish, security, malware]
+    needs: [publish, security, malware-scan]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
