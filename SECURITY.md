@@ -72,6 +72,6 @@ ClamAV images to a digest, the development tools to exact versions, and
 the build tools to a hash-locked file in .github/requirements. Dependabot proposes updates to all of them, each a week after
 its release. The YARA-X engine and the YARA Forge rules are pinned by
 release and SHA-256 in
-[.github/security/yara.env](.github/security/yara.env); a weekly workflow
+[.github/security/yara.json](.github/security/yara.json); a weekly workflow
 proposes new pins in a pull request, and the scans check that pull
 request with the new rules before it can be merged.
