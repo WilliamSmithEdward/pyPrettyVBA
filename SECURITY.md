@@ -68,8 +68,8 @@ Publishing, so no upload token exists to leak.
 ## Pinned tools
 
 Every action the workflows use is pinned to a commit, the Semgrep and
-ClamAV images to a digest, and the development and build tools to exact
-versions. Dependabot proposes updates to all of them, each a week after
+ClamAV images to a digest, the development tools to exact versions, and
+the build tools to a hash-locked file in .github/requirements. Dependabot proposes updates to all of them, each a week after
 its release. The YARA-X engine and the YARA Forge rules are pinned by
 release and SHA-256 in
 [.github/security/yara.env](.github/security/yara.env); a weekly workflow

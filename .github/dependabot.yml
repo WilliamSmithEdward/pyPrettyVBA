@@ -1,8 +1,8 @@
 # Dependabot keeps the pinned tools current: the workflows' actions, each
 # pinned to a commit with its release named in a comment; the Semgrep and
 # ClamAV images the scans run, each pinned by digest in a one-line
-# Dockerfile; and the development and build tools pyproject.toml pins
-# exactly. The runtime dependency, pyOpenVBA, is a minimum version and
+# Dockerfile; the development tools pyproject.toml pins exactly; and the
+# hash-locked build tools in .github/requirements. The runtime dependency, pyOpenVBA, is a minimum version and
 # moves only when a newer one is needed. The YARA-X engine and the YARA
 # Forge rules are release downloads Dependabot cannot follow;
 # update-yara-rules.yml proposes those.
@@ -47,3 +47,14 @@ updates:
     groups:
       dev-tools:
         patterns: ["*"]
+
+  # The build tools the Publish workflow installs, hash-locked in
+  # .github/requirements.
+  - package-ecosystem: pip
+    directory: /.github/requirements
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci

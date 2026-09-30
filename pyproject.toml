@@ -39,7 +39,6 @@ dev = ["pytest==9.1.1", "hypothesis==6.168.3", "ruff==0.16.8", "mypy==2.3.1"]
 # The corpus and differential checks read VBA through pyVBAanalysis, and the
 # live checks drive Office through pyVBAharness (Windows only).
 verify = ["pyvbaanalysis>=2.2", "pyvbaharness>=1.1; sys_platform == 'win32'"]
-build = ["build==1.6.1", "twine==7.0.0"]
 
 [project.scripts]
 pyprettyvba = "pyprettyvba.cli:main"
