@@ -1,0 +1,13 @@
+title = "An Attribute line keeps its comment as written"
+description = """
+No rule edits an Attribute line, a comment after it included, so this rule
+leaves that comment alone. Found by fuzzing: the strict preset spaced it and
+the safety check refused the whole module.
+"""
+file = "Class1.cls"
+
+[config]
+preset = "none"
+
+[config.rules]
+comment-space = true

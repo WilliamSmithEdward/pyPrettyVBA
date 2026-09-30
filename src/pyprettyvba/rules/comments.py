@@ -137,7 +137,8 @@ class CommentSpaceRule(Rule):
 
     `'note` becomes `' note`. Documentation comments (`'''`), annotations and
     directives (`'@...`), and comments that open with a character listed in
-    ``ignore`` (separator lines like `'-----`) are left as they are.
+    ``ignore`` (separator lines like `'-----`) are left as they are, as is a
+    comment on an `Attribute` line, which no rule edits.
     """
 
     code = "comment-space"
@@ -155,8 +156,18 @@ class CommentSpaceRule(Rule):
 
     def run(self, doc: Document) -> Iterable[Finding]:
         ignore = tuple(str(p) for p in self.settings["ignore"])
-        for tok in doc.tokens:
+        # No rule edits an Attribute line, its comment included; the safety
+        # check compares those lines token for token (safety._items).
+        attribute_tokens = {
+            index
+            for line in doc.lines
+            if line.kind is LineKind.ATTRIBUTE
+            for index in range(line.first, line.stop)
+        }
+        for index, tok in enumerate(doc.tokens):
             if tok.kind is not TokenKind.COMMENT or not tok.text.startswith("'"):
+                continue
+            if index in attribute_tokens:
                 continue
             body = tok.text[1:]
             if not body or body[0] in (" ", "\t") or body.startswith(ignore):
