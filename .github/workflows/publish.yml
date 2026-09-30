@@ -45,7 +45,8 @@ jobs:
 
       - name: Test
         run: |
-          python -m pip install -e ".[dev]"
+          python -m pip install --require-hashes -r .github/requirements/test.txt
+          python -m pip install --no-deps --no-build-isolation -e .
           python -m pytest -q
 
       - name: Build sdist and wheel
@@ -100,9 +101,19 @@ jobs:
       # Signed build provenance: `gh attestation verify <file> --owner
       # WilliamSmithEdward` shows which commit and run built a distribution.
       - name: Attest the distributions
+        id: attest
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         with:
           subject-path: dist/*
+
+      # The signed bundle goes on the GitHub release too, so a download can be
+      # checked offline: gh attestation verify <file> --bundle <bundle>.
+      - name: Keep the provenance bundle
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: provenance
+          path: ${{ steps.attest.outputs.bundle-path }}
+          if-no-files-found: error
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
@@ -144,6 +155,13 @@ jobs:
           name: malware-report
           path: reports/
 
+      - name: Download the provenance bundle
+        if: env.DRY_RUN != 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: provenance
+          path: provenance/
+
       # Named for the release: pyprettyvba-0.2.0-security-report.md,
       # pyprettyvba-0.2.0-malware-report.md, pyprettyvba-0.2.0-semgrep.sarif.
       - name: Name the reports after the release
@@ -153,6 +171,10 @@ jobs:
           for file in reports/*; do
             mv "$file" "reports/pyprettyvba-$VERSION-$(basename "$file")"
           done
+          if [ "$DRY_RUN" != true ]; then
+            test "$(find provenance -type f | wc -l)" = 1
+            mv provenance/* "provenance/pyprettyvba-$VERSION.sigstore.json"
+          fi
 
       - name: Extract changelog section for this tag
         run: |
@@ -188,4 +210,5 @@ jobs:
           files: |
             dist/*
             reports/*
+            provenance/*
           fail_on_unmatched_files: true
