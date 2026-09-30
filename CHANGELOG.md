@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+- `comment-space` left a comment on an `Attribute` line alone only in the
+  module header. On a member attribute inside a procedure, such as
+  `Attribute Item.VB_UserMemId = 0 'default member`, it added a space, and
+  the safety check refused the whole module, so `strict` could not format
+  it. No rule edits an Attribute line, and now this one does not either.
+  Found by fuzzing.
+- Coverage-guided fuzzing with Atheris of the lexer and of the formatter
+  under every preset (`fuzz/fuzz_formatter.py`), daily and on every change.
+  The test suite replays the seed corpus.
+- Releases carry signed build provenance: the signed bundle from GitHub's
+  artifact attestations goes on the GitHub release as
+  `pyprettyvba-<version>.sigstore.json`. `SECURITY.md` has the steps to
+  verify a download.
+- OpenSSF Scorecard rates the repository's security practices on every
+  change to main and weekly, and the README shows its badge.
+- CI and the release's test step install the test tools and pyOpenVBA from a
+  hash-locked lock (`.github/requirements/test.txt`) instead of the dev extra.
+
 ## 0.1.0 (2026-09-29)
 
 The first version.
