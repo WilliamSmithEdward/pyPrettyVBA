@@ -68,7 +68,8 @@ Put a space between the apostrophe and the text of a comment.
 
 `'note` becomes `' note`. Documentation comments (`'''`), annotations and
 directives (`'@...`), and comments that open with a character listed in
-`ignore` (separator lines like `'-----`) are left as they are.
+`ignore` (separator lines like `'-----`) are left as they are, as is a
+comment on an `Attribute` line, which no rule edits.
 
 - Category: comments.
 - Off by default.
@@ -79,7 +80,7 @@ directives (`'@...`), and comments that open with a character listed in
 | --- | --- | --- | --- |
 | `ignore` | `["'", "@", "!", "#", "-", "=", "*", "~", "/", "<", ">", "\|", "+", "_", "."]` | list | Comments whose text starts with one of these are left alone. |
 
-Examples: [basic](../tests/fixtures/rules/comment-space/basic/).
+Examples: [attribute-lines](../tests/fixtures/rules/comment-space/attribute-lines/), [basic](../tests/fixtures/rules/comment-space/basic/).
 
 ## let-keyword
 

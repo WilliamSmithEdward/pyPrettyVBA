@@ -59,6 +59,14 @@ two workflows, and each fails on anything it does not expect.
 In both lists an entry that no longer matches fails the scan too, so the
 lists cannot outlive what they excuse.
 
+- **Fuzz:** Atheris feeds generated text to the lexer and to the formatter
+  under every preset, in [fuzz.yml](.github/workflows/fuzz.yml), daily and
+  on every change to the package. The lexer must lose nothing, and the
+  formatter must not raise, must settle in one pass, and must change no
+  character outside ASCII and whitespace. It is not a gate: a finding fails
+  that workflow and becomes a regression seed in `tests/fuzz_corpus/vba`,
+  which the test suite replays.
+
 A release is published only after its commit passes both, and it carries
 the reports as `pyprettyvba-<version>-security-report.md` and
 `pyprettyvba-<version>-malware-report.md`, beside the SARIF the security
@@ -69,12 +77,18 @@ Publishing, so no upload token exists to leak.
 
 Every action the workflows use is pinned to a commit, the Semgrep and
 ClamAV images to a digest, the development tools to exact versions, and
-the build tools to a hash-locked file in .github/requirements. Dependabot proposes updates to all of them, each a week after
+the test and build tools to hash-locked files in .github/requirements. Dependabot proposes updates to all of them, each a week after
 its release. The YARA-X engine and the YARA Forge rules are pinned by
 release and SHA-256 in
 [.github/security/yara.json](.github/security/yara.json); a weekly workflow
 proposes new pins in a pull request, and the scans check that pull
 request with the new rules before it can be merged.
+
+[OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/WilliamSmithEdward/pyPrettyVBA)
+rates these practices on every change to main and weekly, and publishes
+the result the README badge shows. Some of its checks assume more than one
+maintainer, such as a second person approving every change, so a
+single-maintainer project cannot score full marks on them.
 
 ## Verifying a download
 
@@ -89,4 +103,7 @@ pip download pyprettyvba --no-deps -d check
 gh attestation verify check/<file> --owner WilliamSmithEdward
 ```
 
-The output names the commit and workflow run that built the file.
+The output names the commit and workflow run that built the file. The
+signed bundle is also attached to the GitHub release as
+`pyprettyvba-<version>.sigstore.json`, so the check works without asking
+GitHub for it: add `--bundle pyprettyvba-<version>.sigstore.json`.
