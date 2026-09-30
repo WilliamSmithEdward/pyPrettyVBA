@@ -5,12 +5,21 @@ name: Publish
 # release from the changelog. Nothing is published until the tagged commit
 # passes the Security and Malware scans, and the release carries both
 # reports and the SARIF the security report was made from.
+#
+# Started by hand, this is a dry run unless dry_run is unticked: it builds,
+# scans and assembles the release files exactly as a release would, and
+# uploads them as the release-preview artifact instead of publishing anything.
 
 on:
   push:
     tags:
       - "v*.*.*"
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build, scan and assemble the release, but publish nothing
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -47,7 +56,7 @@ jobs:
       - name: Build sdist and wheel
         run: |
           python -m pip install --require-hashes -r .github/requirements/build.txt
-          python -m build
+          python -m build --no-isolation
 
       - name: Validate metadata
         run: python -m twine check dist/*
@@ -77,7 +86,7 @@ jobs:
   publish:
     name: Publish to PyPI
     needs: [build, security, malware-scan]
-    if: github.ref_type == 'tag'
+    if: ${{ github.ref_type == 'tag' && !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
     runs-on: ubuntu-24.04
     environment:
       name: pypi
@@ -95,12 +104,20 @@ jobs:
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
 
+  # On a dry run `publish` is skipped; this job still assembles the release
+  # and uploads it as an artifact, and only the last step is skipped.
   github-release:
     name: Create GitHub release
-    needs: [publish, security, malware-scan]
+    needs: [build, publish, security, malware-scan]
+    if: >-
+      ${{ !cancelled() && needs.build.result == 'success'
+      && needs.security.result == 'success' && needs.malware-scan.result == 'success'
+      && (needs.publish.result == 'success' || (github.event_name == 'workflow_dispatch' && inputs.dry_run)) }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -129,6 +146,7 @@ jobs:
       - name: Name the reports after the release
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$DRY_RUN" = true ]; then VERSION=$(sed -n 's/^__version__ = "\(.*\)"$/\1/p' src/pyprettyvba/__init__.py); fi
           for file in reports/*; do
             mv "$file" "reports/pyprettyvba-$VERSION-$(basename "$file")"
           done
@@ -136,6 +154,7 @@ jobs:
       - name: Extract changelog section for this tag
         run: |
           TAG="${GITHUB_REF_NAME#v}"
+          if [ "$DRY_RUN" = true ]; then TAG=$(sed -n 's/^__version__ = "\(.*\)"$/\1/p' src/pyprettyvba/__init__.py); fi
           awk -v ver="$TAG" '
             index($0, "## " ver) == 1 { capture=1; next }
             capture && /^## / { exit }
@@ -145,7 +164,19 @@ jobs:
             echo "Release $TAG" > release_notes.md
           fi
 
+      - name: Keep what the release would carry
+        if: env.DRY_RUN == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-preview
+          path: |
+            dist/
+            reports/
+            release_notes.md
+          if-no-files-found: error
+
       - name: Create GitHub release
+        if: env.DRY_RUN != 'true'
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           name: ${{ github.ref_name }}

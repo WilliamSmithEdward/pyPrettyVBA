@@ -3,5 +3,8 @@
 # tree:
 #   uv pip compile build.in --universal --generate-hashes --python-version 3.12 -o build.txt
 # Dependabot proposes each new release.
+# hatchling is the build backend: builds run with --no-isolation, so it comes
+# from this lock rather than a fresh download.
 build==1.6.1
 twine==7.0.0
+hatchling==1.32.4
