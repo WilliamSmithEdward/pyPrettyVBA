@@ -105,6 +105,48 @@ jobs:
           path: semgrep.sarif
           if-no-files-found: error
 
+  # The runtime dependency, pyOpenVBA, as a fresh install resolves it today:
+  # .github/requirements/runtime.txt, hash-locked and moved daily by
+  # Dependabot. pip-audit runs from its own venv, installed from the
+  # hash-locked .github/requirements/pip-audit.txt, so the tool does not mix
+  # with what it audits. Any known vulnerability fails the job, and there is no
+  # accepted list for it: the fix is a pyOpenVBA release.
+  dependencies:
+    name: Dependency audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.14"
+
+      - name: Install pip-audit
+        run: |
+          python -m venv "$RUNNER_TEMP/audit"
+          "$RUNNER_TEMP/audit/bin/python" -m pip install --require-hashes -r .github/requirements/pip-audit.txt
+
+      - name: Audit the runtime dependency (fails on any known vulnerability)
+        run: >
+          "$RUNNER_TEMP/audit/bin/pip-audit" --strict --require-hashes
+          -r .github/requirements/runtime.txt
+          --format json --output pip-audit.json --progress-spinner off
+
+      - name: Show the audit on the run
+        if: always()
+        run: >
+          "$RUNNER_TEMP/audit/bin/pip-audit" --strict --require-hashes
+          -r .github/requirements/runtime.txt --progress-spinner off || true
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: pip-audit
+          path: pip-audit.json
+
   # zizmor audits the workflows themselves: template injection, credential
   # persistence, over-broad permissions, dangerous triggers, and actions with
   # known advisories or impostor commits. Findings it should not raise are
@@ -187,7 +229,7 @@ jobs:
   security-passed:
     name: Security passed
     if: always()
-    needs: [codeql, semgrep, zizmor, report]
+    needs: [codeql, semgrep, dependencies, zizmor, report]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

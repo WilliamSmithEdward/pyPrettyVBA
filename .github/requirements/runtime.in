@@ -1,0 +1,8 @@
+# The runtime dependency as a user's install resolves it today, for the
+# Security workflow's dependency audit. pyproject.toml asks for
+# pyOpenVBA>=6.0; this pins the release PyPI serves now, and Dependabot moves
+# it daily (the owner's packages skip the cooldown), so the audit follows
+# what a fresh install gets. Compiled for the oldest Python the package
+# supports:
+#   uv pip compile runtime.in --universal --generate-hashes --python-version 3.11 -o runtime.txt
+pyopenvba==6.3.5
