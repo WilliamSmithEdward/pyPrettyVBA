@@ -205,8 +205,8 @@ the test suite without Office. See [docs/vbe-evidence.md](docs/vbe-evidence.md).
 Report a vulnerability privately through the repository's
 [Security tab](https://github.com/WilliamSmithEdward/pyPrettyVBA/security/advisories/new).
 CodeQL and Semgrep scan the code, and ClamAV and YARA-X scan every file
-in the repository, on every push, pull request and release, and on a
-schedule. Anything they report that is not listed, with its reason, in
+in the repository and the built wheel and sdist, on every push, pull
+request and release, and on a schedule. Anything they report that is not listed, with its reason, in
 `.github/security/` fails the build. Each release carries both reports.
 See [SECURITY.md](SECURITY.md).
 
