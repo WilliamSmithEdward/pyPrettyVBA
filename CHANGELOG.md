@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The Security workflow audits the runtime dependency, pyOpenVBA, with
+  pip-audit: any known vulnerability fails it. The audit reads a hash-locked
+  `.github/requirements/runtime.txt` that Dependabot moves daily.
 - `comment-space` left a comment on an `Attribute` line alone only in the
   module header. On a member attribute inside a procedure, such as
   `Attribute Item.VB_UserMemId = 0 'default member`, it added a space, and

@@ -54,10 +54,13 @@ rules reach files that have not changed.
   hide a finding. Results go to the repository's code scanning.
 - **Workflows:** zizmor audits the GitHub Actions workflows; a finding fails
   Security.
-- **Dependencies:** no dependency audit runs. The one runtime dependency
-  is pyOpenVBA, the same owner's package, which has no dependencies of its
-  own and is scanned in its own repository. The tools the workflows
-  install come from hash-locked files (see Pinning and updates).
+- **Dependencies:** pip-audit checks the one runtime dependency,
+  pyOpenVBA, as a fresh install resolves it today
+  (`.github/requirements/runtime.txt`, hash-locked and moved daily by
+  Dependabot). Any known vulnerability fails Security. pyOpenVBA has no
+  dependencies of its own and is scanned in its own repository. The tools
+  the workflows install come from hash-locked files (see Pinning and
+  updates).
 - **Malware:** ClamAV, with signatures freshclam fetches and verifies on
   every run, and YARA-X, with the YARA Forge rules pinned to a release and
   its SHA-256, scan every file the commit holds, test fixtures included.
