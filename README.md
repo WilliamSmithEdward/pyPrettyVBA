@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/pyprettyvba)](https://pypi.org/project/pyprettyvba/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pyprettyvba)](https://pypi.org/project/pyprettyvba/)
-[![Downloads](https://img.shields.io/pypi/dm/pyprettyvba)](https://pypistats.org/packages/pyprettyvba)
+[![Downloads](https://static.pepy.tech/badge/pyprettyvba/month)](https://pepy.tech/projects/pyprettyvba)
 [![CI](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/ci.yml)
 [![Security](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/security.yml)
 [![Malware scan](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware-scan.yml/badge.svg?branch=main)](https://github.com/WilliamSmithEdward/pyPrettyVBA/actions/workflows/malware-scan.yml)
