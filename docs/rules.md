@@ -189,7 +189,7 @@ a line number, and keeps its spelling.
 | --- | --- | --- | --- |
 | `report-precision-loss` | `true` | true, false | Report a literal with more digits than the VBE keeps, which the VBE silently replaces with a different value. |
 
-Examples: [basic](../tests/fixtures/rules/numeric-literals/basic/), [quiet](../tests/fixtures/rules/numeric-literals/quiet/).
+Examples: [basic](../tests/fixtures/rules/numeric-literals/basic/), [date-forming](../tests/fixtures/rules/numeric-literals/date-forming/), [quiet](../tests/fixtures/rules/numeric-literals/quiet/).
 
 ## date-literals
 

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Iterator
 
-from ..document import Document, LineKind
+from ..document import Document, LineKind, LogicalLine
 from ..lexer import TokenKind, tokenize
 from ..literals import canonical_date, canonical_number, precision_loss
 from .base import Finding, Option, Rule
@@ -60,13 +60,16 @@ class NumericLiteralRule(Rule):
             for line in doc.lines
             if line.kind is LineKind.CODE and line.head is not None
         }
-        for j in _literal_tokens(doc, (TokenKind.INTEGER, TokenKind.FLOAT)):
+        # Respellings this pass has accepted, by physical line, so each new one
+        # is checked together with them: the engine applies them all at once.
+        accepted: dict[int, list[tuple[int, int, str]]] = {}
+        for line, j in _literal_tokens(doc, (TokenKind.INTEGER, TokenKind.FLOAT)):
             tok = doc.tokens[j]
             if tok.start in heads:
                 continue
             canonical = canonical_number(tok.text)
             if canonical is not None and canonical != tok.text:
-                if _stays_one_token(doc, j, canonical):
+                if _stays_one_token(doc, line, j, canonical, accepted):
                     yield Finding(tok.start, tok.end, canonical, f"The VBE writes {tok.text} as {canonical}.")
             elif canonical is None and report:
                 lost = precision_loss(tok.text)
@@ -95,20 +98,20 @@ class DateLiteralRule(Rule):
     vbe_canonical = True
 
     def run(self, doc: Document) -> Iterable[Finding]:
-        for j in _literal_tokens(doc, (TokenKind.DATE,)):
+        for _, j in _literal_tokens(doc, (TokenKind.DATE,)):
             tok = doc.tokens[j]
             canonical = canonical_date(tok.text)
             if canonical is not None and canonical != tok.text:
                 yield Finding(tok.start, tok.end, canonical, f"The VBE writes {tok.text} as {canonical}.")
 
 
-def _literal_tokens(doc: Document, kinds: tuple[TokenKind, ...]) -> Iterator[int]:
+def _literal_tokens(doc: Document, kinds: tuple[TokenKind, ...]) -> Iterator[tuple[LogicalLine, int]]:
     for line in doc.lines:
         if line.kind not in (LineKind.CODE, LineKind.DIRECTIVE):
             continue
         for j in range(line.first, line.stop):
             if doc.tokens[j].kind in kinds:
-                yield j
+                yield line, j
 
 
 _GLUE_RISK = frozenset((
@@ -117,10 +120,22 @@ _GLUE_RISK = frozenset((
 ))
 
 
-def _stays_one_token(doc: Document, j: int, replacement: str) -> bool:
-    """True when token j respelled still lexes apart from its neighbours.
+def _stays_one_token(
+    doc: Document,
+    line: LogicalLine,
+    j: int,
+    replacement: str,
+    accepted: dict[int, list[tuple[int, int, str]]],
+) -> bool:
+    """True when token j respelled still lexes as the same tokens, and if so records it.
 
-    `10%0` is two numbers; without its redundant `%`, `100` is one.
+    `10%0` is two numbers; without its redundant `%`, `100` is one. A date
+    literal reaches past the neighbours: in `x = #0% 0#` the `#`, `0%` and
+    `0#` are three tokens, and without the `%`, `#0 0#` is one date (found by
+    fuzz/fuzz_formatter.py, 2026-10-01). So the whole logical line is lexed
+    again, with every respelling this pass has accepted on it, since the
+    engine applies them together. A logical line is where the lexer starts
+    afresh, so it lexes alone exactly as it does in the module.
     """
     tokens = doc.tokens
     for k in (j - 1, j + 1):
@@ -128,7 +143,18 @@ def _stays_one_token(doc: Document, j: int, replacement: str) -> bool:
         # (`&hff%.5`: `&HFF` and `0.5` together read `&HFF0.5`).
         if 0 <= k < len(tokens) and tokens[k].kind in _GLUE_RISK:
             return False
-    before = tokens[j - 1].text if j > 0 else ""
-    after = tokens[j + 1].text if j + 1 < len(tokens) else ""
-    relexed = [tok.text for tok in tokenize(before + replacement + after)]
-    return relexed == [text for text in (before, replacement, after) if text]
+    tok = tokens[j]
+    text = doc.text
+    start, end = line.start, line.end
+    edits = sorted([*accepted.get(start, []), (tok.start, tok.end, replacement)])
+    respelled, at = "", start
+    for edit_start, edit_end, edit_text in edits:
+        respelled += text[at:edit_start] + edit_text
+        at = edit_end
+    respelled += text[at:end]
+    replaced = {edit_start - start: edit_text for edit_start, _, edit_text in edits}
+    expected = [replaced.get(t.start, t.text) for t in tokenize(text[start:end])]
+    if [t.text for t in tokenize(respelled)] != expected:
+        return False
+    accepted.setdefault(start, []).append((tok.start, tok.end, replacement))
+    return True
