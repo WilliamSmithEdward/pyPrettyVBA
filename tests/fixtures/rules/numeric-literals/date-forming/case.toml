@@ -1,0 +1,11 @@
+title = "A respelling that would make a date"
+description = """
+Between two `#` signs, a type suffix is all that keeps numbers apart from
+a date literal: `#0% 0#` is `#`, `0%` and `0#`, but `#0 0#` is one date.
+Such a `%` stays, alone, beside another respelled in the same pass, and on
+a continued line; `10%` elsewhere is still written `10`. Found by fuzzing.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "default"

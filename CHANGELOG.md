@@ -8,6 +8,13 @@
   the safety check refused the whole module, so `strict` could not format
   it. No rule edits an Attribute line, and now this one does not either.
   Found by fuzzing.
+- `numeric-literals` could join numbers into a date literal. Between two `#`
+  signs a type suffix can be all that keeps numbers apart: `x = #0% 0#` is
+  `#`, `0%` and `0#`, but without the redundant `%` it reads as the date
+  `#0 0#`. The rule checked only the literal's neighbours, so the safety
+  check refused the module. It now relexes the whole logical line with every
+  respelling of the pass, and keeps the `%` where removing it would make a
+  date. Found by the daily fuzz run.
 - Coverage-guided fuzzing with Atheris of the lexer and of the formatter
   under every preset (`fuzz/fuzz_formatter.py`), daily and on every change.
   The test suite replays the seed corpus.

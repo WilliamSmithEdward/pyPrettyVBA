@@ -1,0 +1,5 @@
+2:12 spacing Use one space between '0%' and '0#'. [*]
+3:10 numeric-literals The VBE writes 0% as 0. [*]
+3:15 spacing Use one space between '0%' and '#'. [*]
+5:1 continuation-indent Indent the continuation line to column 9. [*]
+6:9 numeric-literals The VBE writes 10% as 10. [*]
