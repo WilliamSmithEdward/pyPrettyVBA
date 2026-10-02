@@ -9,7 +9,7 @@
 # Dependabot proposes each new release.
 pytest==9.1.1
 hypothesis==6.168.3
-ruff==0.16.8
+ruff==0.16.9
 mypy==2.3.1
 pyopenvba==6.3.5
 hatchling==1.32.4
