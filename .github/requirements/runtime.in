@@ -5,4 +5,4 @@
 # what a fresh install gets. Compiled for the oldest Python the package
 # supports:
 #   uv pip compile runtime.in --universal --generate-hashes --python-version 3.11 -o runtime.txt
-pyopenvba==6.3.5
+pyopenvba==6.5.0
