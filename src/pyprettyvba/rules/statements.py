@@ -1,6 +1,7 @@
-"""Statement-level style: one statement per line, and the optional Let.
+"""Statement-level style: one statement per line, one variable per
+declaration, and the optional Let.
 
-Both are off unless enabled; neither is something the VBE does.
+All three are off unless enabled; none is something the VBE does.
 
 split-statements never splits a single-line If. Everything after its Then
 belongs to it, colons included: `If a Then b: c` runs `c` only when `a`
@@ -13,11 +14,11 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-from ..document import Document, LineKind, LogicalLine, Statement, StatementKind
+from ..document import Document, LineKind, LogicalLine, Statement, StatementKind, declaration_items
 from ..lexer import TokenKind
 from .base import Finding, Option, Rule
 
-__all__ = ["LetKeywordRule", "SplitStatementsRule", "StatementFormRule"]
+__all__ = ["LetKeywordRule", "OneDeclarationPerLineRule", "SplitStatementsRule", "StatementFormRule"]
 
 
 class SplitStatementsRule(Rule):
@@ -201,6 +202,58 @@ def _call_target_ends_before(doc: Document, indices: list[int], position: int) -
         else:
             return False
     return not expect_name
+
+
+class OneDeclarationPerLineRule(Rule):
+    """Declare one variable per statement.
+
+    `Dim ws As Worksheet, r As Long` becomes a `Dim` for each. Each item
+    keeps its own `As` clause, bounds, `New` and `WithEvents`, which VBA
+    applies per variable: `Dim x, y As Long` makes only `y` a Long, and the
+    split shows it. `Private`, `Public`, `Global`, `Static` and `Const`
+    lists are split the same way, repeating their keywords. A `ReDim` is
+    one resize and is left whole. A comment at the end of the line stays
+    with the last item. A style the VBE does not impose; off unless enabled.
+    """
+
+    code = "one-declaration-per-line"
+    summary = "Declare one variable per statement."
+    category = "statements"
+    default_enabled = False
+
+    def run(self, doc: Document) -> Iterable[Finding]:
+        tokens = doc.tokens
+        for line in doc.lines:
+            if line.kind is not LineKind.CODE:
+                continue
+            if any(tokens[j].kind is TokenKind.UNKNOWN for j in range(line.first, line.stop)):
+                continue
+            newline = _line_newline(doc, line, self.context.newline)
+            indent = doc.indent_of(line)
+            for statement in line.statements:
+                declaration = declaration_items(tokens, statement)
+                if declaration is None or len(declaration[1]) < 2:
+                    continue
+                keywords, items = declaration
+                prefix = " ".join(tokens[j].text for j in keywords)
+                for previous, item in zip(items, items[1:], strict=False):
+                    comma = doc.next_code(previous[-1])
+                    if comma is None or tokens[comma].text != ",":
+                        break
+                    yield Finding(
+                        tokens[previous[-1]].end,
+                        tokens[item[0]].start,
+                        f"{newline}{indent}{prefix} ",
+                        "Declare one variable per statement.",
+                    )
+
+
+def _line_newline(doc: Document, line: LogicalLine, default: str) -> str:
+    """The line's own terminator, so a new line matches its neighbours."""
+    tokens = doc.tokens
+    if line.stop > line.first and tokens[line.stop - 1].kind is TokenKind.NEWLINE:
+        return tokens[line.stop - 1].text
+    return default
 
 
 class LetKeywordRule(Rule):

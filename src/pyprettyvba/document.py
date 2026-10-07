@@ -26,6 +26,7 @@ __all__ = [
     "LogicalLine",
     "Statement",
     "StatementKind",
+    "declaration_items",
     "split_header",
 ]
 
@@ -589,6 +590,50 @@ def _classify(tokens: list[Token], statement: Statement) -> None:
     if w0 in _VARIABLE_WORDS:
         statement.kind = StatementKind.VARIABLES
         return
+
+
+def declaration_items(tokens: list[Token], statement: Statement) -> tuple[list[int], list[list[int]]] | None:
+    """A variable declaration as its keywords and the items it declares.
+
+    `Public WithEvents app As Application, name As String` is the keywords
+    `Public` and the items `WithEvents app As Application` and
+    `name As String`, each a list of token indices. The items are what
+    `Dim a, b` has two of: VBA declares each on its own, so writing them as
+    separate statements with the same keywords means the same thing.
+    `WithEvents` belongs to its item, not the keywords, since it applies to
+    one variable. A `ReDim` is one operation on every item and is not taken
+    apart: None, as for anything that is not a variable declaration.
+    """
+    if statement.kind is not StatementKind.VARIABLES:
+        return None
+    indices = statement.tokens
+    keywords: list[int] = []
+    k = 0
+    while k < len(indices) and tokens[indices[k]].is_word and tokens[indices[k]].lower in _DECLARATION_KEYWORDS:
+        keywords.append(indices[k])
+        k += 1
+    if not keywords or k >= len(indices) or tokens[keywords[0]].lower == "redim":
+        return None
+    items: list[list[int]] = [[]]
+    depth = 0
+    for j in indices[k:]:
+        tok = tokens[j]
+        if tok.kind is TokenKind.PUNCTUATION:
+            if tok.text == "(":
+                depth += 1
+            elif tok.text == ")":
+                depth -= 1
+            elif tok.text == "," and depth == 0:
+                items.append([])
+                continue
+        items[-1].append(j)
+    if depth != 0 or any(not item for item in items):
+        return None
+    return keywords, items
+
+
+# The words that may open a variable declaration, before its first item.
+_DECLARATION_KEYWORDS = frozenset(("dim", "static", "const", "private", "public", "global", "shared"))
 
 
 _DEFTYPE_WORDS = frozenset(

@@ -114,3 +114,26 @@ def test_line_kinds_and_logical_lines() -> None:
 def test_member_names_are_not_statement_keywords() -> None:
     doc = Document("wb.Close\n.Print x\n")
     assert all(s.kind is StatementKind.OTHER for line in doc.lines for s in line.statements)
+
+
+def test_declaration_items() -> None:
+    """A declaration list is its keywords and one item per variable; a ReDim is not taken apart."""
+    from pyprettyvba.document import declaration_items
+
+    def items(source: str) -> tuple[list[str], list[str]] | None:
+        doc = Document(source)
+        found = declaration_items(doc.tokens, doc.lines[0].statements[0])
+        if found is None:
+            return None
+        keywords, parts = found
+        text = doc.tokens
+        return [text[j].text for j in keywords], [" ".join(text[j].text for j in part) for part in parts]
+
+    assert items("Dim a As Long, b") == (["Dim"], ["a As Long", "b"])
+    assert items("Public WithEvents app As Application, name As String") == (
+        ["Public"], ["WithEvents app As Application", "name As String"]
+    )
+    assert items("Private Const A = 1, B As String = \"b\"") == (["Private", "Const"], ["A = 1", "B As String = \"b\""])
+    assert items("Dim g(1 To 2, 1 To 3) As Long, h(2, 2)") == (["Dim"], ["g ( 1 To 2 , 1 To 3 ) As Long", "h ( 2 , 2 )"])
+    assert items("ReDim a(5), b(6)") is None
+    assert items("x = 1") is None

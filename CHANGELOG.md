@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A new rule, `one-declaration-per-line`, off by default: `Dim a As Long,
+  b As Long` becomes a `Dim` for each. Each item keeps its own type, so
+  `Dim x, y As Long` splits into `Dim x` and `Dim y As Long`, which is what
+  it declared. The safety check knows the two forms mean the same thing.
 - The Malware scan builds the wheel and sdist with the hash-locked build
   tools, as a release builds them, and ClamAV and YARA-X scan them beside
   the committed files.
