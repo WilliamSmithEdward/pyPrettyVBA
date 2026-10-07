@@ -50,14 +50,20 @@ def test_alternative_procedure_headers_in_directive_arms() -> None:
     )
     structure = analyze_structure(Document(src))
     assert structure.problems == []
-    # The arms are unbalanced, so they take no extra level.
+    # The arms are unbalanced, so they take no extra level: the #If splices
+    # one header out of two.
     assert structure.levels == [0, 0, 0, 0, 0, 1, 0]
+    assert structure.spliced_directives == [[0, 2, 4]]
+    assert structure.balanced_directives == set()
 
 
 def test_balanced_directive_block_indents_its_content() -> None:
     src = "#If VBA7 Then\nPrivate Declare PtrSafe Sub S Lib \"k\" ()\n#Else\nPrivate Declare Sub S Lib \"k\" ()\n#End If\n"
     assert levels(src) == [0, 1, 0, 1, 0]
     assert levels(src, directive_arms=False) == [0, 0, 0, 0, 0]
+    structure = analyze_structure(Document(src))
+    assert structure.balanced_directives == {0, 2, 4}
+    assert structure.spliced_directives == []
 
 
 def test_broken_regions_are_reported() -> None:

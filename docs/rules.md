@@ -442,8 +442,10 @@ Runs of blank lines are cut to `max-consecutive`. Each procedure gets
 block that documents it, so the comment stays attached to its
 procedure. Blank lines right after a procedure's header and right before
 its End go with `trim-procedures`, and blank lines at the top of the
-module with `leading`. The VBE leaves blank lines alone; blank lines at
-the end of the file belong to end-of-file.
+module with `leading`. `pad-blocks` does the opposite of trimming: one
+blank line inside every block and on both sides of every block within a
+procedure, so each body stands apart. The VBE leaves blank lines alone;
+blank lines at the end of the file belong to end-of-file.
 
 - Category: layout.
 - On by default.
@@ -455,9 +457,10 @@ the end of the file belong to end-of-file.
 | `max-consecutive` | `2` | integer, at least 0 | The most blank lines in a row. |
 | `between-procedures` | `1` | integer, at least -1 | Blank lines before each procedure (and its comment block), counted from the code above it. -1 leaves them as they are. |
 | `trim-procedures` | `true` | true, false | Remove blank lines right after a procedure header and right before its End. |
+| `pad-blocks` | `false` | true, false | Set every block's body apart with one blank line: after the line that opens a block or an arm of one (`Sub`, `If`, `Else`, `Case`, `For`, `With`, `Type`, a balanced `#If`), before the line that closes one (`End Sub`, `End If`, `Next`, `Loop` and the rest), and on both sides of a block inside a procedure, above its comment lines. Types and Enums get `between-procedures` blank lines above them like procedures, and the Option statements one blank line below. `trim-procedures` is ignored. |
 | `leading` | `0` | integer, at least 0 | Blank lines allowed at the start of the module body. |
 
-Examples: [basic](../tests/fixtures/rules/blank-lines/basic/), [strict](../tests/fixtures/rules/blank-lines/strict/).
+Examples: [basic](../tests/fixtures/rules/blank-lines/basic/), [pad-blocks](../tests/fixtures/rules/blank-lines/pad-blocks/), [strict](../tests/fixtures/rules/blank-lines/strict/).
 
 ## end-of-file
 

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `blank-lines` gains `pad-blocks`, off by default: one blank line inside
+  every block and on both sides of every block within a procedure, so each
+  body stands apart. Types and Enums are set apart like procedures, and
+  the Option statements get a blank line below. An `#If` that splices a
+  line, such as two versions of a procedure header, is left alone.
 - A new rule, `one-declaration-per-line`, off by default: `Dim a As Long,
   b As Long` becomes a `Dim` for each. Each item keeps its own type, so
   `Dim x, y As Long` splits into `Dim x` and `Dim y As Long`, which is what

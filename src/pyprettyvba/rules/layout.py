@@ -358,8 +358,10 @@ class BlankLinesRule(Rule):
     block that documents it, so the comment stays attached to its
     procedure. Blank lines right after a procedure's header and right before
     its End go with `trim-procedures`, and blank lines at the top of the
-    module with `leading`. The VBE leaves blank lines alone; blank lines at
-    the end of the file belong to end-of-file.
+    module with `leading`. `pad-blocks` does the opposite of trimming: one
+    blank line inside every block and on both sides of every block within a
+    procedure, so each body stands apart. The VBE leaves blank lines alone;
+    blank lines at the end of the file belong to end-of-file.
     """
 
     code = "blank-lines"
@@ -375,6 +377,16 @@ class BlankLinesRule(Rule):
             minimum=-1,
         ),
         Option("trim-procedures", True, "Remove blank lines right after a procedure header and right before its End."),
+        Option(
+            "pad-blocks",
+            False,
+            "Set every block's body apart with one blank line: after the line that opens a block or "
+            "an arm of one (`Sub`, `If`, `Else`, `Case`, `For`, `With`, `Type`, a balanced `#If`), "
+            "before the line that closes one (`End Sub`, `End If`, `Next`, `Loop` and the rest), and "
+            "on both sides of a block inside a procedure, above its comment lines. Types and Enums get "
+            "`between-procedures` blank lines above them like procedures, and the Option statements "
+            "one blank line below. `trim-procedures` is ignored.",
+        ),
         Option("leading", 0, "Blank lines allowed at the start of the module body.", minimum=0),
     )
 
@@ -382,7 +394,8 @@ class BlankLinesRule(Rule):
         s = self.settings
         max_run = int(s["max-consecutive"])
         between = int(s["between-procedures"])
-        trim = bool(s["trim-procedures"])
+        pad = bool(s["pad-blocks"])
+        trim = bool(s["trim-procedures"]) and not pad
         lines = doc.lines
         structure = analyze_structure(doc)
         # Headers and End lines of procedures that span more than one line
@@ -394,31 +407,57 @@ class BlankLinesRule(Rule):
         ]
         headers = {first for first, _last in closed}
         closers = {last for _first, last in closed}
-        # A procedure's leading block: the comment lines right above its header.
+        # The module-level blocks that blank lines set apart: procedures, and
+        # with pad-blocks Types and Enums too. Each is counted above the
+        # comment lines right above its header, which stay attached to it.
+        starts = [first for first, _last in structure.procedures]
+        if pad:
+            starts += [
+                line.index
+                for line in lines
+                if line.kind is LineKind.CODE
+                and line.statements
+                and line.statements[0].kind in (StatementKind.TYPE_START, StatementKind.ENUM_START)
+            ]
         block_start: dict[int, int] = {}
-        for first, _last in structure.procedures:
-            top = first
-            while top - 1 >= 0 and lines[top - 1].kind is LineKind.COMMENT:
-                top -= 1
-            block_start[top] = first
+        for first in starts:
+            block_start[_comment_top(lines, first)] = first
+        padded = set(structure.balanced_directives)
+        # An #If whose arms do not balance splices one line out of several,
+        # two versions of a procedure header most often. Nothing inside it is
+        # padded; at the boundaries outside it, its #If and #End If lines
+        # stand for the first arm's first and last lines.
+        splice_of: dict[int, list[int]] = {}
+        for span in structure.spliced_directives:
+            for index in range(span[0], span[-1] + 1):
+                splice_of[index] = span
+        # With pad-blocks, the blocks inside procedures are set apart the same
+        # way, above their own comment lines.
+        inner_top: set[int] = set()
+        if pad:
+            for line in lines:
+                if line.index not in splice_of and _opens_inner(line, padded):
+                    inner_top.add(_comment_top(lines, line.index))
+            for span in structure.spliced_directives:
+                if _opens_inner(_stand_in(lines, span, start=True), padded):
+                    inner_top.add(_comment_top(lines, span[0]))
         plural = "s" if max_run != 1 else ""
 
+        # Every boundary between two lines that are not blank, with the run of
+        # blank lines between them (there may be none), and the module's start.
         index = 0
         count = len(lines)
         while index < count:
-            if lines[index].kind is not LineKind.BLANK:
-                index += 1
-                continue
             run_start = index
             while index < count and lines[index].kind is LineKind.BLANK:
                 index += 1
-            run_end = index  # exclusive
+            run_end = index  # the line after the run
             if run_end >= count:
-                continue  # trailing blank lines belong to end-of-file
-            prev_index = run_start - 1
+                break  # trailing blank lines belong to end-of-file
             have = run_end - run_start
-            wanted = min(have, max_run)
+            prev_index = run_start - 1
             reason = f"Use at most {max_run} blank line{plural} in a row."
+            wanted = min(have, max_run)
             if prev_index < 0:
                 wanted = min(have, int(s["leading"]))
                 reason = "Remove blank lines at the start of the module."
@@ -431,6 +470,23 @@ class BlankLinesRule(Rule):
             elif between >= 0 and run_end in block_start and self._separates(doc, prev_index):
                 wanted = between
                 reason = f"Separate procedures with {between} blank line{'s' if between != 1 else ''}."
+            elif (
+                pad
+                and not structure.is_broken(prev_index)
+                and not structure.is_broken(run_end)
+                and not (prev_index in splice_of and splice_of[prev_index] is splice_of.get(run_end))
+            ):
+                prev, nxt = lines[prev_index], lines[run_end]
+                if prev_index in splice_of:
+                    prev = _stand_in(lines, splice_of[prev_index], start=False)
+                if run_end in splice_of:
+                    nxt = _stand_in(lines, splice_of[run_end], start=True)
+                if _ends_block_line(prev, padded) or _starts_block_line(nxt, padded) or run_end in inner_top:
+                    wanted = 1
+                    reason = "Set a block's body apart with one blank line."
+                elif _is_option(prev) and nxt.kind is LineKind.CODE and not _is_option(nxt):
+                    wanted = 1
+                    reason = "Put one blank line after the Option statements."
             if have > wanted:
                 first_removed = lines[run_start + wanted]
                 last_removed = lines[run_end - 1]
@@ -438,24 +494,7 @@ class BlankLinesRule(Rule):
             elif have < wanted:
                 at = lines[run_end].start
                 yield Finding(at, at, self._newline(doc, lines[run_end - 1]) * (wanted - have), reason)
-
-        if between > 0:
-            # Procedures with no blank line at all above their leading block.
-            for top in sorted(block_start):
-                prev_index = top - 1
-                if prev_index < 0 or lines[prev_index].kind is LineKind.BLANK:
-                    continue
-                if not self._separates(doc, prev_index) or (trim and prev_index in headers):
-                    # Right after another procedure's header, trimming wins,
-                    # as it does above.
-                    continue
-                at = lines[top].start
-                yield Finding(
-                    at,
-                    at,
-                    self._newline(doc, lines[prev_index]) * between,
-                    f"Separate procedures with {between} blank line{'s' if between != 1 else ''}.",
-                )
+            index = run_end + 1
 
     @staticmethod
     def _separates(doc: Document, prev_index: int) -> bool:
@@ -476,6 +515,77 @@ class BlankLinesRule(Rule):
         if line.stop > line.first and tokens[line.stop - 1].kind is TokenKind.NEWLINE:
             return tokens[line.stop - 1].text
         return self.context.newline
+
+
+# Lines a padded block puts a blank line after: one that ends by opening or
+# closing a block, or an arm of one. Lines it puts a blank line before: one
+# that starts by closing a block or opening an arm, and a block opener inside
+# a procedure, counted above the comment lines right above it.
+_OPENING = frozenset(
+    {
+        StatementKind.PROC_START, StatementKind.TYPE_START, StatementKind.ENUM_START,
+        StatementKind.IF_BLOCK, StatementKind.SELECT, StatementKind.FOR, StatementKind.DO,
+        StatementKind.WHILE, StatementKind.WITH, StatementKind.CC_IF,
+    }
+)
+_ARMS = frozenset(
+    {
+        StatementKind.ELSEIF, StatementKind.ELSE, StatementKind.CASE,
+        StatementKind.CC_ELSEIF, StatementKind.CC_ELSE,
+    }
+)
+_CLOSING = frozenset(
+    {
+        StatementKind.PROC_END, StatementKind.TYPE_END, StatementKind.ENUM_END,
+        StatementKind.END_IF, StatementKind.END_SELECT, StatementKind.NEXT, StatementKind.LOOP,
+        StatementKind.WEND, StatementKind.END_WITH, StatementKind.CC_END_IF,
+    }
+)
+_INNER_OPENING = _OPENING - {StatementKind.PROC_START, StatementKind.TYPE_START, StatementKind.ENUM_START}
+
+
+def _padded_kind(line: LogicalLine, statement_index: int, padded: set[int]) -> StatementKind | None:
+    """The kind of one of the line's statements, for padding; None for a
+    directive of an #If block that is not balanced, which is spliced text."""
+    if not line.statements:
+        return None
+    if line.kind is LineKind.DIRECTIVE and line.index not in padded:
+        return None
+    return line.statements[statement_index].kind
+
+
+def _ends_block_line(line: LogicalLine, padded: set[int]) -> bool:
+    kind = _padded_kind(line, -1, padded)
+    return kind is not None and (kind in _OPENING or kind in _ARMS or kind in _CLOSING)
+
+
+def _starts_block_line(line: LogicalLine, padded: set[int]) -> bool:
+    kind = _padded_kind(line, 0, padded)
+    return kind is not None and (kind in _CLOSING or kind in _ARMS)
+
+
+def _opens_inner(line: LogicalLine, padded: set[int]) -> bool:
+    return _padded_kind(line, 0, padded) in _INNER_OPENING
+
+
+def _stand_in(lines: list[LogicalLine], span: list[int], *, start: bool) -> LogicalLine:
+    """The line a spliced #If stands for at a boundary outside it: the first
+    arm's first line (or last), failing that its own #If (or #End If) line."""
+    arm = [k for k in range(span[0] + 1, span[1]) if lines[k].kind in (LineKind.CODE, LineKind.DIRECTIVE)]
+    if not arm:
+        return lines[span[0] if start else span[-1]]
+    return lines[arm[0] if start else arm[-1]]
+
+
+def _comment_top(lines: list[LogicalLine], index: int) -> int:
+    """The first of the comment lines right above line ``index``, or ``index``."""
+    while index - 1 >= 0 and lines[index - 1].kind is LineKind.COMMENT:
+        index -= 1
+    return index
+
+
+def _is_option(line: LogicalLine) -> bool:
+    return line.kind is LineKind.CODE and bool(line.statements) and line.statements[0].kind is StatementKind.OPTION
 
 
 class TrailingWhitespaceRule(Rule):
