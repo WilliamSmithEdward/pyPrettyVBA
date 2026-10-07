@@ -25,6 +25,12 @@ SAME = [
     ("Label1: x = 1", "Label1:\r\nx = 1"),
     ("Else x = 1", "Else: x = 1"),
     ("Foo , 2", "Foo, 2"),
+    # A declaration of several variables is one declaration each.
+    ("Dim a As Long, b As Long", "Dim a As Long\r\nDim b As Long"),
+    ("Dim x, y As Long", "Dim x\r\nDim y As Long"),
+    ("Public WithEvents app As Application, name As String", "Public WithEvents app As Application\r\nPublic name As String"),
+    ("Dim buffer(1 To 10) As Byte, flag As Boolean", "Dim buffer(1 To 10) As Byte\r\nDim flag As Boolean"),
+    ("Const A = 1, B As String = \"b\"", "Const A = 1\r\nConst B As String = \"b\""),
 ]
 
 
@@ -56,6 +62,15 @@ DIFFERENT = [
     ('s = "a  b"', 's = "a b"'),
     ("' a  b", "' a b"),
     ("x = 1", "x = 2"),
+    # Splitting a declaration must keep each item's own type: in
+    # `Dim x, y As Long` only y is Long.
+    ("Dim x, y As Long", "Dim x As Long\r\nDim y As Long"),
+    # WithEvents belongs to one variable, not to the whole list.
+    ("Public WithEvents app As Application, name As String", "Public WithEvents app As Application\r\nPublic WithEvents name As String"),
+    # A ReDim is one operation; two ReDims resize at two moments.
+    ("ReDim a(5), b(6)", "ReDim a(5)\r\nReDim b(6)"),
+    # A comma inside bounds is not an item boundary.
+    ("Dim grid(1 To 2, 1 To 3) As Long", "Dim grid(1 To 2)\r\nDim (1 To 3) As Long"),
 ]
 
 

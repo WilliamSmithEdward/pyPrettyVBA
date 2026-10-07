@@ -13,7 +13,9 @@ make, and nothing else:
 * `:` against a line break between statements, except inside a single-line
   If, where every colon belongs to the If;
 * a comment's marker (`Rem` or `'`) and the spaces around its text;
-* a `Let` that opens an assignment, and `EndIf` against `End If`.
+* a `Let` that opens an assignment, and `EndIf` against `End If`;
+* a declaration of several variables against one declaration each:
+  `Dim a, b As Long` declares `a` and `b As Long` just as two Dims would.
 
 Whitespace is not always insignificant in VBA, so the signature also records
 where it is not: whether `&`, `!`, `#`, `^` and `.` touch the token before
@@ -29,7 +31,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from typing import Any
 
-from .document import Document, LineKind, StatementKind
+from .document import Document, LineKind, StatementKind, declaration_items
 from .keywords import OPERAND_WORDS
 from .lexer import Token, TokenKind
 from .literals import date_identity, number_value
@@ -97,6 +99,15 @@ def _items(doc: Document) -> Iterator[tuple[Any, ...]]:
                 yield ("label", label.key)
             yield _SEP
         for statement in line.statements:
+            declaration = declaration_items(tokens, statement)
+            if declaration is not None and len(declaration[1]) > 1:
+                # One statement per item, as the declaration means.
+                keywords, items = declaration
+                for item in items:
+                    for j in keywords + item:
+                        yield from _token_items(doc, j, exact=False)
+                    yield _SEP
+                continue
             pinned = _pinned_name(tokens, statement)
             single_if = statement.kind is StatementKind.IF_SINGLE
             first = True

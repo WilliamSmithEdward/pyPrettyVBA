@@ -25,7 +25,7 @@ from .layout import (
 from .literals import DateLiteralRule, NumericLiteralRule
 from .reporting import MaxLineLengthRule, SuppressionDirectiveRule
 from .spacing import SpacingRule
-from .statements import LetKeywordRule, SplitStatementsRule, StatementFormRule
+from .statements import LetKeywordRule, OneDeclarationPerLineRule, SplitStatementsRule, StatementFormRule
 
 __all__ = ["RULES", "RULES_BY_CODE", "Finding", "FormatContext", "Option", "Rule"]
 
@@ -40,6 +40,7 @@ RULES: tuple[type[Rule], ...] = (
     DateLiteralRule,
     StatementFormRule,
     SplitStatementsRule,
+    OneDeclarationPerLineRule,
     SpacingRule,
     IndentRule,
     ContinuationIndentRule,

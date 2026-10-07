@@ -21,6 +21,7 @@ rule can be enabled, disabled and configured in a `[rules]` table (see
 | [date-literals](#date-literals) | Spell dates the way the VBE does. | on | yes |
 | [statement-form](#statement-form) | Write Call Foo() and Else x the way the VBE does. | on | yes |
 | [split-statements](#split-statements) | Put each statement on a line of its own. | off | yes |
+| [one-declaration-per-line](#one-declaration-per-line) | Declare one variable per statement. | off | yes |
 | [spacing](#spacing) | Space tokens the way the VBE writes them. | on | yes |
 | [indent](#indent) | Indent lines by block structure. | on | yes |
 | [continuation-indent](#continuation-indent) | Indent continuation lines consistently. | on | yes |
@@ -246,6 +247,25 @@ line with nothing after it is removed.
 | `labels` | `"keep"` | "keep", "split" | `keep` leaves `Label: statement` on one line; `split` moves the statement below the label. |
 
 Examples: [basic](../tests/fixtures/rules/split-statements/basic/), [keep-case](../tests/fixtures/rules/split-statements/keep-case/).
+
+## one-declaration-per-line
+
+Declare one variable per statement.
+
+`Dim ws As Worksheet, r As Long` becomes a `Dim` for each. Each item
+keeps its own `As` clause, bounds, `New` and `WithEvents`, which VBA
+applies per variable: `Dim x, y As Long` makes only `y` a Long, and the
+split shows it. `Private`, `Public`, `Global`, `Static` and `Const`
+lists are split the same way, repeating their keywords. A `ReDim` is
+one resize and is left whole. A comment at the end of the line stays
+with the last item. A style the VBE does not impose; off unless enabled.
+
+- Category: statements.
+- Off by default.
+- Presets that enable it: none.
+- Fixes what it finds.
+
+Examples: [basic](../tests/fixtures/rules/one-declaration-per-line/basic/).
 
 ## spacing
 

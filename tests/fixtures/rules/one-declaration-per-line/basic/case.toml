@@ -1,0 +1,14 @@
+title = "One variable per declaration"
+description = """
+A declaration list becomes one declaration per variable, each repeating the
+keywords and keeping its own type, bounds, `New` and `WithEvents`. `Dim x,
+y As Long` splits into `Dim x` and `Dim y As Long`, which is what it
+declared. A `ReDim` is one resize and stays whole.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+one-declaration-per-line = true

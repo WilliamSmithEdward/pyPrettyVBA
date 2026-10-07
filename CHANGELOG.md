@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A new rule, `one-declaration-per-line`, off by default: `Dim a As Long,
+  b As Long` becomes a `Dim` for each. Each item keeps its own type, so
+  `Dim x, y As Long` splits into `Dim x` and `Dim y As Long`, which is what
+  it declared. The safety check knows the two forms mean the same thing.
 - `date-literals` rewrote a year under 100 written with extra digits, such
   as `#1/15/0022#`, to `#1/15/22#`, and the safety check refused the
   module, since the two do not read back the same way. The VBE windows any
