@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A new rule, `declared-types`, off by default: a `Dim`, `Private`,
+  `Public` or `Static` with no `As` and no type character makes a Variant,
+  and is reported. Nothing is fixed, since the type is a decision. A
+  `Const` and a `ReDim` are not reported.
 - A new rule, `one-declaration-per-line`, off by default: `Dim a As Long,
   b As Long` becomes a `Dim` for each. Each item keeps its own type, so
   `Dim x, y As Long` splits into `Dim x` and `Dim y As Long`, which is what

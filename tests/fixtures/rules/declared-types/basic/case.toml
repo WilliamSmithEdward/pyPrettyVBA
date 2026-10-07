@@ -1,0 +1,14 @@
+title = "Report variables declared with no type"
+description = """
+A `Dim`, `Private`, `Public` or `Static` with no `As` and no type character
+makes a Variant, and is reported. Nothing is fixed: the type is yours to
+choose. A `Const` takes its value's type, and a `ReDim` resizes a variable
+declared elsewhere, so neither is reported.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+declared-types = true

@@ -1,15 +1,71 @@
-"""Rules that report without fixing: long lines and unreadable directives."""
+"""Rules that report without fixing: untyped variables, long lines and
+unreadable directives."""
 
 from __future__ import annotations
 
 from collections.abc import Iterable
 
-from ..document import Document, LineKind
+from ..document import Document, LineKind, declaration_items
+from ..lexer import TokenKind
 from ..suppression import DIRECTIVE_CODE, scan_suppressions
 from .base import Finding, Option, Rule
 from .spacing import display_width
 
-__all__ = ["MaxLineLengthRule", "SuppressionDirectiveRule"]
+__all__ = ["DeclaredTypesRule", "MaxLineLengthRule", "SuppressionDirectiveRule"]
+
+# The type characters that end a name: `s$`, `n&`, `f!`, `d#`, `c@`, `p^`.
+# `$` and `@` lex as a type suffix, the others as an operator glued on.
+_TYPE_CHARACTERS = frozenset(("&", "!", "#", "^"))
+
+
+class DeclaredTypesRule(Rule):
+    """Report a variable declared with no type.
+
+    `Dim x` makes `x` a Variant, which is rarely what was meant. The rule
+    says so and leaves the type to you: `As Variant` would only restate
+    the default, and the real type is a decision. A name that ends in a
+    type character (`s$`, `n&`) has a type. A `Const` takes its value's
+    type and is not reported, and a `ReDim` resizes a variable declared
+    elsewhere. Off unless enabled.
+    """
+
+    code = "declared-types"
+    summary = "Report a variable declared with no type."
+    category = "statements"
+    default_enabled = False
+    fixable = False
+
+    def run(self, doc: Document) -> Iterable[Finding]:
+        tokens = doc.tokens
+        for line in doc.lines:
+            if line.kind is not LineKind.CODE:
+                continue
+            for statement in line.statements:
+                declaration = declaration_items(tokens, statement)
+                if declaration is None:
+                    continue
+                keywords, items = declaration
+                if any(tokens[j].lower == "const" for j in keywords):
+                    continue
+                for item in items:
+                    name = next(
+                        (j for j in item if tokens[j].kind in (TokenKind.IDENTIFIER, TokenKind.BRACKETED)), None
+                    )
+                    if name is None or _typed(doc, item, name):
+                        continue
+                    tok = tokens[name]
+                    yield Finding(tok.start, tok.end, None, f"{tok.text} has no type; it is a Variant.")
+
+
+def _typed(doc: Document, item: list[int], name: int) -> bool:
+    """True when a declared item has an `As` clause or a type character on its name."""
+    tokens = doc.tokens
+    if any(tokens[j].kind is TokenKind.KEYWORD and tokens[j].lower == "as" for j in item):
+        return True
+    after = tokens[name + 1] if name + 1 < len(tokens) else None
+    if after is None or after.start != tokens[name].end:
+        return False
+    return after.kind is TokenKind.TYPE_SUFFIX or (after.kind is TokenKind.OPERATOR and after.text in _TYPE_CHARACTERS)
 
 
 class MaxLineLengthRule(Rule):

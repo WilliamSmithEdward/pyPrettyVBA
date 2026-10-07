@@ -31,6 +31,7 @@ rule can be enabled, disabled and configured in a `[rules]` table (see
 | [blank-lines](#blank-lines) | Keep blank lines consistent. | on | yes |
 | [end-of-file](#end-of-file) | End the file with one line break. | on | yes |
 | [max-line-length](#max-line-length) | Report lines longer than a limit. | off | reports |
+| [declared-types](#declared-types) | Report a variable declared with no type. | off | reports |
 | [suppression-directive](#suppression-directive) | Report suppression directives that cannot be read. | on | reports |
 
 ## line-endings
@@ -497,6 +498,24 @@ put one is a judgement this rule leaves to you.
 | `ignore-comment-lines` | `false` | true, false | Do not report lines that hold only a comment. |
 
 Examples: [basic](../tests/fixtures/rules/max-line-length/basic/).
+
+## declared-types
+
+Report a variable declared with no type.
+
+`Dim x` makes `x` a Variant, which is rarely what was meant. The rule
+says so and leaves the type to you: `As Variant` would only restate
+the default, and the real type is a decision. A name that ends in a
+type character (`s$`, `n&`) has a type. A `Const` takes its value's
+type and is not reported, and a `ReDim` resizes a variable declared
+elsewhere. Off unless enabled.
+
+- Category: statements.
+- Off by default.
+- Presets that enable it: none.
+- Reports only; it changes nothing.
+
+Examples: [basic](../tests/fixtures/rules/declared-types/basic/).
 
 ## suppression-directive
 

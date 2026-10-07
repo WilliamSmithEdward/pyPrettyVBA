@@ -1,0 +1,4 @@
+3:9 declared-types count has no type; it is a Variant.
+9:9 declared-types x has no type; it is a Variant.
+12:9 declared-types v has no type; it is a Variant.
+14:12 declared-types hits has no type; it is a Variant.

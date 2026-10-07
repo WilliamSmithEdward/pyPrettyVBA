@@ -23,7 +23,7 @@ from .layout import (
     TrailingWhitespaceRule,
 )
 from .literals import DateLiteralRule, NumericLiteralRule
-from .reporting import MaxLineLengthRule, SuppressionDirectiveRule
+from .reporting import DeclaredTypesRule, MaxLineLengthRule, SuppressionDirectiveRule
 from .spacing import SpacingRule
 from .statements import LetKeywordRule, OneDeclarationPerLineRule, SplitStatementsRule, StatementFormRule
 
@@ -50,6 +50,7 @@ RULES: tuple[type[Rule], ...] = (
     BlankLinesRule,
     EndOfFileRule,
     MaxLineLengthRule,
+    DeclaredTypesRule,
     SuppressionDirectiveRule,
 )
 

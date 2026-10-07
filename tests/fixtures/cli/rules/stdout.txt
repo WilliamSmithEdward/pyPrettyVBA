@@ -18,4 +18,5 @@ trailing-whitespace       on   fix  Remove whitespace at the end of lines.
 blank-lines               on   fix  Keep blank lines consistent.
 end-of-file               on   fix  End the file with one line break.
 max-line-length           off       Report lines longer than a limit.
+declared-types            off       Report a variable declared with no type.
 suppression-directive     on        Report suppression directives that cannot be read.
