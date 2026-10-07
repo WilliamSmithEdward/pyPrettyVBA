@@ -197,8 +197,9 @@ Spell date literals the way the VBE does: #M/D/YYYY h:mm:ss AM#.
 
 `#2020-01-15#` becomes `#1/15/2020#`, `#13:30#` becomes `#1:30:00 PM#`,
 and a midnight time is dropped from a date (measured). A literal whose
-value depends on the machine, a two-digit year or a date without a
-year, is left as written.
+value depends on the machine is left as written: a date without a year,
+or a year under 100, which the machine's date window completes however
+many digits it is written with (`#1/15/0022#` is 2022, measured).
 
 - Category: literals.
 - On by default.

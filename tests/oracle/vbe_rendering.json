@@ -1,7 +1,7 @@
 {
- "recorded": "2026-09-23",
+ "recorded": "2026-10-07",
  "excel_version": "16.0",
- "excel_build": "20326",
+ "excel_build": "20430",
  "method": "Rendering: CodeModule.AddFromString into a new module, then VBComponent.Export, read as cp1252. Compile: VBE Debug > Compile through pyVBAharness compile_project.",
  "rendering": [
   {
@@ -2002,6 +2002,61 @@
    ],
    "output": [
     "zqdt = #1/1/1999#"
+   ]
+  },
+  {
+   "id": "d-year-0022",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/15/0022#"
+   ],
+   "output": [
+    "zqdt = #1/15/2022#"
+   ]
+  },
+  {
+   "id": "d-year-0022-iso",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #0022-01-15#"
+   ],
+   "output": [
+    "zqdt = #1/15/2022#"
+   ]
+  },
+  {
+   "id": "d-year-0001",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/1/0001#"
+   ],
+   "output": [
+    "zqdt = #1/1/2001#"
+   ]
+  },
+  {
+   "id": "d-year-0100",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #1/1/0100#"
+   ],
+   "output": [
+    "zqdt = #1/1/100#"
+   ]
+  },
+  {
+   "id": "d-year-0999",
+   "module": "standard",
+   "scope": "body",
+   "input": [
+    "zqdt = #0999-12-31#"
+   ],
+   "output": [
+    "zqdt = #12/31/999#"
    ]
   },
   {
