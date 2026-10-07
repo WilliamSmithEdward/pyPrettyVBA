@@ -138,6 +138,7 @@ The command-line options change the configuration found for each file:
 | `--indent-width`, `--indent-style`, `--line-ending` | Override those settings. |
 | `--stdin-filename NAME` | The name to treat standard input as, for overrides and the module kind. |
 | `--no-project-casing` | Format each file on its own, without the names the other modules declare. |
+| `--remove-signatures` | Write a digitally signed Office file too, removing its signature, for you to sign the project again. Without it a signed file is left unwritten. |
 
 When a directory is formatted, the files that share a configuration are one
 project: a name one module declares takes that module's spelling in the

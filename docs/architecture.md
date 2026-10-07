@@ -105,7 +105,7 @@ that `project_names` can give each module the spellings the others declare.
 ## Tests
 
 - `tests/test_*.py` unit tests, one file per module.
-- `tests/fixtures/`: a hundred cases, each an input, a configuration and
+- `tests/fixtures/`: about a hundred cases, each an input, a configuration and
   the expected output and report, grouped by what they show (rules, presets,
   suppression, configuration, file handling, safety, the command line).
   `tools/fixtures.py bless` rewrites the expected files from current
