@@ -126,7 +126,7 @@ run-time checks:
 | Case | What the VBE does | What the preset does, and why |
 | --- | --- | --- |
 | A Double or Single with more digits than the VBE keeps | Rounds it to 15 (or 7) digits, a different value | Leaves it and reports it: the rewrite would change the program. |
-| A date with a two-digit year | Reads the year through the machine's date window | Leaves it: the result depends on the machine. |
+| A date with a year under 100, however many digits it is written with (`#1/1/99#`, `#1/15/0022#`) | Reads the year through the machine's date window: both became 20xx | Leaves it: the result depends on the machine. A year of 100 or more is taken as written (`#1/1/0100#` is the year 100). |
 | The name of a `Declare` with no `Alias` | Respells it like any name | Leaves it: it is also the DLL entry point, looked up case-sensitively. |
 | A line suppressed with `'@prettyvba-ignore` | Formats it | Leaves it, as asked. |
 | A keyword used as a member name (`obj.Print`) | Spelled it, in the one probe that asks, the way the word was last typed elsewhere in the module, keyword positions included | Spells it from the libraries. |

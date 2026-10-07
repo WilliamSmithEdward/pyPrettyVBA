@@ -49,8 +49,12 @@ DEVIATIONS: dict[str, str] = {
     # A comment one space after its code stays one space after it when the
     # code shrinks; the VBE keeps the column. Both are stable in the VBE.
     "r-comment-after-collapse": "a comment attached to its code moves with it",
-    # A two-digit year depends on the machine's date window.
+    # A year under 100 depends on the machine's date window, however many
+    # digits it is written with.
     "d-two-digit-year": "a two-digit year is machine-dependent",
+    "d-year-0022": "a year under 100 is machine-dependent",
+    "d-year-0022-iso": "a year under 100 is machine-dependent",
+    "d-year-0001": "a year under 100 is machine-dependent",
     # The VBE rounds these to 15 (or 7) digits, changing the value; they are
     # reported instead.
     "n-float-big2": "the VBE's spelling changes the value",

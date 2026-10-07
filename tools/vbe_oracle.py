@@ -253,6 +253,13 @@ RENDER_PROBES: tuple[Probe, ...] = (
     _p("d-abbrev", "body", "zqdt = #1-Jan-2020#"),
     _p("d-padded", "body", "zqdt = #  1/1/2000  #"),
     _p("d-two-digit-year", "body", "zqdt = #1/1/99#"),
+    # A year under 100 is windowed however many digits it has; 100 and up
+    # is taken as written.
+    _p("d-year-0022", "body", "zqdt = #1/15/0022#"),
+    _p("d-year-0022-iso", "body", "zqdt = #0022-01-15#"),
+    _p("d-year-0001", "body", "zqdt = #1/1/0001#"),
+    _p("d-year-0100", "body", "zqdt = #1/1/0100#"),
+    _p("d-year-0999", "body", "zqdt = #0999-12-31#"),
     _p("d-zero-time", "body", "zqdt = #00:00#"),
     _p("d-full", "body", "zqdt = #1/1/2000 00:00:00#", "zqdt = #12/31/2020 23:59:59#"),
     # --- keywords and casing --------------------------------------------
