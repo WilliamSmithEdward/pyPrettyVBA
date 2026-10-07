@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- `date-literals` rewrote a year under 100 written with extra digits, such
+  as `#1/15/0022#`, to `#1/15/22#`, and the safety check refused the
+  module, since the two do not read back the same way. The VBE windows any
+  year under 100 however it is written (`#1/15/0022#` is 2022, measured),
+  so such a literal is now left alone, like `#1/15/22#`. A year of 100 or
+  more is still written as the VBE writes it. Found by the fuzz run.
 - The Malware scan builds the wheel and sdist with the hash-locked build
   tools, as a release builds them, and ClamAV and YARA-X scan them beside
   the committed files.

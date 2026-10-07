@@ -28,7 +28,8 @@ the VBE would substitute so the caller can warn about it.
 
 Dates are written `#M/D/YYYY#`, `#h:mm:ss AM#`, or both, with a midnight
 time dropped from a date. A literal whose value depends on the machine (a
-two-digit year, or no year at all) is never rewritten.
+year under 100, however it is written, or no year at all) is never
+rewritten.
 """
 
 from __future__ import annotations
@@ -387,7 +388,6 @@ class _DatePart:
 
     number: int | None
     month: int | None
-    digits: int  # how many digits the number was written with
 
 
 @dataclass(frozen=True)
@@ -506,10 +506,10 @@ def _date_part(text: str, pos: int) -> tuple[_DatePart, int] | None:
     cursor.pos = pos
     number = cursor.number()
     if number is not None:
-        return _DatePart(number[0], None, number[1]), cursor.pos
+        return _DatePart(number[0], None), cursor.pos
     word = cursor.word().lower()
     if word in _MONTHS:
-        return _DatePart(None, _MONTHS[word], 0), cursor.pos
+        return _DatePart(None, _MONTHS[word]), cursor.pos
     return None
 
 
@@ -595,11 +595,13 @@ class _MachineDependent(Exception):
 def _year(field: _DatePart) -> int:
     """Year(x) from MS-VBAL 3.3.3, refusing the machine-dependent case.
 
-    A year written with fewer than three digits goes through the machine's
-    two-digit-year window (1999 on one machine, 2099 on another).
+    A year under 100 goes through the machine's two-digit-year window (1999
+    on one machine, 2099 on another), however many digits it is written
+    with: the VBE reads `#1/15/0022#` as 2022, like `#1/15/22#`, while
+    `#1/1/0100#` is the year 100 (measured).
     """
     assert field.number is not None
-    if field.digits < 3:
+    if field.number < 100:
         raise _MachineDependent
     return field.number
 
@@ -607,13 +609,13 @@ def _year(field: _DatePart) -> int:
 def _legal_day(month: int, day: int, year_field: _DatePart) -> bool:
     """LegalDay(month, day, Year(year_field)).
 
-    For a two-digit year the answer can still be certain: it only depends on
-    the window for 29 February, so both centuries are tried.
+    For a windowed year (under 100) the answer can still be certain: it only
+    depends on the window for 29 February, so both centuries are tried.
     """
     if not 1 <= month <= 12 or day < 1:
         return False
     assert year_field.number is not None
-    if year_field.digits >= 3:
+    if year_field.number >= 100:
         years = [year_field.number]
     else:
         years = [1900 + year_field.number, 2000 + year_field.number]
@@ -633,8 +635,9 @@ def resolve_date(body: DateBody) -> DateValue | None:
     """The value of a date literal, or None when invalid or machine-dependent.
 
     The fields are read with the rules of MS-VBAL 3.3.3 in their stated order.
-    A literal whose value depends on the machine (a two-digit year, or a date
-    with no year, which takes the current year) gets no value here.
+    A literal whose value depends on the machine (a year under 100, which the
+    machine's date window completes, or a date with no year, which takes the
+    current year) gets no value here.
     """
     if not body.parts and body.time is None:
         return None

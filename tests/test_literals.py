@@ -84,6 +84,8 @@ VBE_DATES = [
     ("#2020/1/15#", "#1/15/2020#"), ("#12:00:00 AM#", "#12:00:00 AM#"), ("#1-Jan-2020#", "#1/1/2020#"),
     ("#  1/1/2000  #", "#1/1/2000#"), ("#00:00#", "#12:00:00 AM#"),
     ("#1/1/2000 00:00:00#", "#1/1/2000#"), ("#12/31/2020 23:59:59#", "#12/31/2020 11:59:59 PM#"),
+    # A year of 100 or more is taken as written, leading zeros dropped.
+    ("#1/1/0100#", "#1/1/100#"), ("#0999-12-31#", "#12/31/999#"),
 ]
 
 
@@ -92,9 +94,17 @@ def test_dates_are_spelled_as_the_vbe_spells_them(literal: str, vbe: str) -> Non
     assert canonical_date(literal) == vbe
 
 
-@pytest.mark.parametrize("literal", ["#1/1/99#", "#1/15#", "#Jan 2020#", "#13/13/2020#", "##"])
+@pytest.mark.parametrize(
+    "literal",
+    [
+        "#1/1/99#", "#1/15#", "#Jan 2020#", "#13/13/2020#", "##",
+        # A year under 100 is windowed however it is written: the VBE reads
+        # all of these as 20xx (measured), so each is left as it is.
+        "#1/15/0022#", "#0022-01-15#", "#1/15/022#", "#1/1/0001#", "#1/15/0022 10:30#",
+    ],
+)
 def test_machine_dependent_or_invalid_dates_are_left_alone(literal: str) -> None:
-    # A two-digit year or a missing year depends on the machine's settings.
+    # A year under 100 or a missing year depends on the machine's settings.
     assert canonical_date(literal) is None
 
 
