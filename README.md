@@ -141,7 +141,7 @@ result per module.
 
 ## Rules
 
-Twenty rules, each documented with its options in
+Every rule is documented with its options in
 [docs/rules.md](docs/rules.md): keyword and identifier casing, spacing,
 numeric and date literal spelling, statement forms, indentation (block
 structure, `Case` arms, `#If` blocks, labels, continuation lines), end-of-line
