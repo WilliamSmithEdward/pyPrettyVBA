@@ -84,3 +84,15 @@ def test_report_only_rules_do_not_change_text() -> None:
     result = format_source(src)
     assert result.output == src
     assert [(v.rule, v.fixable) for v in result.violations] == [("numeric-literals", False)]
+
+
+def test_double_carriage_returns_settle_in_one_call() -> None:
+    """A file whose lines end in CR CR LF, as one export tool writes them, is
+    read as the VBE reads it: a blank line after every line. Formatting it
+    once gives what formatting it again gives."""
+    src = (
+        "Attribute VB_Name = \"S\"\r\r\nAttribute VB_Base = \"0{1}\"\r\r\n"
+        "Option Explicit\r\r\nSub A()\r\r\nx = 1\r\r\nEnd Sub\r\r\n"
+    )
+    once = format_source(src).output
+    assert format_source(once).output == once

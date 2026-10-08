@@ -137,3 +137,20 @@ def test_declaration_items() -> None:
     assert items("Dim g(1 To 2, 1 To 3) As Long, h(2, 2)") == (["Dim"], ["g ( 1 To 2 , 1 To 3 ) As Long", "h ( 2 , 2 )"])
     assert items("ReDim a(5), b(6)") is None
     assert items("x = 1") is None
+
+
+def test_the_header_splits_the_same_whatever_the_line_endings() -> None:
+    """CR CR LF ends a line and leaves a blank one, as the lexer reads it; the
+    blank line between two Attribute lines stays with the header."""
+    double = 'Attribute VB_Name = "S"\r\r\nAttribute VB_Base = "0{1}"\r\r\nOption Explicit\r\r\n'
+    header, body = split_header(double)
+    assert header == 'Attribute VB_Name = "S"\r\r\nAttribute VB_Base = "0{1}"\r'
+    assert body == "\r\nOption Explicit\r\r\n"
+    clean = 'Attribute VB_Name = "S"\r\n\r\nAttribute VB_Base = "0{1}"\r\n\r\nOption Explicit\r\n'
+    header, body = split_header(clean)
+    assert header == 'Attribute VB_Name = "S"\r\n\r\nAttribute VB_Base = "0{1}"\r\n'
+    assert body == "\r\nOption Explicit\r\n"
+    # Blank lines after the last Attribute line are the body's.
+    assert split_header('Attribute VB_Name = "S"\r\n\r\n\r\nSub A()\r\n')[1] == "\r\n\r\nSub A()\r\n"
+    # Other control characters are not line breaks here, as they are not in the lexer.
+    assert split_header('Attribute VB_Name = "S\x0c"\nx = 1\n')[0] == 'Attribute VB_Name = "S\x0c"\n'
