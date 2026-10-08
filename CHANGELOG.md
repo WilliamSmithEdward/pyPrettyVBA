@@ -7,6 +7,10 @@
   at the end of the line became a continuation, and the safety check
   refused the module. A continuation line that starts with such text is
   now left as written. Found by the fuzz run.
+- `align-declarations` padded the space before `As` on a line holding text
+  the lexer has no rule for, moving a byte that touched the `As`, and the
+  safety check refused the module. Like every other rule, it now leaves
+  such a line as written. Found by the fuzz run.
 - An `Attribute` line ending in a comment with a space after it could not
   be formatted: `trailing-whitespace` trimmed the space, and the safety
   check compared the comment on an Attribute line by its exact text, where
