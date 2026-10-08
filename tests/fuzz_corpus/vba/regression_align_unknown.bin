@@ -1,0 +1,8 @@
+Private Type Span
+    start As Long
+    secondßAs Long
+End Type
+
+S›ÿÿÿÿÿÿ;ub Stamp()
+    Dim s As Span
+    s.
