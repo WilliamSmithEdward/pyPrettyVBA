@@ -47,8 +47,9 @@
   respelling of the pass, and keeps the `%` where removing it would make a
   date. Found by the daily fuzz run.
 - Coverage-guided fuzzing with Atheris of the lexer and of the formatter
-  under every preset (`fuzz/fuzz_formatter.py`), daily and on every change.
-  The test suite replays the seed corpus.
+  under every preset (`fuzz/fuzz_formatter.py`), daily and on every change
+  to main. The test suite replays the seed corpus on every run, pull
+  requests included.
 - Releases carry signed build provenance: the signed bundle from GitHub's
   artifact attestations goes on the GitHub release as
   `pyprettyvba-<version>.sigstore.json`. `SECURITY.md` has the steps to
