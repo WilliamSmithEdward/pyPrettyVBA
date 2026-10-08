@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (2026-10-08)
 
 - A module whose lines end in CR CR LF, as one export tool writes them,
   did not settle: the export header was split at a different line once

@@ -33,7 +33,7 @@ from .engine import FormatResult, UnstableFormattingError, Violation
 from .rules import RULES, RULES_BY_CODE, Rule
 from .safety import SafetyError
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "Config",
