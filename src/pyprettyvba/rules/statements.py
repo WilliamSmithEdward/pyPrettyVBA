@@ -16,9 +16,10 @@ from collections.abc import Iterable
 
 from ..document import Document, LineKind, LogicalLine, Statement, StatementKind, declaration_items
 from ..lexer import TokenKind
+from ..safety import call_argument_parens
 from .base import Finding, Option, Rule
 
-__all__ = ["LetKeywordRule", "OneDeclarationPerLineRule", "SplitStatementsRule", "StatementFormRule"]
+__all__ = ["CallKeywordRule", "LetKeywordRule", "OneDeclarationPerLineRule", "SplitStatementsRule", "StatementFormRule"]
 
 
 class SplitStatementsRule(Rule):
@@ -254,6 +255,52 @@ def _line_newline(doc: Document, line: LogicalLine, default: str) -> str:
     if line.stop > line.first and tokens[line.stop - 1].kind is TokenKind.NEWLINE:
         return tokens[line.stop - 1].text
     return default
+
+
+class CallKeywordRule(Rule):
+    """Drop `Call`, and the parentheses it needs around the arguments.
+
+    `Call Warn(a, b)` becomes `Warn a, b`: the two pass their arguments
+    the same way. An argument in parentheses of its own keeps them, so
+    `Call Log((x))` becomes `Log (x)` and still passes `x` by value.
+    `Call Reset` becomes `Reset`. A style the VBE does not impose; off
+    unless enabled.
+    """
+
+    code = "call-keyword"
+    summary = "Drop Call from procedure calls."
+    category = "statements"
+    default_enabled = False
+
+    def run(self, doc: Document) -> Iterable[Finding]:
+        tokens = doc.tokens
+        for line in doc.lines:
+            if line.kind is not LineKind.CODE:
+                continue
+            if any(tokens[j].kind is TokenKind.UNKNOWN for j in range(line.first, line.stop)):
+                continue
+            for statement in line.statements:
+                indices = statement.tokens
+                first = tokens[indices[0]]
+                if first.kind is not TokenKind.KEYWORD or first.lower != "call" or len(indices) < 2:
+                    continue
+                if _reads_differently_at_line_start(doc, statement) and statement is line.statements[0]:
+                    continue
+                yield Finding(first.start, tokens[indices[1]].start, "", "Drop Call.")
+                rest = indices[1:]
+                opening = call_argument_parens(tokens, rest)
+                if opening is None:
+                    continue
+                open_token = tokens[rest[opening]]
+                close_token = tokens[rest[-1]]
+                empty = opening == len(rest) - 2
+                yield Finding(
+                    tokens[rest[opening - 1]].end,
+                    open_token.end,
+                    "" if empty else " ",
+                    "Drop the parentheses Call needed around the arguments.",
+                )
+                yield Finding(close_token.start, close_token.end, "", "Drop the parentheses Call needed around the arguments.")
 
 
 class LetKeywordRule(Rule):

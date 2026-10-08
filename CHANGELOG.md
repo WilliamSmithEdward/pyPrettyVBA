@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A new rule, `call-keyword`, off by default: `Call Warn(a, b)` becomes
+  `Warn a, b`, the parentheses going with the `Call` that needed them. An
+  argument in parentheses of its own keeps them. The safety check reads a
+  `Call` as the plain call it means.
 - `align-declarations` padded the space before `As` on a line holding text
   the lexer has no rule for, moving a byte that touched the `As`, and the
   safety check refused the module. Like every other rule, it now leaves
