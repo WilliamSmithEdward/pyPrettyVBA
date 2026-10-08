@@ -20,6 +20,12 @@ SAME = [
     ("x = 1 + _\r\n2", "x = 1 + 2"),
     ("If a => b Then c", "If a >= b Then c"),
     ("Call Foo()", "Call Foo"),
+    # A Call is the plain call it means.
+    ("Call Foo(a, b)", "Foo a, b"),
+    ("Call Reset", "Reset"),
+    ("Call Save()", "Save"),
+    ("Call Log((x))", "Log (x)"),
+    ('Call ws.Range("A1").Select', 'ws.Range("A1").Select'),
     ('s = "a"&"b"', 's = "a" & "b"'),
     ("x = (y)^2", "x = (y) ^ 2"),
     ("Label1: x = 1", "Label1:\r\nx = 1"),
@@ -70,6 +76,9 @@ DIFFERENT = [
     ('s = "a  b"', 's = "a b"'),
     ("' a  b", "' a b"),
     ("x = 1", "x = 2"),
+    # The parentheses around one argument are its own: they pass it by value.
+    ("Call Log((x))", "Log x"),
+    ("Call Foo(a, b)", "Foo (a), b"),
     # Splitting a declaration must keep each item's own type: in
     # `Dim x, y As Long` only y is Long.
     ("Dim x, y As Long", "Dim x As Long\r\nDim y As Long"),

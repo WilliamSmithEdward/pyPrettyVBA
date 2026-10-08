@@ -27,4 +27,4 @@ enabled rules:
   end-of-file (final-newline=true, trailing-blank-lines="remove")
   max-line-length (max=100, ignore-comment-lines=false)
   suppression-directive
-disabled rules: one-declaration-per-line, collapse-if, wrap-lines
+disabled rules: call-keyword, one-declaration-per-line, collapse-if, wrap-lines

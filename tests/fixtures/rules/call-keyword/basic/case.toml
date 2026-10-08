@@ -1,0 +1,14 @@
+title = "Drop Call"
+description = """
+`Call` goes, and with it the parentheses around the argument list, since
+`Call Warn(a, b)` and `Warn a, b` pass their arguments the same way. An
+argument in parentheses of its own keeps them: `Call Log((message))` passed
+`message` by value, and so does `Log (message)`.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+call-keyword = true

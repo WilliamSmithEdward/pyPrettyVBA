@@ -14,6 +14,7 @@ make, and nothing else:
   If, where every colon belongs to the If;
 * a comment's marker (`Rem` or `'`) and the spaces around its text;
 * a `Let` that opens an assignment, and `EndIf` against `End If`;
+* a `Call` against the plain call it means: `Call Foo(a, b)` is `Foo a, b`;
 * a declaration of several variables against one declaration each:
   `Dim a, b As Long` declares `a` and `b As Long` just as two Dims would;
 * a single-line If against the block If it means: `If a Then b Else c`
@@ -38,7 +39,7 @@ from .keywords import OPERAND_WORDS
 from .lexer import Token, TokenKind
 from .literals import date_identity, number_value
 
-__all__ = ["SafetyError", "first_difference", "glue_signature", "signature"]
+__all__ = ["SafetyError", "call_argument_form", "call_argument_parens", "first_difference", "glue_signature", "signature"]
 
 
 class SafetyError(Exception):
@@ -119,15 +120,7 @@ def _items(doc: Document) -> Iterator[tuple[Any, ...]]:
                     yield from expanded
                     continue
             first = True
-            indices = statement.tokens
-            if (
-                len(indices) >= 4
-                and tokens[indices[0]].lower == "call"
-                and tokens[indices[-2]].text == "("
-                and tokens[indices[-1]].text == ")"
-            ):
-                # `Call Foo()` is `Call Foo`.
-                indices = indices[:-2]
+            indices = call_argument_form(tokens, statement.tokens)
             for position, j in enumerate(indices):
                 tok = tokens[j]
                 if first and tok.kind is TokenKind.KEYWORD and tok.lower == "let":
@@ -143,6 +136,43 @@ def _items(doc: Document) -> Iterator[tuple[Any, ...]]:
         if line.comment is not None:
             yield ("comment", _comment_body(tokens[line.comment].text))
         yield _SEP
+
+
+def call_argument_form(tokens: list[Token], indices: list[int]) -> list[int]:
+    """A `Call` statement as the plain call it means: `Call Foo(a, b)` is
+    `Foo a, b`, `Call Log((x))` is `Log (x)`, and `Call Foo()` is `Foo`.
+    The Call goes, and so does the parenthesis pair that wraps the whole
+    argument list: the first `(` after the callee, when its match is the
+    statement's last token. Anything else is returned as it is."""
+    if len(indices) < 2 or tokens[indices[0]].kind is not TokenKind.KEYWORD or tokens[indices[0]].lower != "call":
+        return indices
+    rest = indices[1:]
+    opening = call_argument_parens(tokens, rest)
+    if opening is None:
+        return rest
+    return rest[:opening] + rest[opening + 1 : -1]
+
+
+def call_argument_parens(tokens: list[Token], indices: list[int]) -> int | None:
+    """The position in ``indices`` of the `(` that opens a call's argument
+    list, when its match is the last token; None when there is no such pair."""
+    if not indices or tokens[indices[-1]].text != ")":
+        return None
+    depth = 0
+    opening = 0
+    for position, j in enumerate(indices):
+        tok = tokens[j]
+        if tok.kind is not TokenKind.PUNCTUATION:
+            continue
+        if tok.text == "(":
+            if depth == 0:
+                opening = position
+            depth += 1
+        elif tok.text == ")":
+            depth -= 1
+            if depth == 0:
+                return opening if position == len(indices) - 1 else None
+    return None
 
 
 def _single_if_as_block(doc: Document, statement: Any) -> list[tuple[Any, ...]] | None:

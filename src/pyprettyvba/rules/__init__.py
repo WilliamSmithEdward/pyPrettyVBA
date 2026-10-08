@@ -26,6 +26,7 @@ from .literals import DateLiteralRule, NumericLiteralRule
 from .reporting import MaxLineLengthRule, SuppressionDirectiveRule
 from .spacing import SpacingRule
 from .statements import (
+    CallKeywordRule,
     CollapseIfRule,
     LetKeywordRule,
     OneDeclarationPerLineRule,
@@ -46,6 +47,7 @@ RULES: tuple[type[Rule], ...] = (
     NumericLiteralRule,
     DateLiteralRule,
     StatementFormRule,
+    CallKeywordRule,
     SplitStatementsRule,
     OneDeclarationPerLineRule,
     CollapseIfRule,
