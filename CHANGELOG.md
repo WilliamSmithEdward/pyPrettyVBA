@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `indent` gains `column-zero`: `On Error GoTo label` statements and
+  `Application.X = ...` assignments at a procedure's top level go to
+  column 1, like a label. With `pad-blocks`, each such group, each label
+  and an `On Error Resume Next` ... `On Error GoTo 0` bracket get a blank
+  line on both sides.
 - A new rule, `collapse-if`, off by default: a block If holding one
   statement, with no `Else` and no comment, becomes a single-line If. The
   safety check reads a single-line If as the block it means, so the two

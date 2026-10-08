@@ -1,0 +1,16 @@
+title = "On Error GoTo and Application settings at column 1"
+description = """
+With `column-zero`, an `On Error GoTo label` and a run of `Application.X =`
+assignments at a procedure's top level sit at column 1, like a label, and
+with `pad-blocks` each such group gets a blank line on both sides. `On Error
+Resume Next` and `On Error GoTo 0` stay with their block, as does an
+assignment inside a block and a call such as `Application.Run`.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+indent = { column-zero = ["on-error-goto", "application-assignments"] }
+blank-lines = { pad-blocks = true, max-consecutive = 1 }
