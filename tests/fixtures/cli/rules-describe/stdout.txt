@@ -16,6 +16,7 @@ Options:
       `keep-column` keeps a comment in the column it was written at when it
       was set apart by more than one space, as the VBE does; `one-space` puts
       every comment one space after its code; `align` lines up the comments of
-      consecutive lines.
+      consecutive lines, and puts a comment with no neighbour `min-gap` spaces
+      after its code.
   min-gap = 1
       Fewest spaces between code and its comment.

@@ -46,7 +46,7 @@ Office. The default, `auto`, keeps whichever ending the file mostly uses.
 
 - Category: layout.
 - On by default.
-- Presets that enable it: default, vbe, strict, minimal.
+- Presets that enable it: default, vbe, strict, minimal, author.
 - Fixes what it finds.
 
 Examples: [crlf](../tests/fixtures/rules/line-endings/crlf/), [mixed](../tests/fixtures/rules/line-endings/mixed/).
@@ -61,7 +61,7 @@ style. A style the VBE does not impose; off unless enabled.
 
 - Category: comments.
 - Off by default.
-- Presets that enable it: strict.
+- Presets that enable it: strict, author.
 - Fixes what it finds.
 
 Examples: [basic](../tests/fixtures/rules/rem-comments/basic/).
@@ -77,7 +77,7 @@ comment on an `Attribute` line, which no rule edits.
 
 - Category: comments.
 - Off by default.
-- Presets that enable it: strict.
+- Presets that enable it: strict, author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -96,7 +96,7 @@ impose; off unless enabled.
 
 - Category: statements.
 - Off by default.
-- Presets that enable it: strict.
+- Presets that enable it: strict, author.
 - Fixes what it finds.
 
 Examples: [basic](../tests/fixtures/rules/let-keyword/basic/).
@@ -116,7 +116,7 @@ capitalizes.
 
 - Category: casing.
 - On by default.
-- Presets that enable it: default, vbe, xlide, strict.
+- Presets that enable it: default, vbe, xlide, strict, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
@@ -154,7 +154,7 @@ the VBE write `second(Now)`).
 
 - Category: casing.
 - On by default.
-- Presets that enable it: default, vbe, xlide, strict.
+- Presets that enable it: default, vbe, xlide, strict, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
@@ -185,7 +185,7 @@ a line number, and keeps its spelling.
 
 - Category: literals.
 - On by default.
-- Presets that enable it: default, vbe, strict.
+- Presets that enable it: default, vbe, strict, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
@@ -207,7 +207,7 @@ many digits it is written with (`#1/15/0022#` is 2022, measured).
 
 - Category: literals.
 - On by default.
-- Presets that enable it: default, vbe, strict.
+- Presets that enable it: default, vbe, strict, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
@@ -224,7 +224,7 @@ block `Else` followed by a statement on the same line gets a colon:
 
 - Category: statements.
 - On by default.
-- Presets that enable it: default, vbe, strict.
+- Presets that enable it: default, vbe, strict, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
@@ -242,7 +242,7 @@ unless enabled.
 
 - Category: statements.
 - Off by default.
-- Presets that enable it: none.
+- Presets that enable it: author.
 - Fixes what it finds.
 
 Examples: [basic](../tests/fixtures/rules/call-keyword/basic/).
@@ -258,7 +258,7 @@ line with nothing after it is removed.
 
 - Category: statements.
 - Off by default.
-- Presets that enable it: strict.
+- Presets that enable it: strict, author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -282,7 +282,7 @@ with the last item. A style the VBE does not impose; off unless enabled.
 
 - Category: statements.
 - Off by default.
-- Presets that enable it: none.
+- Presets that enable it: author.
 - Fixes what it finds.
 
 Examples: [basic](../tests/fixtures/rules/one-declaration-per-line/basic/).
@@ -300,7 +300,7 @@ style the VBE does not impose; off unless enabled.
 
 - Category: statements.
 - Off by default.
-- Presets that enable it: none.
+- Presets that enable it: author.
 - Fixes what it finds.
 
 Examples: [basic](../tests/fixtures/rules/collapse-if/basic/).
@@ -343,7 +343,7 @@ removes one, as XLIDE's Format Document does.
 
 - Category: spacing.
 - On by default.
-- Presets that enable it: default, vbe, xlide, strict.
+- Presets that enable it: default, vbe, xlide, strict, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
@@ -366,7 +366,7 @@ If, a For never closed), the region is left as written and reported.
 
 - Category: layout.
 - On by default.
-- Presets that enable it: default, vbe, xlide, strict.
+- Presets that enable it: default, vbe, xlide, strict, author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -399,7 +399,7 @@ the VBE does not impose; off unless enabled.
 
 - Category: layout.
 - Off by default.
-- Presets that enable it: none.
+- Presets that enable it: author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -419,7 +419,7 @@ what XLIDE does. `hanging` puts every continuation line one level (the
 
 - Category: layout.
 - On by default.
-- Presets that enable it: default, xlide, strict.
+- Presets that enable it: default, xlide, strict, author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -441,7 +441,7 @@ line, a comment line, or any other statement ends the run.
 
 - Category: spacing.
 - Off by default.
-- Presets that enable it: strict.
+- Presets that enable it: strict, author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -465,13 +465,13 @@ its code stays one space after it.
 
 - Category: spacing.
 - On by default.
-- Presets that enable it: default, vbe, strict.
+- Presets that enable it: default, vbe, strict, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
 | Option | Default | Values | What it does |
 | --- | --- | --- | --- |
-| `position` | `"keep-column"` | "keep-column", "one-space", "align" | `keep-column` keeps a comment in the column it was written at when it was set apart by more than one space, as the VBE does; `one-space` puts every comment one space after its code; `align` lines up the comments of consecutive lines. |
+| `position` | `"keep-column"` | "keep-column", "one-space", "align" | `keep-column` keeps a comment in the column it was written at when it was set apart by more than one space, as the VBE does; `one-space` puts every comment one space after its code; `align` lines up the comments of consecutive lines, and puts a comment with no neighbour `min-gap` spaces after its code. |
 | `min-gap` | `1` | integer, 1 to 40 | Fewest spaces between code and its comment. |
 
 Examples: [align](../tests/fixtures/rules/trailing-comments/align/), [keep-column](../tests/fixtures/rules/trailing-comments/keep-column/), [one-space](../tests/fixtures/rules/trailing-comments/one-space/).
@@ -488,7 +488,7 @@ are trimmed like any other.
 
 - Category: layout.
 - On by default.
-- Presets that enable it: default, vbe, xlide, strict, minimal.
+- Presets that enable it: default, vbe, xlide, strict, minimal, author.
 - Fixes what it finds.
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
@@ -514,7 +514,7 @@ blank lines at the end of the file belong to end-of-file.
 
 - Category: layout.
 - On by default.
-- Presets that enable it: default, strict.
+- Presets that enable it: default, strict, author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -537,7 +537,7 @@ it, and keeps the blank lines at the end of a module it imports
 
 - Category: layout.
 - On by default.
-- Presets that enable it: default, vbe, strict, minimal.
+- Presets that enable it: default, vbe, strict, minimal, author.
 - Fixes what it finds.
 
 | Option | Default | Values | What it does |
@@ -556,7 +556,7 @@ put one is a judgement this rule leaves to you.
 
 - Category: layout.
 - Off by default.
-- Presets that enable it: strict.
+- Presets that enable it: strict, author.
 - Reports only; it changes nothing.
 
 | Option | Default | Values | What it does |
@@ -576,5 +576,5 @@ miss; this rule says so. No directive can suppress it.
 
 - Category: meta.
 - On by default.
-- Presets that enable it: default, vbe, xlide, strict, minimal, none.
+- Presets that enable it: default, vbe, xlide, strict, minimal, none, author.
 - Reports only; it changes nothing.

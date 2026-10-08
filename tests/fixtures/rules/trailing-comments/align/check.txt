@@ -1,2 +1,3 @@
 2:10 trailing-comments Align the comment at column 24. [*]
 4:10 trailing-comments Align the comment at column 24. [*]
+6:10 trailing-comments Put one space before the comment. [*]

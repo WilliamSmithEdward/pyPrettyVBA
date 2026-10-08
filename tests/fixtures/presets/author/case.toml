@@ -1,0 +1,12 @@
+title = "The author preset"
+description = """
+The author's own style on one module: one declaration per line, `Let` and
+`Call` dropped, colon-separated statements split, a one-statement `If` on
+one line, the long line wrapped at 120 columns, declarations and the
+comment aligned, one blank line inside every block, and the procedure's
+`On Error GoTo` and `Application` settings at column 1.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "author"

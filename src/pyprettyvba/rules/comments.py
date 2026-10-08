@@ -61,7 +61,8 @@ class TrailingCommentsRule(Rule):
             "`keep-column` keeps a comment in the column it was written at when it "
             "was set apart by more than one space, as the VBE does; `one-space` puts "
             "every comment one space after its code; `align` lines up the comments "
-            "of consecutive lines.",
+            "of consecutive lines, and puts a comment with no neighbour `min-gap` "
+            "spaces after its code.",
             choices=("keep-column", "one-space", "align"),
         ),
         Option("min-gap", 1, "Fewest spaces between code and its comment.", minimum=1, maximum=40),
@@ -127,9 +128,11 @@ def _aligned(doc: Document, group: list[tuple[Token, Token, int]], min_gap: int)
             if doc.text[before.end : comment.start] != wanted:
                 yield Finding(before.end, comment.start, wanted, f"Align the comment at column {target + 1}.")
     elif group:
+        # A comment with no neighbour to align with sits min-gap after its code.
         before, comment, _end = group[0]
-        if doc.text[before.end : comment.start] == "":
-            yield Finding(before.end, comment.start, " " * min_gap, "Put a space before the comment.")
+        wanted = " " * min_gap
+        if doc.text[before.end : comment.start] != wanted:
+            yield Finding(before.end, comment.start, wanted, _message(wanted, _end))
 
 
 class CommentSpaceRule(Rule):
