@@ -70,6 +70,9 @@ class AlignDeclarationsRule(Rule):
             return None
         statement = line.statements[0]
         tokens = doc.tokens
+        if any(tokens[j].kind is TokenKind.UNKNOWN for j in range(line.first, line.stop)):
+            # Text the lexer has no rule for: its neighbours stay as written.
+            return None
         if statement.kind is StatementKind.VARIABLES:
             if tokens[statement.tokens[0]].lower == "redim":
                 return None

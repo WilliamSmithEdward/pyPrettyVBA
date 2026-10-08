@@ -20,6 +20,12 @@ SAME = [
     ("x = 1 + _\r\n2", "x = 1 + 2"),
     ("If a => b Then c", "If a >= b Then c"),
     ("Call Foo()", "Call Foo"),
+    # A Call is the plain call it means.
+    ("Call Foo(a, b)", "Foo a, b"),
+    ("Call Reset", "Reset"),
+    ("Call Save()", "Save"),
+    ("Call Log((x))", "Log (x)"),
+    ('Call ws.Range("A1").Select', 'ws.Range("A1").Select'),
     ('s = "a"&"b"', 's = "a" & "b"'),
     ("x = (y)^2", "x = (y) ^ 2"),
     ("Label1: x = 1", "Label1:\r\nx = 1"),
@@ -31,6 +37,14 @@ SAME = [
     ("Public WithEvents app As Application, name As String", "Public WithEvents app As Application\r\nPublic name As String"),
     ("Dim buffer(1 To 10) As Byte, flag As Boolean", "Dim buffer(1 To 10) As Byte\r\nDim flag As Boolean"),
     ("Const A = 1, B As String = \"b\"", "Const A = 1\r\nConst B As String = \"b\""),
+    # A single-line If is the block If it means.
+    ("If x Then Exit Sub", "If x Then\r\nExit Sub\r\nEnd If"),
+    ("If x Then\r\n\r\nExit Sub\r\n\r\nEnd If", "If x Then Exit Sub"),
+    ("If a Then b: c Else d", "If a Then\r\nb\r\nc\r\nElse\r\nd\r\nEnd If"),
+    ("If a Then b Else c: d", "If a Then\r\nb\r\nElse\r\nc\r\nd\r\nEnd If"),
+    # A comment on an Attribute line compares by its text, like any comment:
+    # trailing-whitespace trims the space after it.
+    ('Attribute VB_Name = "M" \'note ', 'Attribute VB_Name = "M" \'note'),
 ]
 
 
@@ -62,6 +76,9 @@ DIFFERENT = [
     ('s = "a  b"', 's = "a b"'),
     ("' a  b", "' a b"),
     ("x = 1", "x = 2"),
+    # The parentheses around one argument are its own: they pass it by value.
+    ("Call Log((x))", "Log x"),
+    ("Call Foo(a, b)", "Foo (a), b"),
     # Splitting a declaration must keep each item's own type: in
     # `Dim x, y As Long` only y is Long.
     ("Dim x, y As Long", "Dim x As Long\r\nDim y As Long"),
@@ -71,6 +88,10 @@ DIFFERENT = [
     ("ReDim a(5), b(6)", "ReDim a(5)\r\nReDim b(6)"),
     # A comma inside bounds is not an item boundary.
     ("Dim grid(1 To 2, 1 To 3) As Long", "Dim grid(1 To 2)\r\nDim (1 To 3) As Long"),
+    # A block If with two statements is not one single-line If and a statement.
+    ("If x Then\r\na\r\nb\r\nEnd If", "If x Then a\r\nb"),
+    # The Else arm belongs inside the If.
+    ("If a Then b Else c", "If a Then b\r\nc"),
 ]
 
 

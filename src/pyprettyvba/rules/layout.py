@@ -65,7 +65,12 @@ def _statement_head(doc: Document, line: LogicalLine) -> Token | None:
 
 
 def _continuation_gaps(doc: Document, line: LogicalLine) -> Iterator[tuple[int, int, str, Token | None]]:
-    """For each continuation line: (start, end, text) of its indentation and its first token."""
+    """For each continuation line: (start, end, text) of its indentation and its first token.
+
+    A continuation line that starts with text the lexer has no rule for is
+    left out: a bare `_` is such text, and indented it would become a
+    continuation itself.
+    """
     tokens = doc.tokens
     for j in range(line.first, line.stop):
         if tokens[j].kind is not TokenKind.CONTINUATION:
@@ -77,9 +82,13 @@ def _continuation_gaps(doc: Document, line: LogicalLine) -> Iterator[tuple[int, 
             if nxt is not None and nxt.kind is TokenKind.CONTINUATION:
                 # ` _` alone on a line: the space belongs to the continuation.
                 continue
+            if nxt is not None and nxt.kind is TokenKind.UNKNOWN:
+                continue
             yield ws.start, ws.end, ws.text, nxt
         else:
             nxt = tokens[k] if k < line.stop else None
+            if nxt is not None and nxt.kind is TokenKind.UNKNOWN:
+                continue
             yield tokens[j].end, tokens[j].end, "", nxt
 
 
@@ -173,6 +182,10 @@ class IndentRule(Rule):
                 continue
             if structure.is_broken(line.index) or _opens_with_continuation(doc, line):
                 continue
+            if doc.tokens[line.head].kind is TokenKind.UNKNOWN:
+                # Text the lexer has no rule for keeps its indentation: a bare
+                # `_` indented would become a continuation.
+                continue
             level = levels[line.index]
             if line.kind is LineKind.DIRECTIVE:
                 mode = s["directives"]
@@ -199,7 +212,7 @@ class IndentRule(Rule):
         for line in doc.lines:
             if line.kind in (LineKind.BLANK, LineKind.ATTRIBUTE) or line.head is None:
                 continue
-            if _opens_with_continuation(doc, line):
+            if _opens_with_continuation(doc, line) or doc.tokens[line.head].kind is TokenKind.UNKNOWN:
                 continue
             start, end, text = _leading(doc, line)
             if line.label is None:

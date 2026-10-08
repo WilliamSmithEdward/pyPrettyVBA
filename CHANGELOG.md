@@ -7,6 +7,28 @@
   column 1, like a label. With `pad-blocks`, each such group, each label
   and an `On Error Resume Next` ... `On Error GoTo 0` bracket get a blank
   line on both sides.
+- A new rule, `collapse-if`, off by default: a block If holding one
+  statement, with no `Else` and no comment, becomes a single-line If. The
+  safety check reads a single-line If as the block it means, so the two
+  forms are the same code to it.
+- A new rule, `call-keyword`, off by default: `Call Warn(a, b)` becomes
+  `Warn a, b`, the parentheses going with the `Call` that needed them. An
+  argument in parentheses of its own keeps them. The safety check reads a
+  `Call` as the plain call it means.
+- `indent` and `continuation-indent` indented a line that held only a
+  bare `_`, which the lexer has no rule for; indented, ` _` at the end of
+  the line became a continuation, and the safety check refused the
+  module. A line, or a continuation line, that starts with such text now
+  keeps its indentation. Found by the fuzz run.
+- `align-declarations` padded the space before `As` on a line holding text
+  the lexer has no rule for, moving a byte that touched the `As`, and the
+  safety check refused the module. Like every other rule, it now leaves
+  such a line as written. Found by the fuzz run.
+- An `Attribute` line ending in a comment with a space after it could not
+  be formatted: `trailing-whitespace` trimmed the space, and the safety
+  check compared the comment on an Attribute line by its exact text, where
+  a comment anywhere else compares by what it says. It now compares the
+  same way. Found by the fuzz run.
 - A new rule, `wrap-lines`, off by default: a line over `max` columns is
   broken after a comma, a spaced operator or the `Then` of a single-line
   If, at the rightmost point that fits, with the continuation one level in.
@@ -47,8 +69,9 @@
   respelling of the pass, and keeps the `%` where removing it would make a
   date. Found by the daily fuzz run.
 - Coverage-guided fuzzing with Atheris of the lexer and of the formatter
-  under every preset (`fuzz/fuzz_formatter.py`), daily and on every change.
-  The test suite replays the seed corpus.
+  under every preset (`fuzz/fuzz_formatter.py`), daily and on every change
+  to main. The test suite replays the seed corpus on every run, pull
+  requests included.
 - Releases carry signed build provenance: the signed bundle from GitHub's
   artifact attestations goes on the GitHub release as
   `pyprettyvba-<version>.sigstore.json`. `SECURITY.md` has the steps to

@@ -2,16 +2,16 @@ name: Fuzz
 
 # Coverage-guided fuzzing of the lexer and the formatter on arbitrary text, with
 # Atheris (fuzz/fuzz_formatter.py). Each target runs from its seeds in
-# tests/fuzz_corpus/vba: a minute on a change to the package, five minutes daily.
+# tests/fuzz_corpus/vba: a minute on a change to main, five minutes daily.
 # A finding fails the run and is kept as the crash artifact; add it to the
-# corpus as a regression seed with the fix. This is not a required check, so
-# a finding in code a pull request did not touch does not block it.
+# corpus as a regression seed with the fix. The random search does not run
+# on pull requests, where it would fail for code the pull request did not
+# touch; CI replays the seed corpus there (tests/test_fuzz_corpus.py), so a
+# pull request goes red only for what it changed.
 
 on:
   push:
     branches: [main]
-    paths: [src/**, fuzz/**, tests/fuzz_corpus/**, .github/requirements/fuzz.*, .github/workflows/fuzz.yml]
-  pull_request:
     paths: [src/**, fuzz/**, tests/fuzz_corpus/**, .github/requirements/fuzz.*, .github/workflows/fuzz.yml]
   schedule:
     - cron: '53 5 * * *'

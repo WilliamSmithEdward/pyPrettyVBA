@@ -7,8 +7,10 @@ identifier-case           on   fix  Spell names the way they are declared.
 numeric-literals          on   fix  Spell numbers the way the VBE does.
 date-literals             on   fix  Spell dates the way the VBE does.
 statement-form            on   fix  Write Call Foo() and Else x the way the VBE does.
+call-keyword              off  fix  Drop Call from procedure calls.
 split-statements          off  fix  Put each statement on a line of its own.
 one-declaration-per-line  off  fix  Declare one variable per statement.
+collapse-if               off  fix  Write a one-statement If block on one line.
 spacing                   on   fix  Space tokens the way the VBE writes them.
 indent                    on   fix  Indent lines by block structure.
 wrap-lines                off  fix  Wrap lines longer than a limit.
