@@ -35,7 +35,7 @@ dependencies = ["pyOpenVBA>=6.0"]
 [project.optional-dependencies]
 # Exact pins, as in pyVBAanalysis: the gate must not drift under main.
 # Dependabot proposes new versions.
-dev = ["pytest==9.1.1", "hypothesis==6.168.3", "ruff==0.16.9", "mypy==2.3.1"]
+dev = ["pytest==9.1.1", "hypothesis==6.168.3", "ruff==0.16.10", "mypy==2.3.1"]
 # The corpus and differential checks read VBA through pyVBAanalysis, and the
 # live checks drive Office through pyVBAharness (Windows only).
 verify = ["pyvbaanalysis>=2.2", "pyvbaharness>=1.1; sys_platform == 'win32'"]
