@@ -36,6 +36,9 @@ SAME = [
     ("If x Then\r\n\r\nExit Sub\r\n\r\nEnd If", "If x Then Exit Sub"),
     ("If a Then b: c Else d", "If a Then\r\nb\r\nc\r\nElse\r\nd\r\nEnd If"),
     ("If a Then b Else c: d", "If a Then\r\nb\r\nElse\r\nc\r\nd\r\nEnd If"),
+    # A comment on an Attribute line compares by its text, like any comment:
+    # trailing-whitespace trims the space after it.
+    ('Attribute VB_Name = "M" \'note ', 'Attribute VB_Name = "M" \'note'),
 ]
 
 

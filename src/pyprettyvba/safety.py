@@ -88,7 +88,8 @@ def _items(doc: Document) -> Iterator[tuple[Any, ...]]:
             # No rule edits an Attribute line; its layout (line breaks after
             # a ` _`, spaces) is all that can change.
             yield ("attribute", tuple(
-                tokens[j].text for j in range(line.first, line.stop)
+                _comment_body(tokens[j].text) if tokens[j].kind is TokenKind.COMMENT else tokens[j].text
+                for j in range(line.first, line.stop)
                 if not tokens[j].is_trivia and tokens[j].kind is not TokenKind.NEWLINE
             ))
             yield _SEP
