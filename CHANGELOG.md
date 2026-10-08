@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- `align-declarations` padded the space before `As` on a line holding text
+  the lexer has no rule for, moving a byte that touched the `As`, and the
+  safety check refused the module. Like every other rule, it now leaves
+  such a line as written. Found by the fuzz run.
 - A new rule, `wrap-lines`, off by default: a line over `max` columns is
   broken after a comma, a spaced operator or the `Then` of a single-line
   If, at the rightmost point that fits, with the continuation one level in.
