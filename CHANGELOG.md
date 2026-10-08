@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `continuation-indent` and `indent` indented a continuation line that
+  held only a bare `_`, which the lexer has no rule for; indented, ` _`
+  at the end of the line became a continuation, and the safety check
+  refused the module. A continuation line that starts with such text is
+  now left as written. Found by the fuzz run.
 - An `Attribute` line ending in a comment with a space after it could not
   be formatted: `trailing-whitespace` trimmed the space, and the safety
   check compared the comment on an Attribute line by its exact text, where
