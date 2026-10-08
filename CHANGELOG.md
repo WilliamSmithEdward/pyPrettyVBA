@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A new rule, `call-keyword`, off by default: `Call Warn(a, b)` becomes
+  `Warn a, b`, the parentheses going with the `Call` that needed them. An
+  argument in parentheses of its own keeps them. The safety check reads a
+  `Call` as the plain call it means.
 - `indent` and `continuation-indent` indented a line that held only a
   bare `_`, which the lexer has no rule for; indented, ` _` at the end of
   the line became a continuation, and the safety check refused the

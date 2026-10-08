@@ -20,6 +20,7 @@ rule can be enabled, disabled and configured in a `[rules]` table (see
 | [numeric-literals](#numeric-literals) | Spell numbers the way the VBE does. | on | yes |
 | [date-literals](#date-literals) | Spell dates the way the VBE does. | on | yes |
 | [statement-form](#statement-form) | Write Call Foo() and Else x the way the VBE does. | on | yes |
+| [call-keyword](#call-keyword) | Drop Call from procedure calls. | off | yes |
 | [split-statements](#split-statements) | Put each statement on a line of its own. | off | yes |
 | [one-declaration-per-line](#one-declaration-per-line) | Declare one variable per statement. | off | yes |
 | [spacing](#spacing) | Space tokens the way the VBE writes them. | on | yes |
@@ -227,6 +228,23 @@ block `Else` followed by a statement on the same line gets a colon:
 - Part of what the VBE itself does to code it reads in (the `vbe` preset).
 
 Examples: [basic](../tests/fixtures/rules/statement-form/basic/).
+
+## call-keyword
+
+Drop `Call`, and the parentheses it needs around the arguments.
+
+`Call Warn(a, b)` becomes `Warn a, b`: the two pass their arguments
+the same way. An argument in parentheses of its own keeps them, so
+`Call Log((x))` becomes `Log (x)` and still passes `x` by value.
+`Call Reset` becomes `Reset`. A style the VBE does not impose; off
+unless enabled.
+
+- Category: statements.
+- Off by default.
+- Presets that enable it: none.
+- Fixes what it finds.
+
+Examples: [basic](../tests/fixtures/rules/call-keyword/basic/).
 
 ## split-statements
 
