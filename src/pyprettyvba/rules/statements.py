@@ -16,7 +16,7 @@ from collections.abc import Iterable
 
 from ..document import Document, LineKind, LogicalLine, Statement, StatementKind, declaration_items
 from ..lexer import TokenKind
-from ..safety import call_argument_parens
+from ..safety import call_argument_parens, calls_a_name
 from .base import Finding, Option, Rule
 
 __all__ = [
@@ -378,7 +378,7 @@ class CallKeywordRule(Rule):
             for statement in line.statements:
                 indices = statement.tokens
                 first = tokens[indices[0]]
-                if first.kind is not TokenKind.KEYWORD or first.lower != "call" or len(indices) < 2:
+                if not calls_a_name(tokens, indices):
                     continue
                 if _reads_differently_at_line_start(doc, statement) and statement is line.statements[0]:
                     continue

@@ -78,6 +78,8 @@ DIFFERENT = [
     ("x = 1", "x = 2"),
     # The parentheses around one argument are its own: they pass it by value.
     ("Call Log((x))", "Log x"),
+    # A Call that calls nothing is left to the compiler as written.
+    ("Call Call Sub", "Call Sub"),
     ("Call Foo(a, b)", "Foo (a), b"),
     # Splitting a declaration must keep each item's own type: in
     # `Dim x, y As Long` only y is Long.
