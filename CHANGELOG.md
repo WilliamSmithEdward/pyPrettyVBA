@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- A module whose lines end in CR CR LF, as one export tool writes them,
+  did not settle: the export header was split at a different line once
+  the line endings were rewritten, so a second formatting removed a blank
+  line the first had kept. The header is now split the way the lexer
+  reads lines, with a blank line between two `Attribute` lines staying in
+  the header, and one formatting gives what a second gives.
 - A new preset, `author`: the author's own style. Every statement form
   rule, declarations and comments aligned, lines wrapped at 120 columns,
   one blank line inside every block, a procedure's `On Error GoTo` and

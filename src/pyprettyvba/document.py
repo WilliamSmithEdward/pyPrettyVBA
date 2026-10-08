@@ -38,6 +38,8 @@ _OBJECT_RE = re.compile(r"^Object\s*=", re.IGNORECASE)
 _BEGIN_RE = re.compile(r"^(?:BEGIN|BeginProperty)(?:\s|$)", re.IGNORECASE)
 _END_RE = re.compile(r"^(?:END|EndProperty)\s*$", re.IGNORECASE)
 _ATTRIBUTE_RE = re.compile(r"^Attribute\s+VB_", re.IGNORECASE)
+# A line with its terminator, read as the lexer reads one: CR, LF or CRLF.
+_LINE_RE = re.compile(r"[^\r\n]*(?:\r\n|\r|\n)|[^\r\n]+\Z")
 
 
 def split_header(text: str) -> tuple[str, str]:
@@ -47,8 +49,14 @@ def split_header(text: str) -> tuple[str, str]:
     END block (a class's settings, a form's designer controls), and the
     `Attribute VB_...` lines that follow. Source without a VERSION line keeps
     only its leading Attribute lines as a header. ``header + body == text``.
+
+    Lines end the way the lexer reads them, at CR, LF or CRLF, so the split
+    is the same before and after the line endings are rewritten. A blank
+    line between two Attribute lines stays with the header, which is never
+    formatted, for the same reason: a file whose every line ends in CR CR
+    LF has one after each.
     """
-    lines = text.splitlines(keepends=True)
+    lines = [match.group(0) for match in _LINE_RE.finditer(text)]
     i = 0
     if lines and _VERSION_RE.match(lines[0]):
         i = 1
@@ -65,8 +73,17 @@ def split_header(text: str) -> tuple[str, str]:
                 i += 1
                 if depth <= 0:
                     break
-    while i < len(lines) and _ATTRIBUTE_RE.match(lines[i]):
-        i += 1
+    while i < len(lines):
+        if _ATTRIBUTE_RE.match(lines[i]):
+            i += 1
+            continue
+        after_blanks = i
+        while after_blanks < len(lines) and not lines[after_blanks].strip():
+            after_blanks += 1
+        if after_blanks > i and after_blanks < len(lines) and _ATTRIBUTE_RE.match(lines[after_blanks]):
+            i = after_blanks
+            continue
+        break
     cut = sum(len(line) for line in lines[:i])
     return text[:cut], text[cut:]
 
