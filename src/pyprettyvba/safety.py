@@ -39,7 +39,15 @@ from .keywords import OPERAND_WORDS
 from .lexer import Token, TokenKind
 from .literals import date_identity, number_value
 
-__all__ = ["SafetyError", "call_argument_form", "call_argument_parens", "first_difference", "glue_signature", "signature"]
+__all__ = [
+    "SafetyError",
+    "call_argument_form",
+    "call_argument_parens",
+    "calls_a_name",
+    "first_difference",
+    "glue_signature",
+    "signature",
+]
 
 
 class SafetyError(Exception):
@@ -144,13 +152,23 @@ def call_argument_form(tokens: list[Token], indices: list[int]) -> list[int]:
     The Call goes, and so does the parenthesis pair that wraps the whole
     argument list: the first `(` after the callee, when its match is the
     statement's last token. Anything else is returned as it is."""
-    if len(indices) < 2 or tokens[indices[0]].kind is not TokenKind.KEYWORD or tokens[indices[0]].lower != "call":
+    if not calls_a_name(tokens, indices):
         return indices
     rest = indices[1:]
     opening = call_argument_parens(tokens, rest)
     if opening is None:
         return rest
     return rest[:opening] + rest[opening + 1 : -1]
+
+
+def calls_a_name(tokens: list[Token], indices: list[int]) -> bool:
+    """True for a `Call` followed by something it can call: a name, a
+    bracketed name or `Me`. `Call Call Sub` calls nothing, and is left to
+    the compiler."""
+    if len(indices) < 2 or tokens[indices[0]].kind is not TokenKind.KEYWORD or tokens[indices[0]].lower != "call":
+        return False
+    target = tokens[indices[1]]
+    return target.kind in (TokenKind.IDENTIFIER, TokenKind.BRACKETED) or target.lower == "me"
 
 
 def call_argument_parens(tokens: list[Token], indices: list[int]) -> int | None:

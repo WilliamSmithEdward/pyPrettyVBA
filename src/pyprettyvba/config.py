@@ -126,10 +126,33 @@ def _preset_rules(name: str) -> dict[str, dict[str, Any] | None]:
     if name == "none":
         # Nothing but directive checking: enable rules one by one.
         return {code: ({} if code == "suppression-directive" else None) for code in rules}
+    if name == "author":
+        # The author's own style: every statement form rule, one blank line
+        # inside every block, a procedure's frame at column 1, lines wrapped
+        # at 120 columns, declarations and comments aligned.
+        for code in (
+            "comment-space", "rem-comments", "let-keyword", "call-keyword", "split-statements",
+            "one-declaration-per-line", "collapse-if", "align-declarations",
+        ):
+            rules[code] = {}
+        rules["wrap-lines"] = {"max": 120}
+        rules["max-line-length"] = {"max": 120}
+        rules["trailing-comments"] = {"position": "align"}
+        rules["blank-lines"] = {"pad-blocks": True, "max-consecutive": 1}
+        rules["indent"] = {"column-zero": ["on-error-goto", "application-assignments"]}
+        return rules
     raise ConfigError(f"Unknown preset {name!r}.{_suggest(name, PRESETS)}")
 
 
-PRESETS = ("default", "vbe", "xlide", "strict", "minimal", "none")
+def _preset_globals(name: str) -> dict[str, Any]:
+    """Global settings a preset chooses, under those the configuration gives."""
+    if name == "author":
+        # CRLF, as the VBE stores code, and every Office library's names.
+        return {"line-ending": "crlf", "hosts": ["excel", "word", "powerpoint", "access"]}
+    return {}
+
+
+PRESETS = ("default", "vbe", "xlide", "strict", "minimal", "none", "author")
 
 
 def _suggest(name: str, choices: Sequence[str] | Mapping[str, Any]) -> str:
@@ -302,6 +325,7 @@ class Config:
         return not any(_glob_match(p, rel) for p in override.exclude_files)
 
     def _resolve(self, globals_: Mapping[str, Any], rule_table: Mapping[str, Any]) -> Settings:
+        globals_ = {**_preset_globals(self.preset), **globals_}
         rules = _preset_rules(self.preset)
         for code, setting in rule_table.items():
             rules[code] = _merge_rule(rules.get(code), setting)

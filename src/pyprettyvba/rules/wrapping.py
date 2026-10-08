@@ -66,7 +66,7 @@ class WrapLinesRule(Rule):
         for line in doc.lines:
             if line.kind is not LineKind.CODE or line.label is not None or not line.statements:
                 continue
-            if not self._too_long(doc, line, limit):
+            if not _too_long(doc, line, limit, tab):
                 continue
             tokens = doc.tokens[line.first : line.stop]
             if any(t.kind is TokenKind.UNKNOWN for t in tokens) or any(
@@ -87,17 +87,22 @@ class WrapLinesRule(Rule):
             if text != doc.text[line.start : end]:
                 yield Finding(line.start, end, text, f"Wrap the line within {limit} columns.")
 
-    @staticmethod
-    def _too_long(doc: Document, line: LogicalLine, limit: int) -> bool:
-        """True when any physical line of ``line`` is over the limit."""
-        starts = doc.physical_starts
-        text = doc.text
-        for physical in range(line.first_physical, line.last_physical + 1):
-            start = starts[physical]
-            end = starts[physical + 1] if physical + 1 < len(starts) else len(text)
-            if display_width(text[start:end].rstrip("\r\n"), 0, 4) > limit:
-                return True
-        return False
+
+
+def _too_long(doc: Document, line: LogicalLine, limit: int, tab: int) -> bool:
+    """True when any physical line of ``line`` is over the limit.
+
+    A continuation that ends the file counts a physical line the document
+    records no start for, since a final terminator starts no line.
+    """
+    starts = doc.physical_starts
+    text = doc.text
+    for physical in range(line.first_physical, min(line.last_physical, len(starts) - 1) + 1):
+        start = starts[physical]
+        end = starts[physical + 1] if physical + 1 < len(starts) else len(text)
+        if display_width(text[start:end].rstrip("\r\n"), 0, tab) > limit:
+            return True
+    return False
 
 
 def _pieces(doc: Document, line: LogicalLine) -> list[_Piece]:

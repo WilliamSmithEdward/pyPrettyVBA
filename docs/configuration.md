@@ -20,7 +20,7 @@ wrong type, is an error that names the closest valid spelling.
 ## A complete example
 
 ```toml
-preset = "default"            # default | vbe | xlide | strict | minimal | none
+preset = "default"            # default | vbe | xlide | strict | minimal | none | author
 extend = "../shared.toml"     # start from another configuration file
 
 indent-width = 4
@@ -60,6 +60,7 @@ A preset decides which rules run and with which options before the
 | `strict` | `default` plus `comment-space`, `rem-comments`, `let-keyword`, `split-statements` and `align-declarations`; at most one blank line in a row; lines over 120 columns reported. |
 | `minimal` | `trailing-whitespace`, `end-of-file` and `line-endings`. |
 | `none` | Only `suppression-directive`, which checks the directives themselves. |
+| `author` | The author's own style, opinionated: `default` plus every statement form rule (`call-keyword`, `let-keyword`, `split-statements`, `one-declaration-per-line`, `collapse-if`), `comment-space` and `rem-comments`, declarations and end-of-line comments aligned, lines wrapped at 120 columns, one blank line inside every block (`pad-blocks`), and `On Error GoTo` and `Application` settings at column 1 (`column-zero`). It also sets `line-ending = "crlf"` and `hosts` to every Office library, under anything the configuration says. |
 
 ## Global settings
 

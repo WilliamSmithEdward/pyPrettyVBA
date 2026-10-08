@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- A new preset, `author`: the author's own style. Every statement form
+  rule, declarations and comments aligned, lines wrapped at 120 columns,
+  one blank line inside every block, a procedure's `On Error GoTo` and
+  `Application` settings at column 1, CRLF line endings and every Office
+  library's names. A preset can now choose global settings, which the
+  configuration's own still override.
+- `trailing-comments` with `position = "align"` puts a comment that has no
+  neighbour to align with `min-gap` spaces after its code, where it kept
+  the comment's column.
 - `indent` gains `column-zero`: `On Error GoTo label` statements and
   `Application.X = ...` assignments at a procedure's top level go to
   column 1, like a label. With `pad-blocks`, each such group, each label

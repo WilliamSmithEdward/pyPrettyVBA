@@ -138,6 +138,7 @@ result per module.
 | `strict` | The defaults plus every style rule: one statement per line, `'` comments with a space, no `Let`, aligned declarations. |
 | `minimal` | Whitespace only: trailing whitespace, the end of the file, line endings. |
 | `none` | Nothing but checking suppression directives; a base for enabling rules one by one. |
+| `author` | The author's own style, opinionated: one declaration and one statement per line, no `Call` or `Let`, one-statement `If`s on one line, lines wrapped at 120, a blank line inside every block, and a procedure's `On Error GoTo` and `Application` settings at column 1. |
 
 ## Rules
 

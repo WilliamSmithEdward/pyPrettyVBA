@@ -502,7 +502,7 @@ _INIT_TEMPLATE = """\
 # pyPrettyVBA configuration. Every key is optional; see
 # `pyprettyvba rules` for the rules and `pyprettyvba rules NAME` for options.
 
-preset = "{preset}"   # default | vbe | xlide | strict | minimal
+preset = "{preset}"   # default | vbe | xlide | strict | minimal | none | author
 indent-width = 4
 indent-style = "space"
 line-ending = "auto"  # crlf is the safe choice for code the VBE imports

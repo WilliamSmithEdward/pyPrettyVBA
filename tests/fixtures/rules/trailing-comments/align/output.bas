@@ -3,5 +3,5 @@ Sub Demo()
     total = total + 22 ' second
     y = 3              ' third
 
-    z = 4    ' alone
+    z = 4 ' alone
 End Sub
