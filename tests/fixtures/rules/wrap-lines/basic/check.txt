@@ -1,0 +1,10 @@
+3:1 wrap-lines Wrap the line within 80 columns. [*]
+4:1 blank-lines Set a statement that spans lines apart with one blank line. [*]
+4:1 wrap-lines Wrap the line within 80 columns. [*]
+5:1 blank-lines Set a statement that spans lines apart with one blank line. [*]
+5:1 wrap-lines Wrap the line within 80 columns. [*]
+6:1 blank-lines Set a statement that spans lines apart with one blank line. [*]
+6:1 wrap-lines Wrap the line within 80 columns. [*]
+7:1 blank-lines Set a statement that spans lines apart with one blank line. [*]
+7:1 max-line-length Line is 90 columns long; the limit is 80.
+8:1 blank-lines Set a statement that spans lines apart with one blank line. [*]
