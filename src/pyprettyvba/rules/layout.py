@@ -126,6 +126,15 @@ class IndentRule(Rule):
             choices=("code", "next", "preserve"),
         ),
         Option("debug-column-zero", False, "Put `Debug.Print` and `Debug.Assert` lines at column 1."),
+        Option(
+            "column-zero",
+            [],
+            "Statements to put at column 1 at a procedure's top level, like a label: "
+            "`on-error-goto` (an `On Error GoTo label`; `GoTo 0` and `Resume Next` stay with "
+            "their block) and `application-assignments` (`Application.X = ...`, not a call). "
+            "Inside a block they indent as usual.",
+            types=(list,),
+        ),
     )
 
     def run(self, doc: Document) -> Iterable[Finding]:
@@ -178,6 +187,8 @@ class IndentRule(Rule):
             else:
                 columns = level * width
                 if s["debug-column-zero"] and _is_debug_statement(doc, line):
+                    columns = 0
+                elif level == 1 and _frame_kind(doc, line) in s["column-zero"]:
                     columns = 0
             yield from self._place(doc, line, columns)
 
@@ -258,6 +269,38 @@ class IndentRule(Rule):
 
 def _indent_message(columns: int, old: int) -> str:
     return f"Indent to column {columns + 1} (found column {old + 1})."
+
+
+def _frame_kind(doc: Document, line: LogicalLine) -> str | None:
+    """`on-error-goto` for `On Error GoTo label`, `application-assignments`
+    for `Application.X = ...`, None for anything else."""
+    if line.label is not None or not line.statements:
+        return None
+    tokens = doc.tokens
+    indices = line.statements[0].tokens
+    words = [tokens[j].lower for j in indices[:4]]
+    if words[:3] == ["on", "error", "goto"] and len(indices) >= 4:
+        target = tokens[indices[3]]
+        return "on-error-goto" if target.kind is TokenKind.IDENTIFIER else None
+    if words[:2] == ["application", "."] and _assigns(tokens, indices):
+        return "application-assignments"
+    return None
+
+
+def _assigns(tokens: list[Token], indices: list[int]) -> bool:
+    """True when the statement is an assignment: an `=` outside parentheses
+    after its first token, not the `:=` of a named argument."""
+    depth = 0
+    for j in indices[1:]:
+        tok = tokens[j]
+        if tok.kind is TokenKind.PUNCTUATION and tok.text in ("(", ")"):
+            depth += 1 if tok.text == "(" else -1
+        elif depth == 0 and tok.kind is TokenKind.OPERATOR:
+            if tok.text == "=":
+                return True
+            if tok.text == ":=":
+                return False
+    return False
 
 
 def _is_debug_statement(doc: Document, line: LogicalLine) -> bool:
@@ -481,9 +524,23 @@ class BlankLinesRule(Rule):
                     prev = _stand_in(lines, splice_of[prev_index], start=False)
                 if run_end in splice_of:
                     nxt = _stand_in(lines, splice_of[run_end], start=True)
-                if _ends_block_line(prev, padded) or _starts_block_line(nxt, padded) or run_end in inner_top:
+                prev_frame = _frame_group(doc, structure.levels, prev)
+                next_frame = _frame_group(doc, structure.levels, nxt)
+                if prev_frame is not None or next_frame is not None:
+                    # Lines at column 1 inside a procedure (a label, an
+                    # `On Error GoTo`, Application settings) stand apart,
+                    # with a run of one kind kept together.
+                    if prev_frame != next_frame:
+                        wanted = 1
+                        reason = "Set a line at column 1 apart with one blank line."
+                elif _ends_block_line(prev, padded) or _starts_block_line(nxt, padded) or run_end in inner_top:
                     wanted = 1
                     reason = "Set a block's body apart with one blank line."
+                elif _on_error(doc, nxt) == "resume next" or _on_error(doc, prev) == "goto 0":
+                    # `On Error Resume Next` ... `On Error GoTo 0` brackets the
+                    # statements between them, and stands apart as a unit.
+                    wanted = 1
+                    reason = "Set an On Error Resume Next bracket apart with one blank line."
                 elif _spans_lines(prev) or _spans_lines(nxt):
                     wanted = 1
                     reason = "Set a statement that spans lines apart with one blank line."
@@ -585,6 +642,29 @@ def _comment_top(lines: list[LogicalLine], index: int) -> int:
     while index - 1 >= 0 and lines[index - 1].kind is LineKind.COMMENT:
         index -= 1
     return index
+
+
+def _frame_group(doc: Document, levels: list[int], line: LogicalLine) -> str | None:
+    """The kind of a code line sitting at column 1 inside a block: `label`,
+    or its first word (`on`, `application`); None for any other line."""
+    if line.kind is not LineKind.CODE or levels[line.index] < 1 or doc.indent_of(line):
+        return None
+    if line.label is not None:
+        return "label"
+    if not line.statements:
+        return None
+    return doc.tokens[line.statements[0].tokens[0]].lower
+
+
+def _on_error(doc: Document, line: LogicalLine) -> str | None:
+    """What an `On Error` line does: `resume next`, `goto 0`, or the label it
+    names; None for any other line."""
+    if line.kind is not LineKind.CODE or line.label is not None or not line.statements:
+        return None
+    words = [doc.tokens[j].lower for j in line.statements[0].tokens[:4]]
+    if words[:2] != ["on", "error"] or len(words) < 4:
+        return None
+    return f"{words[2]} {words[3]}"
 
 
 def _spans_lines(line: LogicalLine) -> bool:

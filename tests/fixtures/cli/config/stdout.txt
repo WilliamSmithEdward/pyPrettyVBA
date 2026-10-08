@@ -18,7 +18,7 @@ enabled rules:
   statement-form
   split-statements (case="split", labels="keep")
   spacing (collapse=true)
-  indent (reindent=true, procedure-body=true, case=true, type-members=true, directives="indent", comments="code", debug-column-zero=false)
+  indent (reindent=true, procedure-body=true, case=true, type-members=true, directives="indent", comments="code", debug-column-zero=false, column-zero=[])
   continuation-indent (style="relative", hanging=1, closing-paren="align")
   align-declarations (min-gap=1, max-column=60)
   trailing-comments (position="keep-column", min-gap=1)

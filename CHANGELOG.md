@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `indent` gains `column-zero`: `On Error GoTo label` statements and
+  `Application.X = ...` assignments at a procedure's top level go to
+  column 1, like a label. With `pad-blocks`, each such group, each label
+  and an `On Error Resume Next` ... `On Error GoTo 0` bracket get a blank
+  line on both sides.
 - A new rule, `wrap-lines`, off by default: a line over `max` columns is
   broken after a comma, a spaced operator or the `Then` of a single-line
   If, at the rightmost point that fits, with the continuation one level in.
