@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- A new rule, `wrap-lines`, off by default: a line over `max` columns is
+  broken after a comma, a spaced operator or the `Then` of a single-line
+  If, at the rightmost point that fits, with the continuation one level in.
+  A line with no break point is left for `max-line-length` to report. With
+  `pad-blocks`, a statement that spans lines gets a blank line on each side.
 - `blank-lines` gains `pad-blocks`, off by default: one blank line inside
   every block and on both sides of every block within a procedure, so each
   body stands apart. Types and Enums are set apart like procedures, and

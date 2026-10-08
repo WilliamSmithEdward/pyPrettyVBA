@@ -484,6 +484,9 @@ class BlankLinesRule(Rule):
                 if _ends_block_line(prev, padded) or _starts_block_line(nxt, padded) or run_end in inner_top:
                     wanted = 1
                     reason = "Set a block's body apart with one blank line."
+                elif _spans_lines(prev) or _spans_lines(nxt):
+                    wanted = 1
+                    reason = "Set a statement that spans lines apart with one blank line."
                 elif _is_option(prev) and nxt.kind is LineKind.CODE and not _is_option(nxt):
                     wanted = 1
                     reason = "Put one blank line after the Option statements."
@@ -582,6 +585,11 @@ def _comment_top(lines: list[LogicalLine], index: int) -> int:
     while index - 1 >= 0 and lines[index - 1].kind is LineKind.COMMENT:
         index -= 1
     return index
+
+
+def _spans_lines(line: LogicalLine) -> bool:
+    """True for a code line continued onto further physical lines."""
+    return line.kind is LineKind.CODE and line.last_physical > line.first_physical
 
 
 def _is_option(line: LogicalLine) -> bool:

@@ -24,6 +24,7 @@ rule can be enabled, disabled and configured in a `[rules]` table (see
 | [one-declaration-per-line](#one-declaration-per-line) | Declare one variable per statement. | off | yes |
 | [spacing](#spacing) | Space tokens the way the VBE writes them. | on | yes |
 | [indent](#indent) | Indent lines by block structure. | on | yes |
+| [wrap-lines](#wrap-lines) | Wrap lines longer than a limit. | off | yes |
 | [continuation-indent](#continuation-indent) | Indent continuation lines consistently. | on | yes |
 | [align-declarations](#align-declarations) | Align As in runs of declarations. | off | yes |
 | [trailing-comments](#trailing-comments) | Place end-of-line comments consistently. | on | yes |
@@ -342,6 +343,32 @@ If, a For never closed), the region is left as written and reported.
 | `debug-column-zero` | `false` | true, false | Put `Debug.Print` and `Debug.Assert` lines at column 1. |
 
 Examples: [basic](../tests/fixtures/rules/indent/basic/), [broken-structure](../tests/fixtures/rules/indent/broken-structure/), [case-flat](../tests/fixtures/rules/indent/case-flat/), [comments-next](../tests/fixtures/rules/indent/comments-next/), [debug-column-zero](../tests/fixtures/rules/indent/debug-column-zero/), [directives](../tests/fixtures/rules/indent/directives/), [directives-column-zero](../tests/fixtures/rules/indent/directives-column-zero/), [directives-flat](../tests/fixtures/rules/indent/directives-flat/), [keep](../tests/fixtures/rules/indent/keep/), [labels](../tests/fixtures/rules/indent/labels/), [procedure-body-flat](../tests/fixtures/rules/indent/procedure-body-flat/), [tabs](../tests/fixtures/rules/indent/tabs/), [width-two](../tests/fixtures/rules/indent/width-two/).
+
+## wrap-lines
+
+Wrap lines longer than a limit with line continuations.
+
+The line is broken after a comma, a spaced binary operator (`&`, `+`,
+`-`, `*`, `/`, `And`, `Or`, `Xor`) or the `Then` of a single-line If,
+at the rightmost point that keeps the line, with its ` _`, within
+`max`, and again on what is left; the continuation lines sit one
+level in. A break never falls inside a string or a comment, and never
+at a `.`, which would change what the line means. A trailing comment
+rides on the last line. A line with no break point within the limit
+is left as written, for max-line-length to report, and a line already
+continued by hand is left alone while each of its lines fits. A style
+the VBE does not impose; off unless enabled.
+
+- Category: layout.
+- Off by default.
+- Presets that enable it: none.
+- Fixes what it finds.
+
+| Option | Default | Values | What it does |
+| --- | --- | --- | --- |
+| `max` | `120` | integer, at least 20 | The longest a line may be, in columns. |
+
+Examples: [basic](../tests/fixtures/rules/wrap-lines/basic/).
 
 ## continuation-indent
 

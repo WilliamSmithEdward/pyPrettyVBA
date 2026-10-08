@@ -1,0 +1,18 @@
+title = "Wrap long lines"
+description = """
+A line over `max` columns breaks after a comma, a spaced operator or the
+`Then` of a single-line If, at the rightmost point that fits, with the
+continuation one level in and a trailing comment riding on the last line.
+The URL has no break point and is left for `max-line-length` to report; the
+`SendReport` call, continued by hand, fits and is left as written. With
+`pad-blocks`, a statement that spans lines gets a blank line on each side.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+wrap-lines = { max = 80 }
+max-line-length = { max = 80 }
+blank-lines = { pad-blocks = true, max-consecutive = 1 }
