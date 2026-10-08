@@ -54,6 +54,8 @@ class _CcFrame:
     level: int = 0
     first_arm_end: list[_Block] | None = None
     balanced: bool = True
+    # The #If, #ElseIf, #Else and #End If lines of the block.
+    lines: list[int] = field(default_factory=list)
 
 
 @dataclass
@@ -69,6 +71,14 @@ class Structure:
     problems: list[tuple[int, str]] = field(default_factory=list)
     # (first line, last line) of each procedure, header to End line.
     procedures: list[tuple[int, int]] = field(default_factory=list)
+    # The directive lines (#If, #ElseIf, #Else, #End If) of every balanced
+    # #If block: one whose arms all leave the block stack as they found it,
+    # so each arm is a body of its own rather than part of a spliced line.
+    balanced_directives: set[int] = field(default_factory=set)
+    # The directive lines of every #If block that is not balanced: one that
+    # splices a line out of its arms, two versions of a procedure header
+    # most often. Each entry runs #If, any #ElseIf and #Else, #End If.
+    spliced_directives: list[list[int]] = field(default_factory=list)
 
     def is_broken(self, line_index: int) -> bool:
         return any(first <= line_index <= last for first, last in self.broken)
@@ -205,7 +215,7 @@ class _Walker:
     def directive(self, index: int, kind: StatementKind) -> int:
         if kind is StatementKind.CC_IF:
             level = self.level()
-            self.cc.append(_CcFrame(index, [_copy(b) for b in self.stack], level))
+            self.cc.append(_CcFrame(index, [_copy(b) for b in self.stack], level, lines=[index]))
             self.cc_weights.append(self.cc_weight)
             if index in self.weighted_cc:
                 self.cc_weight += 1
@@ -214,6 +224,7 @@ class _Walker:
             if not self.cc:
                 return self.level()
             frame = self.cc[-1]
+            frame.lines.append(index)
             if not _same(self.stack, frame.snapshot):
                 frame.balanced = False
             if frame.first_arm_end is None:
@@ -224,6 +235,7 @@ class _Walker:
             if not self.cc:
                 return self.level()
             frame = self.cc.pop()
+            frame.lines.append(index)
             if not _same(self.stack, frame.snapshot):
                 frame.balanced = False
             if frame.first_arm_end is not None:
@@ -231,6 +243,9 @@ class _Walker:
             self.cc_weight = self.cc_weights.pop()
             if frame.balanced:
                 self.balanced_cc.add(frame.line)
+                self.result.balanced_directives.update(frame.lines)
+            else:
+                self.result.spliced_directives.append(list(frame.lines))
             return frame.level
         return self.level()
 

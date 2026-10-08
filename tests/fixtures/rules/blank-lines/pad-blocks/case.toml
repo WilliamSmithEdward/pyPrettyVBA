@@ -1,0 +1,17 @@
+title = "Blank lines by structure"
+description = """
+With `pad-blocks`, every block gets one blank line after the line that opens
+it and before the line that closes it: procedures, Types, `If` and its `Else`
+arms, `Select Case` and its `Case` arms, loops and `With`, nested ones
+included. Types and Enums are set apart like procedures, with a comment
+above a header staying attached to it, and the Option statements get a
+blank line below. Blank lines between ordinary statements stay, and runs
+are cut to `max-consecutive`.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+blank-lines = { pad-blocks = true, max-consecutive = 1 }
