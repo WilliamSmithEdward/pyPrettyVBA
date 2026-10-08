@@ -73,10 +73,12 @@ rules reach files that have not changed.
   under every preset, which must not raise, must format its own output to
   itself, must change no character outside ASCII and whitespace, and under
   the `none` preset must change nothing. Both start from the seeds in
-  `tests/fuzz_corpus/vba`. The Fuzz workflow runs on every change to the
-  package, the fuzz targets or the corpus, and daily. It is not a gate: a
-  finding becomes a regression test with its fix, a seed that
-  `tests/test_fuzz_corpus.py` replays on every CI run.
+  `tests/fuzz_corpus/vba`. The Fuzz workflow runs on every change to main
+  that touches the package, the fuzz targets or the corpus, and daily. It
+  does not run on pull requests, where its random search would fail for
+  code the pull request did not touch; a finding becomes a regression
+  test with its fix, a seed that `tests/test_fuzz_corpus.py` replays on
+  every CI run, pull requests included.
 - **OpenSSF Scorecard** rates the repository's security practices on every
   change to `main` and weekly, and the README badge shows the result.
   Its Code-Review and Contributors checks assume more than one
