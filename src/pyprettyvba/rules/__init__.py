@@ -27,6 +27,7 @@ from .reporting import MaxLineLengthRule, SuppressionDirectiveRule
 from .spacing import SpacingRule
 from .statements import (
     CallKeywordRule,
+    CollapseIfRule,
     LetKeywordRule,
     OneDeclarationPerLineRule,
     SplitStatementsRule,
@@ -49,6 +50,7 @@ RULES: tuple[type[Rule], ...] = (
     CallKeywordRule,
     SplitStatementsRule,
     OneDeclarationPerLineRule,
+    CollapseIfRule,
     SpacingRule,
     IndentRule,
     WrapLinesRule,

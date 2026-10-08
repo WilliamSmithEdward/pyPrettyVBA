@@ -23,6 +23,7 @@ rule can be enabled, disabled and configured in a `[rules]` table (see
 | [call-keyword](#call-keyword) | Drop Call from procedure calls. | off | yes |
 | [split-statements](#split-statements) | Put each statement on a line of its own. | off | yes |
 | [one-declaration-per-line](#one-declaration-per-line) | Declare one variable per statement. | off | yes |
+| [collapse-if](#collapse-if) | Write a one-statement If block on one line. | off | yes |
 | [spacing](#spacing) | Space tokens the way the VBE writes them. | on | yes |
 | [indent](#indent) | Indent lines by block structure. | on | yes |
 | [wrap-lines](#wrap-lines) | Wrap lines longer than a limit. | off | yes |
@@ -285,6 +286,24 @@ with the last item. A style the VBE does not impose; off unless enabled.
 - Fixes what it finds.
 
 Examples: [basic](../tests/fixtures/rules/one-declaration-per-line/basic/).
+
+## collapse-if
+
+Write a block If that holds one statement on one line.
+
+`If x Then` / `Exit Sub` / `End If` becomes `If x Then Exit Sub`. Only
+a block with no `Else` or `ElseIf`, exactly one statement that is not
+itself a block or an If, and no comment or label on any of its lines
+is collapsed; blank lines inside it are no obstacle. The line keeps
+the If's indentation, and wrap-lines breaks it if it runs long. A
+style the VBE does not impose; off unless enabled.
+
+- Category: statements.
+- Off by default.
+- Presets that enable it: none.
+- Fixes what it finds.
+
+Examples: [basic](../tests/fixtures/rules/collapse-if/basic/).
 
 ## spacing
 

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A new rule, `collapse-if`, off by default: a block If holding one
+  statement, with no `Else` and no comment, becomes a single-line If. The
+  safety check reads a single-line If as the block it means, so the two
+  forms are the same code to it.
 - A new rule, `call-keyword`, off by default: `Call Warn(a, b)` becomes
   `Warn a, b`, the parentheses going with the `Call` that needed them. An
   argument in parentheses of its own keeps them. The safety check reads a

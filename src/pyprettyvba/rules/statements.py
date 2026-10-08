@@ -19,7 +19,14 @@ from ..lexer import TokenKind
 from ..safety import call_argument_parens
 from .base import Finding, Option, Rule
 
-__all__ = ["CallKeywordRule", "LetKeywordRule", "OneDeclarationPerLineRule", "SplitStatementsRule", "StatementFormRule"]
+__all__ = [
+    "CallKeywordRule",
+    "CollapseIfRule",
+    "LetKeywordRule",
+    "OneDeclarationPerLineRule",
+    "SplitStatementsRule",
+    "StatementFormRule",
+]
 
 
 class SplitStatementsRule(Rule):
@@ -255,6 +262,95 @@ def _line_newline(doc: Document, line: LogicalLine, default: str) -> str:
     if line.stop > line.first and tokens[line.stop - 1].kind is TokenKind.NEWLINE:
         return tokens[line.stop - 1].text
     return default
+
+
+class CollapseIfRule(Rule):
+    """Write a block If that holds one statement on one line.
+
+    `If x Then` / `Exit Sub` / `End If` becomes `If x Then Exit Sub`. Only
+    a block with no `Else` or `ElseIf`, exactly one statement that is not
+    itself a block or an If, and no comment or label on any of its lines
+    is collapsed; blank lines inside it are no obstacle. The line keeps
+    the If's indentation, and wrap-lines breaks it if it runs long. A
+    style the VBE does not impose; off unless enabled.
+    """
+
+    code = "collapse-if"
+    summary = "Write a one-statement If block on one line."
+    category = "statements"
+    default_enabled = False
+
+    def run(self, doc: Document) -> Iterable[Finding]:
+        lines = doc.lines
+        tokens = doc.tokens
+        index = 0
+        while index < len(lines):
+            header = lines[index]
+            body_index = _single_body(doc, index)
+            if body_index is None:
+                index += 1
+                continue
+            body = lines[body_index]
+            closer_index = _next_code_line(lines, body_index)
+            if closer_index is None or not _is_only(lines[closer_index], StatementKind.END_IF):
+                index += 1
+                continue
+            closer = lines[closer_index]
+            newline = _line_newline(doc, closer, self.context.newline)
+            head = doc.text[tokens[header.statements[0].tokens[0]].start : tokens[header.statements[0].tokens[-1]].end]
+            statement = body.statements[0]
+            code = doc.text[tokens[statement.tokens[0]].start : tokens[statement.tokens[-1]].end]
+            end = closer.end - len(newline) if doc.text[closer.start : closer.end].endswith(newline) else closer.end
+            yield Finding(
+                header.start,
+                end,
+                f"{doc.indent_of(header)}{head} {code}",
+                "Write the one-statement If on one line.",
+            )
+            index = closer_index + 1
+
+
+def _single_body(doc: Document, index: int) -> int | None:
+    """The index of the one body line of a collapsible block If opened at ``index``."""
+    lines = doc.lines
+    header = lines[index]
+    if not _is_only(header, StatementKind.IF_BLOCK):
+        return None
+    body_index = _next_code_line(lines, index)
+    if body_index is None:
+        return None
+    body = lines[body_index]
+    if body.kind is not LineKind.CODE or body.label is not None or body.comment is not None:
+        return None
+    if len(body.statements) != 1 or body.first_physical != body.last_physical:
+        return None
+    statement = body.statements[0]
+    if statement.kind not in (StatementKind.OTHER, StatementKind.VARIABLES) or statement.colon_after:
+        return None
+    if doc.tokens[statement.tokens[0]].lower == "if":
+        return None
+    return body_index
+
+
+def _next_code_line(lines: list[LogicalLine], index: int) -> int | None:
+    """The next line after ``index`` that is not blank, if it is code."""
+    k = index + 1
+    while k < len(lines) and lines[k].kind is LineKind.BLANK:
+        k += 1
+    return k if k < len(lines) and lines[k].kind is LineKind.CODE else None
+
+
+def _is_only(line: LogicalLine, kind: StatementKind) -> bool:
+    """True when the line holds one statement of ``kind``, on one physical line, with no label or comment."""
+    return (
+        line.kind is LineKind.CODE
+        and line.label is None
+        and line.comment is None
+        and len(line.statements) == 1
+        and line.statements[0].kind is kind
+        and not line.statements[0].colon_after
+        and line.first_physical == line.last_physical
+    )
 
 
 class CallKeywordRule(Rule):
