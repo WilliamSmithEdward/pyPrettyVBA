@@ -31,6 +31,9 @@ SAME = [
     ("Public WithEvents app As Application, name As String", "Public WithEvents app As Application\r\nPublic name As String"),
     ("Dim buffer(1 To 10) As Byte, flag As Boolean", "Dim buffer(1 To 10) As Byte\r\nDim flag As Boolean"),
     ("Const A = 1, B As String = \"b\"", "Const A = 1\r\nConst B As String = \"b\""),
+    # A comment on an Attribute line compares by its text, like any comment:
+    # trailing-whitespace trims the space after it.
+    ('Attribute VB_Name = "M" \'note ', 'Attribute VB_Name = "M" \'note'),
 ]
 
 
