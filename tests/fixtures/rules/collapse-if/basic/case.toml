@@ -1,0 +1,17 @@
+title = "A one-statement If block on one line"
+description = """
+A block If holding one statement, with no `Else` and no comment, becomes a
+single-line If; blank lines inside it are no obstacle. A block with an
+`Else`, with a comment, or with more than one statement stays. The
+collapsed line keeps the If's indentation, and `wrap-lines` breaks it when
+it runs long. With `pad-blocks`, the blocks that stay are padded.
+"""
+file = "Module1.bas"
+
+[config]
+preset = "none"
+
+[config.rules]
+collapse-if = true
+wrap-lines = { max = 120 }
+blank-lines = { pad-blocks = true, max-consecutive = 1 }

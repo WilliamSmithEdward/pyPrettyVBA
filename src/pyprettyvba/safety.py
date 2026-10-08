@@ -15,7 +15,9 @@ make, and nothing else:
 * a comment's marker (`Rem` or `'`) and the spaces around its text;
 * a `Let` that opens an assignment, and `EndIf` against `End If`;
 * a declaration of several variables against one declaration each:
-  `Dim a, b As Long` declares `a` and `b As Long` just as two Dims would.
+  `Dim a, b As Long` declares `a` and `b As Long` just as two Dims would;
+* a single-line If against the block If it means: `If a Then b Else c`
+  runs what `If a Then` / `b` / `Else` / `c` / `End If` runs.
 
 Whitespace is not always insignificant in VBA, so the signature also records
 where it is not: whether `&`, `!`, `#`, `^` and `.` touch the token before
@@ -110,6 +112,11 @@ def _items(doc: Document) -> Iterator[tuple[Any, ...]]:
                 continue
             pinned = _pinned_name(tokens, statement)
             single_if = statement.kind is StatementKind.IF_SINGLE
+            if single_if:
+                expanded = _single_if_as_block(doc, statement)
+                if expanded is not None:
+                    yield from expanded
+                    continue
             first = True
             indices = statement.tokens
             if (
@@ -135,6 +142,46 @@ def _items(doc: Document) -> Iterator[tuple[Any, ...]]:
         if line.comment is not None:
             yield ("comment", _comment_body(tokens[line.comment].text))
         yield _SEP
+
+
+def _single_if_as_block(doc: Document, statement: Any) -> list[tuple[Any, ...]] | None:
+    """A single-line If as the block If it means: `If a Then b Else c` is
+    `If a Then`, `b`, `Else`, `c`, `End If`, with the colons of each arm
+    separating its statements. A body that is itself an If is left as
+    written, since which If an Else belongs to is not read here."""
+    tokens = doc.tokens
+    indices = statement.tokens
+    depth = 0
+    then_at = None
+    for position, j in enumerate(indices):
+        tok = tokens[j]
+        if tok.kind is TokenKind.PUNCTUATION and tok.text in ("(", ")"):
+            depth += 1 if tok.text == "(" else -1
+        elif depth == 0 and tok.kind is TokenKind.KEYWORD and tok.lower == "then":
+            then_at = position
+            break
+    if then_at is None:
+        return None
+    body = indices[then_at + 1 :]
+    if body and tokens[body[0]].kind is TokenKind.KEYWORD and tokens[body[0]].lower == "if":
+        return None
+    items: list[tuple[Any, ...]] = []
+    for j in indices[: then_at + 1]:
+        items.extend(_token_items(doc, j, exact=False))
+    items.append(_SEP)
+    depth = 0
+    for j in body:
+        tok = tokens[j]
+        if tok.kind is TokenKind.PUNCTUATION and tok.text in ("(", ")"):
+            depth += 1 if tok.text == "(" else -1
+        if tok.kind is TokenKind.COLON:
+            items.append(_SEP)
+        elif depth == 0 and tok.kind is TokenKind.KEYWORD and tok.lower == "else":
+            items += [_SEP, ("word", "else"), _SEP]
+        else:
+            items.extend(_token_items(doc, j, exact=False))
+    items += [_SEP, ("word", "end"), ("word", "if"), _SEP]
+    return items
 
 
 def _pinned_name(tokens: list[Token], statement: Any) -> int | None:

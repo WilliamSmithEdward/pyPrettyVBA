@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- A new rule, `collapse-if`, off by default: a block If holding one
+  statement, with no `Else` and no comment, becomes a single-line If. The
+  safety check reads a single-line If as the block it means, so the two
+  forms are the same code to it.
 - A new rule, `wrap-lines`, off by default: a line over `max` columns is
   broken after a comma, a spaced operator or the `Then` of a single-line
   If, at the rightmost point that fits, with the continuation one level in.
