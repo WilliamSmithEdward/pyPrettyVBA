@@ -173,6 +173,10 @@ class IndentRule(Rule):
                 continue
             if structure.is_broken(line.index) or _opens_with_continuation(doc, line):
                 continue
+            if doc.tokens[line.head].kind is TokenKind.UNKNOWN:
+                # Text the lexer has no rule for keeps its indentation: a bare
+                # `_` indented would become a continuation.
+                continue
             level = levels[line.index]
             if line.kind is LineKind.DIRECTIVE:
                 mode = s["directives"]
@@ -197,7 +201,7 @@ class IndentRule(Rule):
         for line in doc.lines:
             if line.kind in (LineKind.BLANK, LineKind.ATTRIBUTE) or line.head is None:
                 continue
-            if _opens_with_continuation(doc, line):
+            if _opens_with_continuation(doc, line) or doc.tokens[line.head].kind is TokenKind.UNKNOWN:
                 continue
             start, end, text = _leading(doc, line)
             if line.label is None:
