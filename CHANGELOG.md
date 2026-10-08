@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `indent` and `continuation-indent` indented a line that held only a
+  bare `_`, which the lexer has no rule for; indented, ` _` at the end of
+  the line became a continuation, and the safety check refused the
+  module. A line, or a continuation line, that starts with such text now
+  keeps its indentation. Found by the fuzz run.
 - `align-declarations` padded the space before `As` on a line holding text
   the lexer has no rule for, moving a byte that touched the `As`, and the
   safety check refused the module. Like every other rule, it now leaves
