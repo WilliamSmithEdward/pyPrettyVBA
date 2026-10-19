@@ -8,8 +8,8 @@
 #   uv pip compile test.in --universal --generate-hashes --python-version 3.11 -o test.txt
 # Dependabot proposes each new release.
 pytest==9.1.1
-hypothesis==6.168.5
-ruff==0.16.10
+hypothesis==6.169.0
+ruff==0.17.0
 mypy==2.4.0
 pyopenvba==6.5.0
 hatchling==1.32.4
