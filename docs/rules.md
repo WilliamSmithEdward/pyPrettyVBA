@@ -112,7 +112,8 @@ keywords in the statement that makes them keywords (`Option Explicit`,
 one-word `EndIf`, which the VBE writes `End If`. A keyword used as a
 member name (`wb.Close`, `.Print`) is a name, not a keyword: this rule
 leaves it to identifier-case, except `Debug.Print`, which the VBE
-capitalizes.
+capitalizes. The name of a Declare without an Alias keeps its spelling
+even when it is a keyword (`Declare Sub on`): it is the DLL entry point.
 
 - Category: casing.
 - On by default.

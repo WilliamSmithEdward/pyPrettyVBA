@@ -1,0 +1,5 @@
+1:1 keyword-case Spell 'private' as 'Private'. [*]
+1:9 keyword-case Spell 'declare' as 'Declare'. [*]
+1:17 keyword-case Spell 'ptrsafe' as 'PtrSafe'. [*]
+1:25 keyword-case Spell 'sub' as 'Sub'. [*]
+1:32 keyword-case Spell 'lib' as 'Lib'. [*]
