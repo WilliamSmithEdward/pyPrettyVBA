@@ -18,7 +18,7 @@ from ..document import Document, LineKind, StatementKind
 from ..keywords import canonical_keyword
 from ..lexer import TokenKind, name_key
 from ..names import builtin_names, library_names, member_names
-from ..scopes import Declarations, collect_declarations
+from ..scopes import Declarations, collect_declarations, entry_point
 from .base import Finding, Option, Rule
 
 __all__ = ["IdentifierCaseRule", "KeywordCaseRule"]
@@ -34,7 +34,8 @@ class KeywordCaseRule(Rule):
     one-word `EndIf`, which the VBE writes `End If`. A keyword used as a
     member name (`wb.Close`, `.Print`) is a name, not a keyword: this rule
     leaves it to identifier-case, except `Debug.Print`, which the VBE
-    capitalizes.
+    capitalizes. The name of a Declare without an Alias keeps its spelling
+    even when it is a keyword (`Declare Sub on`): it is the DLL entry point.
     """
 
     code = "keyword-case"
@@ -53,8 +54,11 @@ class KeywordCaseRule(Rule):
             if line.kind in (LineKind.BLANK, LineKind.ATTRIBUTE):
                 continue
             deftype = any(s.kind is StatementKind.DEFTYPE for s in line.statements)
+            pinned = {entry_point(doc, s) for s in line.statements}
             for j in range(line.first, line.stop):
                 tok = tokens[j]
+                if j in pinned:
+                    continue
                 if tok.kind is TokenKind.KEYWORD:
                     if doc.is_member_name(j) and not _debug_member(doc, j):
                         continue

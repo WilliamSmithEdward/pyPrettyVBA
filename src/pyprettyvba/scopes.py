@@ -32,7 +32,7 @@ from dataclasses import dataclass, field
 from .document import Document, LineKind, Statement, StatementKind
 from .lexer import TokenKind
 
-__all__ = ["Declarations", "ProcedureScope", "collect_declarations"]
+__all__ = ["Declarations", "ProcedureScope", "collect_declarations", "entry_point"]
 
 _LEADING_DECLARATION_WORDS = frozenset(
     ("dim", "private", "public", "global", "static", "const", "redim", "preserve", "withevents", "shared")
@@ -145,11 +145,12 @@ def collect_declarations(doc: Document, module_kind: str | None = None) -> Decla
                         exposed = bool(words) and words[0] in ("public", "global")
                         add_module(j, standard and exposed, member=exposed)
             elif kind is StatementKind.DECLARE:
+                entry = entry_point(doc, statement)
+                if entry is not None:
+                    decl.pinned.add(entry)
                 name = _name_token(doc, statement)
                 if name is not None:
                     add_module(name, standard and not is_private)
-                    if not any(tokens[j].lower == "alias" for j in statement.tokens):
-                        decl.pinned.add(name)
                     # A Declare's parameters are in scope nowhere, but they
                     # are declarations: `name:=` in a call uses them.
                     for j in _parameter_names(doc, statement):
@@ -176,6 +177,21 @@ def collect_declarations(doc: Document, module_kind: str | None = None) -> Decla
                 if tokens[first].kind is TokenKind.IDENTIFIER:
                     add_module(first, enum_public, member=True)
     return decl
+
+
+def entry_point(doc: Document, statement: Statement) -> int | None:
+    """The token of a Declare's name when it is also the DLL entry point.
+
+    That is a Declare without an Alias. The name is pinned whatever the lexer
+    made of it: `Declare Sub on` names an entry point `on`, keyword or not.
+    """
+    if statement.kind is not StatementKind.DECLARE:
+        return None
+    if statement.name is None or statement.name >= len(statement.tokens):
+        return None
+    if any(doc.tokens[j].lower == "alias" for j in statement.tokens):
+        return None
+    return statement.tokens[statement.name]
 
 
 def _name_token(doc: Document, statement: Statement) -> int | None:

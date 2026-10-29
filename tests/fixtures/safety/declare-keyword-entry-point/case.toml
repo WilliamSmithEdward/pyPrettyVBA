@@ -1,0 +1,8 @@
+title = "A Declare name that is a keyword keeps its spelling"
+description = """
+Without an Alias, the Declare's name is the entry point in the DLL, which
+Windows looks up case-sensitively, so `on` stays `on` although `On` is a
+keyword. The keywords around it are still spelled the VBE's way. Found by
+fuzzing.
+"""
+file = "Module1.bas"
