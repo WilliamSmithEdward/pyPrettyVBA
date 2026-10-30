@@ -118,8 +118,8 @@ range for the package's users; the test and fuzz locks pin it exactly.
 ClamAV's signatures change too often to pin, so freshclam fetches and
 verifies them on every run.
 
-Dependabot proposes updates to the GitHub Actions, the Semgrep and ClamAV
-images, the development tools in `pyproject.toml` and the hash-locked
+Dependabot proposes updates to the GitHub Actions, the ClamAV
+image, the development tools in `pyproject.toml` and the hash-locked
 tools in `.github/requirements` once a version is a week old, and at once
 for a security advisory. A new pyOpenVBA release skips the week's wait,
 since it is the same owner's package. The Update YARA rules workflow
