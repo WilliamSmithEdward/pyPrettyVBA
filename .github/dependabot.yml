@@ -1,11 +1,12 @@
 # Dependabot keeps the pinned tools current: the workflows' actions, each
-# pinned to a commit with its release named in a comment; the Semgrep and
-# ClamAV images the scans run, each pinned by digest in a one-line
-# Dockerfile; the development tools pyproject.toml pins exactly; and the
-# hash-locked build tools in .github/requirements. The runtime dependency, pyOpenVBA, is a minimum version and
-# moves only when a newer one is needed. The YARA-X engine and the YARA
-# Forge rules are release downloads Dependabot cannot follow;
-# update-yara-rules.yml proposes those.
+# pinned to a commit with its release named in a comment; the development
+# tools pyproject.toml pins exactly; and the hash-locked build tools in
+# .github/requirements. The runtime dependency, pyOpenVBA, is a minimum
+# version and moves only when a newer one is needed. The YARA-X engine
+# and the YARA Forge rules are release downloads Dependabot cannot
+# follow; update-yara-rules.yml proposes those. GitHub refuses
+# Dependabot's image updates, so update-images.yml proposes new ClamAV
+# and Semgrep images.
 #
 # A release waits a week before it is proposed, long enough for most
 # hijacked or broken releases to be found and pulled first. Security
@@ -22,20 +23,6 @@ updates:
       prefix: ci
     groups:
       actions:
-        patterns: ["*"]
-        update-types: [minor, patch]
-
-  - package-ecosystem: docker
-    directories:
-      - /.github/security/clamav
-    schedule:
-      interval: weekly
-    cooldown:
-      default-days: 7
-    commit-message:
-      prefix: ci
-    groups:
-      minor-and-patch:
         patterns: ["*"]
         update-types: [minor, patch]
 
