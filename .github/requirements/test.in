@@ -7,8 +7,8 @@
 # Python the test matrix runs, so one lock serves 3.11 to 3.14:
 #   uv pip compile test.in --universal --generate-hashes --python-version 3.11 -o test.txt
 # Dependabot proposes each new release.
-pytest==9.1.1
-hypothesis==6.170.12
+pytest==9.2.0
+hypothesis==6.170.13
 ruff==0.17.3
 mypy==2.4.0
 pyopenvba==6.5.0
